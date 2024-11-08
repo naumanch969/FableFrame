@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useCreateReport } from '@/features/report/api/useCreateReport'
 import { useCreateReportModal } from '@/hooks/use-create-report-modal'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { useSelectedStory } from '@/hooks/use-selected-story'
 import { REPORT_REASONS } from '@/constants'
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select'
@@ -14,7 +14,7 @@ import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@
 const CreateReportModal = () => {
 
     const router = useRouter()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const { mutate, isPending } = useCreateReport()
 
     const [story, setStory] = useSelectedStory()

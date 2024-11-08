@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/aceternity/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { useSelectedStory } from '@/hooks/use-selected-story'
 import { SHARE_RESTRICTIONS } from '@/constants'
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select'
@@ -16,7 +16,7 @@ import { Textarea } from '../ui/textarea'
 
 const ProfileModal = () => {
 
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const { data: profiles } = useGetProfiles()
     const { mutate, isPending } = useUpdateProfile()
 

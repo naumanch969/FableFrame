@@ -1,6 +1,6 @@
 import { useNotificationDrawer } from '@/hooks/use-notification-drawer';
 import React from 'react';
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { useGetNotifications } from '@/features/notification/api/useGetNotifications';
 import Drawer from '@/components/Drawer';
 import { Loader } from 'lucide-react';
@@ -9,7 +9,7 @@ import { Card } from '../ui/card';
 
 const NotificationDrawer = () => {
     const [open, setOpen] = useNotificationDrawer();
-    const { data: profile } = useCurrentProfile();
+    const { data: profile } = useGetProfile();
     const { data: notifications, isLoading } = useGetNotifications(profile?._id!);
 
     const NotificationItem = ({ notification }: { notification: Doc<"notifications"> }) => {

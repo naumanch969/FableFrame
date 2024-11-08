@@ -6,13 +6,13 @@ import CreateShareModal from '@/components/modals/create-share-modal'
 import PreferencesModal from '@/components/modals/preferences-modal'
 import ProfileModal from '@/components/modals/profile-modal'
 import UpdateStoryImagesModal from '@/components/modals/update-story-images-modal'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import React, { useEffect, useState } from 'react'
 
 const Modals = () => {
 
     const [mounted, setMounted] = useState(false)
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
 
     useEffect(() => setMounted(true), [])
 

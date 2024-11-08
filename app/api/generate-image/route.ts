@@ -27,6 +27,7 @@
 //   const dateString = now.toISOString().replace(/[:.]/g, '-');  // Example: '2024-12-22T15-30-45'
 //   const limitedPrompt = prompt.length > 100 ? prompt.slice(0, 100) : prompt;
 
+//   // Save the image to the public/storage folder
 //   let filePath;
 //   for (const [index, item] of Object.entries(output)) {
 //     filePath = `/storage/output_${index}_${dateString}_${limitedPrompt}.png`

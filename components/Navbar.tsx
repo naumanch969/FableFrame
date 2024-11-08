@@ -2,14 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import ProfileButton from "@/components/ProfileButton";
 import { useCurrentUser } from "@/features/users/api/useCurrentUser";
-import { Bell } from "lucide-react";
-import Hint from "@/components/Hint";
 import ModeToggle from "@/components/ModeToggle";
 import NotificationMenu from "@/components/NotificationMenu";
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { useGetProfile } from "@/features/profile/api/useGetProfile";
 import ChatMenu from "@/components/ChatMenu";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
@@ -19,7 +16,7 @@ import { useSnackbar } from "@/hooks/use-snackbar";
 export default function Navbar() {
 
     const { data: user } = useCurrentUser()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const pathname = usePathname()
     const [text, _setText] = useSnackbar()
     const isSignedIn = Boolean(user)
@@ -29,6 +26,7 @@ export default function Navbar() {
         { name: 'Explore', path: '/explore' },
         { name: 'Friends', path: '/users' },
         { name: 'Create', path: '/create-story' },
+        { name: 'Pricing', path: '/billing' },
         { name: 'Contact', path: '/contact' },
     ]
 
@@ -89,7 +87,7 @@ export default function Navbar() {
 
                 {
                     text &&
-                    <div className="w-full py-2 px-8 bg-alert text-white text-center rounded-lg ">
+                    <div className="w-full py-2 px-8 bg-alert text-primary text-center rounded-lg ">
                         {text}
                     </div>
                 }

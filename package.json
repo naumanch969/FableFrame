@@ -40,7 +40,6 @@
     "debug": "^4.4.0",
     "dotenv": "^16.4.5",
     "draft-js": "^0.11.7",
-    "firebase": "^11.0.2",
     "framer-motion": "^11.15.0",
     "install": "^0.13.0",
     "jotai": "^2.10.3",

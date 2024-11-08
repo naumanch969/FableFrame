@@ -10,7 +10,7 @@ import { useGetMyFriends } from '@/features/friend/api/useGetMyFriends';
 import { Doc } from '@/convex/_generated/dataModel';
 import { useGetReceivedRequests } from '@/features/friend_requests/api/useGetReceivedRequests';
 import { useGetSendRequests } from '@/features/friend_requests/api/useGetSendRequests';
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 
 const UsersPage = () => {
 
@@ -22,7 +22,7 @@ const UsersPage = () => {
     const pageSize = 20;
     const maxLength = 20;
     const totalPages = Math.ceil(maxLength / pageSize);
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const { data: users, isLoading: usersLoading } = useGetProfiles()
     const { data: friends, isLoading: friendsLoading } = useGetMyFriends()
     const { data: sendRequests, isLoading: sendRequestsLoading } = useGetSendRequests()

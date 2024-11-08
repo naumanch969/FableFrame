@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Id } from '@/convex/_generated/dataModel';
 import { useGetMyChats } from '@/features/chat/api/useGetMyChats';
 import { useGetChat } from '@/features/chat/api/useGetChat';
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { Chat } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Plus, Search } from 'lucide-react';

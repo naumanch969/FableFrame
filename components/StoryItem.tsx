@@ -7,7 +7,7 @@ import { Share, Flag, Heart, Share2, Haze, Ellipsis } from 'lucide-react';
 import Hint from './Hint';
 import { useLikeDislikeStory } from '@/features/like/api/useLikeDislikeStory';
 import { user } from '@nextui-org/react';
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useCreateReportModal } from '@/hooks/use-create-report-modal';
@@ -23,7 +23,7 @@ interface Props {
 const StoryItem = ({ story }: Props) => {
 
     const { mutate } = useLikeDislikeStory()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
 
     const [_openReportModal, setOpenReportModal] = useCreateReportModal()
     const [_openShareModal, setOpenShareModal] = useCreateShareModal()

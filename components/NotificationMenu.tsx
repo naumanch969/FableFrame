@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useGetNotifications } from "@/features/notification/api/useGetNotifications"
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import { Doc } from "@/convex/_generated/dataModel"
 import { useNotificationDrawer } from "@/hooks/use-notification-drawer"
 import { getRelativeTime } from "@/lib/utils"
@@ -20,7 +20,7 @@ import Hint from '@/components/Hint'
 function NotificationMenu() {
 
     const [openNotificationMenu, setOpenNotificationMenu] = React.useState(false)
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const { data: notifications } = useGetNotifications(profile?._id!)
     const [_openNotificationDrawer, setOpenNotificationDrawer] = useNotificationDrawer()
 

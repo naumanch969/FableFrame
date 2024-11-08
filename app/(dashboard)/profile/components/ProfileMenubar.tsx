@@ -21,16 +21,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, isActive, onClick }) => {
     );
 };
 
-const ProfileMenubar = ({ activeItem, setActiveItem }: { activeItem: any, setActiveItem: any }) => {
+const ProfileMenubar = ({ activeItem, setActiveItem, menuItems }: { activeItem: any, setActiveItem: any, menuItems: { key: string, label: string }[] }) => {
 
-
-    const menuItems = [
-        { label: "AI Stories", key: "ai" },
-        { label: "Manual Stories", key: "your" },
-        { label: "Draft Stories", key: "draft" },
-        { label: "Liked Stories", key: "liked" },
-        { label: "Shared Stories", key: "shared" },
-    ];
 
     const handleMenuClick = (key: string) => {
         setActiveItem(key);

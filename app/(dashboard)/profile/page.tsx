@@ -4,13 +4,11 @@ import React, { useEffect, useState } from 'react';
 import ProfileSidebar from './components/ProfileSidebar';
 import ProfileMenubar from './components/ProfileMenubar';
 
-import StoryItem from '@/components/StoryItem';
 import { useGetLikedStories } from '@/features/story/api/useGetLikedStories';
 import { useGetSharedStories } from '@/features/story/api/useGetSharedStories';
-import { useGetMyAIStories } from '@/features/story/api/useGetMyAIStories';
+import { useGetAIStories } from '@/features/story/api/useGetMyAIStories';
 import { useGetMyManualStories } from '@/features/story/api/useGetMyManualStories';
 import { useGetDraftStories } from '@/features/story/api/useGetDraftStories';
-import Loader from '@/components/Loader';
 import Stories from '@/components/Stories';
 
 const ProfilePage: React.FC = () => {
@@ -20,8 +18,16 @@ const ProfilePage: React.FC = () => {
     const { data: likedStories, isLoading: likedStoriesLoading } = useGetLikedStories()
     const { data: sharedStories, isLoading: sharedStoriesLoading } = useGetSharedStories()
     const { data: draftStories, isLoading: draftStoriesLoading } = useGetDraftStories()
-    const { data: myAIStories, isLoading: myAIStoriesLoading } = useGetMyAIStories()
+    const { data: myAIStories, isLoading: myAIStoriesLoading } = useGetAIStories()
     const { data: myManualStories, isLoading: myManualStoriesLoading } = useGetMyManualStories()
+
+    const menuItems = [
+        { label: "AI Stories", key: "ai" },
+        // { label: "Manual Stories", key: "your" },
+        { label: "Draft Stories", key: "draft" },
+        { label: "Liked Stories", key: "liked" },
+        { label: "Shared Stories", key: "shared" },
+    ];
 
     const toggleStories = () => {
         const stories =
@@ -45,21 +51,19 @@ const ProfilePage: React.FC = () => {
                 <ProfileSidebar />
             </div>
             <div className="col-span-3 w-full space-y-4 ">
-                <ProfileMenubar activeItem={activeItem} setActiveItem={setActiveItem} />
-                <div className="flex w-full gap-4 ">
-                    <Stories
-                        data={stories}
-                        isLoading={
-                            (activeItem == "your" && myManualStoriesLoading)
-                            || (activeItem == "ai" && myAIStoriesLoading)
-                            || (activeItem == "draft" && draftStoriesLoading)
-                            || (activeItem == "liked" && likedStoriesLoading)
-                            || (activeItem == "shared" && sharedStoriesLoading)
-                        }
-                        showTitle={false}
-                        gridCols={{ sm: 1, md: 2, lg: 2, xl: 3 }}
-                    />
-                </div>
+                <ProfileMenubar menuItems={menuItems} activeItem={activeItem} setActiveItem={setActiveItem} />
+                <Stories
+                    data={stories}
+                    isLoading={
+                        (activeItem == "your" && myManualStoriesLoading)
+                        || (activeItem == "ai" && myAIStoriesLoading)
+                        || (activeItem == "draft" && draftStoriesLoading)
+                        || (activeItem == "liked" && likedStoriesLoading)
+                        || (activeItem == "shared" && sharedStoriesLoading)
+                    }
+                    showTitle={false}
+                    gridCols={{ sm: 1, md: 2, lg: 2, xl: 3 }}
+                />
             </div>
         </div>
     );

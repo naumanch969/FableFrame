@@ -24,7 +24,7 @@ const AuthScreen = () => {
     return (
         <div style={{ height: "calc(100vh - 8rem)" }} className=" ">
             {/* Background Image with Transition */}
-            <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
+            {/* <div className="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
                 <AnimatePresence>
                     <motion.img
                         key={currentImage}
@@ -37,9 +37,9 @@ const AuthScreen = () => {
                         className="absolute top-0 left-0 w-full h-full object-cover"
                     />
                 </AnimatePresence>
-                {/* Overlay Effect */}
+                // Overlay Effect
                 <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-60 z-10" />
-            </div>
+            </div> */}
 
             {/* Content */}
             <div className="flex flex-col justify-center items-center gap-6 relative z-20 h-full">

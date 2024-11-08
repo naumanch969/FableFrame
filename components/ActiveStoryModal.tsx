@@ -27,7 +27,7 @@ const ActiveStoryModal = ({ story, children }: { story: Story | null, children: 
 
     return (
         <Modal>
-            <ModalTrigger className='text-surface-foreground' >
+            <ModalTrigger className='text-surface-foreground w-full text-left' >
                 {children}
             </ModalTrigger>
             <ModalBody>

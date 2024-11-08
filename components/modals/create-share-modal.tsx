@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/aceternity/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { useSelectedStory } from '@/hooks/use-selected-story'
 import { SHARE_RESTRICTIONS } from '@/constants'
 import { useCreateShare } from '@/features/share/api/use-create-share'
@@ -18,7 +18,7 @@ import { useGetMyFriends } from '@/features/friend/api/useGetMyFriends'
 const CreateShareModal = () => {
 
     ////////////////////////////////////////////////// VARIABLES ///////////////////////////////////////////////
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const { data: profiles } = useGetMyFriends()
     const { mutate, isPending } = useCreateShare()
 

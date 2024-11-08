@@ -3,7 +3,7 @@ import { Search, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useGetChat } from '@/features/chat/api/useGetChat';
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useSendMessage } from '@/features/messages/api/useSendMessage';
 import { getRelativeTime, groupByDate } from '@/lib/utils';
@@ -24,7 +24,7 @@ export const ChatBox = () => {
     const { data: fetchedMessages } = useGetMessages(chatId!)
     const { data: chat } = useGetChat(chatId!)
     const { data: chats } = useGetMyChats()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
     const otherUser: Doc<"profiles"> | undefined | null = chat?.participant_profiles?.find(p => String(p?._id!) != String(profile?._id))
     const { mutate: sendMessage } = useSendMessage()
 

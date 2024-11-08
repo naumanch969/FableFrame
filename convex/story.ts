@@ -424,13 +424,21 @@ export const get_draft_stories = query({
     }
 });
 
-export const get_my_ai_stories = query({
-    args: {},
-    handler: async (ctx) => {
+export const get_ai_stories = query({
+    args: {
+        profile_id: v.optional(v.id("profiles"))
+    },
+    handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 
-        const profile = await populateProfileByUserId(ctx, userId);
+        let profile;
+        if (args.profile_id) {
+            profile = await populateProfile(ctx, args.profile_id);
+        }
+        else {
+            profile = await populateProfileByUserId(ctx, userId);
+        }
 
         const aiStories = await ctx.db
             .query("stories")

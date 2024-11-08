@@ -13,14 +13,14 @@ import Link from "next/link"
 import { useGetMyChats } from "@/features/chat/api/useGetMyChats"
 import { Chat } from "@/types"
 import { getRelativeTime } from "@/lib/utils"
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import Hint from '@/components/Hint'
 
 function ChatMenu() {
 
     const [openChatMenu, setOpenChatMenu] = React.useState(false)
     const { data: chats } = useGetMyChats()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
 
     const ChatItem = ({ chat }: { chat: Chat }) => {
 

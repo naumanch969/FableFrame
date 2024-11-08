@@ -12,7 +12,7 @@ import Hint from "@/components/Hint";
 import { useSelectedStory } from "@/hooks/use-selected-story";
 import { useCreateShareModal } from "@/hooks/use-create-share-modal";
 import { useLikeDislikeStory } from "@/features/like/api/useLikeDislikeStory";
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import { Card } from "@/components/ui/card";
 import CommentBox from "./CommentBox";
 
@@ -23,7 +23,7 @@ const StoryView = () => {
     const flipBookRef = useRef(null);
     const { data: story, isLoading } = useGetStory({ id });
     const { mutate } = useLikeDislikeStory();
-    const { data: profile } = useCurrentProfile();
+    const { data: profile } = useGetProfile();
 
     const [currentPage, setCurrentPage] = useState(0);
     const currentPageRef = useRef(currentPage); // to keep track of the current page without re-renders

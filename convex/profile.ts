@@ -2,18 +2,27 @@ import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { USER_ROLES } from '@/constants';
 import { auth } from './auth';
-import { populateProfile, populateProfileByUserId } from './utils';
+import { populateProfileByUserId } from './utils';
 
-export const get_current = query({
-    args: {},
-    handler: async (ctx) => {
+export const get_by_id = query({
+    args: {
+        profile_id: v.optional(v.id('profiles'))
+    },
+    handler: async (ctx,args) => {
+
         const userId = await auth.getUserId(ctx)
         if (userId == null) return null
 
-        const profile = await ctx.db
-            .query('profiles')
-            .withIndex('by_user_id', (q) => q.eq('user_id', userId))
-            .first()
+        let profile;
+        if(args.profile_id){
+            profile = await ctx.db.get(args.profile_id)
+        }
+        else{
+            profile = await ctx.db
+                .query('profiles')
+                .withIndex('by_user_id', (q) => q.eq('user_id', userId))
+                .first()
+        }
 
         return profile;
     }
@@ -42,16 +51,6 @@ export const get_by_email = query({
             .filter((q) => q.eq('email', args.email))
             .first();
 
-        return user;
-    },
-});
-
-export const get_by_id = query({
-    args: {
-        user_id: v.id('profiles'),
-    },
-    handler: async (ctx, args) => {
-        const user = await ctx.db.get(args.user_id);
         return user;
     },
 });

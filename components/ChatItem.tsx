@@ -1,5 +1,5 @@
 import { useGetChat } from "@/features/chat/api/useGetChat";
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import { useChatId } from "@/hooks/use-chat-id";
 import { getRelativeTime } from "@/lib/utils";
 import { Chat } from "@/types";
@@ -11,7 +11,7 @@ const ChatItem = ({ chat }: { chat: Chat }) => {
     const chatId = useChatId()
     const router = useRouter()
     const { data: currentChat } = useGetChat(chatId)
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
 
     const lastMessage = chat.last_message?.slice(0, 30) || 'No messages yet';
     const lastMessageTimestamp = getRelativeTime(new Date(chat?.last_message_timestamp!))

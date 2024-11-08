@@ -4,12 +4,12 @@ import { Button } from './ui/button'
 import { Heart } from 'lucide-react'
 import { Story } from '@/types'
 import { useLikeDislikeStory } from '@/features/like/api/useLikeDislikeStory'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 
 const StoryLikeButton = ({ story }: { story: Story }) => {
 
     const { mutate } = useLikeDislikeStory()
-    const { data: profile } = useCurrentProfile()
+    const { data: profile } = useGetProfile()
 
     const isLiked = story?.likes?.includes(profile?._id!)
 

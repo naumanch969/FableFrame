@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator'
 
 const ProfileButton: React.FC = () => {
 
-    const { data: profile } = useCurrentProfile();
+    const { data: profile } = useGetProfile();
     const { signOut } = useAuthActions()
 
     const [_openPreferencesModal, setOpenPreferencesModal] = usePreferencesModal()

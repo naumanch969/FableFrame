@@ -64,7 +64,7 @@ export default {
 					'4': 'hsl(var(--chart-4))',
 					'5': 'hsl(var(--chart-5))'
 				},
-				alert: 'hsl(331.35deg 77.89% 60.98% / 19%)'
+				alert: 'hsl(331.35deg 77.89% 60.98% / 14%)'
 			},
 			boxShadow: {
 				// signup page

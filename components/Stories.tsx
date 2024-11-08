@@ -16,6 +16,7 @@ import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@
 import { STORY_AGE_CATEGORIES, STORY_GENRES } from '@/constants'
 import StoryItem from "./StoryItem";
 import { Input } from '@/components/aceternity/input'
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface Props {
     title?: string,
@@ -150,40 +151,41 @@ const Stories = ({
                                 stories?.slice()?.reverse()?.map((story, index) => (
                                     <Card key={index} className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-surface rounded-xl" >
 
-                                        <ActiveStoryModal story={story} >
-                                            <motion.div
-                                                layoutId={`card-${story.title}-${id}`}
-                                                className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
-                                            >
-                                                <img
-                                                    width={100}
-                                                    height={100}
-                                                    src={story?.cover_image || "/sample_cover_image.jpeg"}
-                                                    alt={story.title}
-                                                    className="h-full w-full rounded-lg object-cover object-top"
-                                                />
-                                                {/* <Image
-                                                    width={100}
-                                                    height={100}
-                                                    src={story?.cover_image || "/sample_cover_image.jpeg"}
-                                                    alt={story.title}
-                                                    className="h-full w-full rounded-lg object-cover object-top"
-                                                /> */}
-                                                <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
-                                                    <div className='w-full flex justify-end items-start flex-col h-full relative' >
-                                                        <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
-                                                            <p className='text-surface-foreground/90 font-bold text-xl  ' >Open</p>
+                                        <div className='relative w-full group' >
+                                            <Link href={`/profile/${story?.author?._id}`} className="hidden group-hover:flex absolute top-2 left-2 items-center gap-2 rounded-full z-10 bg-surface p-1 ">
+                                                <Avatar className="h-7 w-7">
+                                                    <AvatarImage src={story?.author?.profile_picture_url} alt={story?.author?.username} />
+                                                    <AvatarFallback className="capitalize text-md" >{story?.author?.username?.charAt(0) || "U"}</AvatarFallback>
+                                                </Avatar>
+                                                <p className="text-xs  font-medium capitalize">{story?.author?.username || 'Unknown Author'}</p>
+                                            </Link>
+                                            <ActiveStoryModal story={story} >
+                                                <motion.div
+                                                    layoutId={`card-${story.title}-${id}`}
+                                                    className="relative w-full flex flex-col gap-4 justify-between cursor-pointer"
+                                                >
+                                                    <img
+                                                        width={100}
+                                                        height={100}
+                                                        src={story?.cover_image || "/sample_cover_image.jpeg"}
+                                                        alt={story.title}
+                                                        className="h-full w-full rounded-lg object-cover object-top"
+                                                    />
+                                                    <div className="p-3 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
+                                                        <div className='w-full flex justify-end items-start flex-col h-full relative' >
+                                                            <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
+                                                                <p className='text-surface-foreground font-bold text-xl'>Open</p>
+                                                            </div>
+                                                            <motion.p className="text-neutral-300 text-center md:text-left text-base">
+                                                                <span className="">{story?.chapters?.length} chapters</span>
+                                                                <span className="font-bold px-1">.</span>
+                                                                <span className="">{story?.reading_time} mins read</span>
+                                                            </motion.p>
                                                         </div>
-                                                        <motion.p className="text-neutral-300 text-center md:text-left text-base">
-                                                            <span className="">{story?.chapters?.length} chapters</span>
-                                                            <span className="font-bold px-1">.</span>
-                                                            <span className="">{story?.reading_time} mins read</span>
-                                                        </motion.p>
                                                     </div>
-                                                </div>
-
-                                            </motion.div>
-                                        </ActiveStoryModal>
+                                                </motion.div>
+                                            </ActiveStoryModal>
+                                        </div>
 
                                         <div className='flex justify-between items-center' >
                                             <Link

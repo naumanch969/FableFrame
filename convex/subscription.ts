@@ -4,14 +4,22 @@ import { auth } from './auth';
 import { populateProfile, populateProfileByUserId } from './utils';
 
 
-export const get_my_subscription = query({
-    args: {},
-    handler: async (ctx) => {
+export const get_subscription_by_profile_id = query({
+    args: {
+        profile_id: v.optional(v.id("profiles"))
+    },
+    handler: async (ctx, args) => {
 
         const user_id = await auth.getUserId(ctx)
         if (user_id == null) return null
 
-        const profile = await populateProfileByUserId(ctx, user_id)
+        let profile;
+        if (args.profile_id) {
+            profile = await populateProfile(ctx, args.profile_id)
+        }
+        else {
+            profile = await populateProfileByUserId(ctx, user_id)
+        }
 
         const subscription = await ctx.db
             .query('subscriptions')

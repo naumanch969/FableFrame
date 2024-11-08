@@ -15,14 +15,14 @@ import { toast } from 'sonner'
 import { CREATE_STORY_PROMPT } from '@/constants'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
 import Hint from '@/components/Hint'
-import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { useSnackbar } from '@/hooks/use-snackbar'
 
 const CreateStory = () => {
 
   //////////////////////////////////// VARIABLES //////////////////////////////////////////
   const { mutate } = useCreateStory()
-  const { data: profile } = useCurrentProfile()
+  const { data: profile } = useGetProfile()
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
   const router = useRouter()
   const initialState = {
