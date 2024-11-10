@@ -1,0 +1,1 @@
+To use recharts library with react 19 and next 15: https://ui.shadcn.com/docs/react-19 
