@@ -43,7 +43,7 @@ const StoryType = ({ userSelection }: { userSelection: any }) => {
                         <div
                             onClick={() => setSelectedOption(option.label)}
                             key={index}
-                            className={`${option.label == selectedOption ? 'grayscale-0 border-2 rounded-3xl border-primary ' : 'grayscale'} flex gap-4 py-4 relative grayscale hover:grayscale-0 cursor-pointer p-1 `}
+                            className={`${option.label == selectedOption ? 'grayscale-0 border-2 rounded-3xl border-primary ' : 'grayscale'} flex gap-4 p-1 relative grayscale hover:grayscale-0 cursor-pointer `}
                         >
                             <h2 className="absolute bottom-5 text-white text-center w-full text-2xl ">{option.label}</h2>
                             <Image

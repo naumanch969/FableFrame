@@ -18,13 +18,12 @@ export const Modal = ({ title, description, children, open, onClose }: Props) =>
         <Dialog open={open} onOpenChange={onClose} >
             <DialogContent>
                 {
-                    title &&
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                     </DialogHeader>
                 }
                 {
-                    description &&
+                 
                     <DialogDescription>{description}</DialogDescription>
                 }
                 {children}

@@ -1,3 +1,5 @@
+"use client";
+
 import { Modal } from '@/components/Modal'
 import Image from 'next/image'
 import React from 'react'
@@ -12,7 +14,7 @@ const CustomLoader = ({ open, onClose }: { open: boolean, onClose: () => void })
       open={open}
       onClose={onClose}
     >
-      <div className="w-full flex justify-center items-center p-10">
+      <div className="w-full flex justify-center items-center p-10 bg-white rounded-3xl ">
         <Image
           src='/loader.gif'
           alt='Loading...'
