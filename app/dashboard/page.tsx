@@ -1,8 +1,15 @@
 import React from 'react'
+import DashboardHeader from './_components/DashboardHeader'
+import UserStories from './_components/UserStories'
 
 const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
+    <div className='min-h-screen' >
+
+      <DashboardHeader />
+      <UserStories />
+
+    </div>
   )
 }
 

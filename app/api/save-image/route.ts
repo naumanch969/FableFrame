@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import { storage } from '@/config/firebase';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { URLToBase64 } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
     try {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
         console.log('Received URL:', url);
 
         // Convert the image URL to Base64
-        const base64 = await toBase64(url);
+        const base64 = await URLToBase64(url);
         if (!base64) {
             return NextResponse.json({ error: 'Invalid image URL' }, { status: 400 });
         }
@@ -31,14 +31,3 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Failed to save image' }, { status: 500 });
     }
 }
-
-export const toBase64 = async (url: string): Promise<string | null> => {
-    try {
-        const response = await axios.get(url, { responseType: 'arraybuffer' });
-        const contentType = response.headers['content-type']; // Get content type dynamically
-        return `data:${contentType};base64,${Buffer.from(response.data).toString('base64')}`;
-    } catch (error) {
-        console.error('Error converting URL to Base64:', error);
-        return null;
-    }
-};

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import StorySubjectInput from "./_components/StorySubjectInput";
 import StoryType from "./_components/StoryType";
 import AgeGroup from "./_components/AgeGroup";
@@ -8,12 +8,22 @@ import ImageStyle from "./_components/ImageStyle";
 import { Button } from "@/components/ui/button";
 import { chatSession } from "@/config/gemini";
 import { db } from "@/config/db";
-import { Story } from "@/config/schema";
+import { Story, User } from "@/config/schema";
 import axios from "axios";
 import CustomLoader from "./_components/CustomLoader";
+import { useUser } from "@clerk/nextjs";
+import { toast } from "react-toastify";
+import { root } from "postcss";
+import { useRouter } from "next/navigation";
+import { UserDetailContext } from "../_context/UserDetailContext";
+import { eq } from "drizzle-orm";
 
 const CreateStory = () => {
   const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
+
+  const { user } = useUser();
+  const router = useRouter();
+  const { userDetail } = useContext(UserDetailContext)
 
   const [formData, setFormData] = useState({
     storySubject: "",
@@ -46,6 +56,9 @@ const CreateStory = () => {
 
   // Generate the story using the AI API
   const generateStory = async () => {
+
+    if (userDetail?.credit <= 0) return toast("You don't have enough credit to generate story", { type: "error" });
+
     if (!validateForm()) return;
 
     const { storySubject, storyType, ageGroup, imageStyle } = formData;
@@ -59,25 +72,39 @@ const CreateStory = () => {
     try {
       setLoading(true);
 
-      // Generate story using the AI chat session
       const result = await chatSession.sendMessage(FINAL_PROMPT);
       const story = JSON.parse(result?.response?.text() || "{}");
       console.log("Generated story:", story);
 
-      // Save story cover image to Firebase
-      const imageUrl = await saveStoryCoverToFirebase(
-        "https://th.bing.com/th?id=OIP.IISM9PvVY1fkWaR8QnyLfgHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.1&pid=3.1&rm=2"
-      );
+      // const url = await generateImage(story.output)
 
-      // Save the story to the database
+      const imageUrl = await saveStoryCoverToFirebase("https://th.bing.com/th?id=OIP.IISM9PvVY1fkWaR8QnyLfgHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.1&pid=3.1&rm=2");
+
       await saveStoryToDatabase(story, imageUrl);
+
+      await deductCredit();
+
+      toast("Story generated successfully!", { type: "success" });
+
+      router.push('/view-story/' + story.id)
     } catch (err) {
       console.error("Error generating story:", err);
-      alert("An error occurred while generating the story. Please try again.");
+      toast("An error occurred while generating the story. Please try again.", { type: "error" });
     } finally {
       setLoading(false);
     }
   };
+
+  const generateImage = async (prompt: string) => {
+    try {
+      const imageUrl = await axios.post("/api/generate-image", { prompt });
+      return imageUrl
+    }
+    catch (err) {
+      console.error("Error generating image:", err);
+      toast("An error occurred while generating the image. Please try again.", { type: "error" });
+    }
+  }
 
   // Save story cover to Firebase and return the image URL
   const saveStoryCoverToFirebase = async (url: string): Promise<string> => {
@@ -85,7 +112,7 @@ const CreateStory = () => {
       const response = await axios.post("/api/save-image", { url });
       return response?.data?.imageUrl || "";
     } catch (err) {
-      console.error("Error saving image to Firebase:", err);
+      toast("An error occurred while saving the story cover image. Please try again.", { type: "error" });
       throw new Error("Failed to save story cover image.");
     }
   };
@@ -104,15 +131,31 @@ const CreateStory = () => {
           imageStyle,
           output: story,
           coverImage,
+          userEmail: user?.primaryEmailAddress?.emailAddress,
+          userImage: user?.imageUrl,
+          userName: user?.fullName
         })
         .returning({ id: Story.id });
 
       console.log("Story saved to database:", result);
     } catch (err) {
       console.error("Error saving story to database:", err);
-      alert("An error occurred while saving the story. Please try again.");
+      toast("An error occurred while saving the story. Please try again.", { type: "error" });
     }
   };
+
+  const deductCredit = async () => {
+    try {
+      const result = await db
+        .update(User)
+        .set({ credit: Number(userDetail.credit - 1) })
+        .where(eq(User.userEmail, user?.primaryEmailAddress?.emailAddress ?? ""))
+        .returning({ id: User.id });
+    }
+    catch (err) {
+      console.error("Error deducting credit:", err);
+    }
+  }
 
   return (
     <>
@@ -133,7 +176,7 @@ const CreateStory = () => {
           <AgeGroup userSelection={handleUserSelection} />
           <ImageStyle userSelection={handleUserSelection} />
         </div>
-        <div className="flex justify-end items-center w-full my-10">
+        <div className="flex flex-col justify-end items-end w-full my-10">
           <Button
             onClick={generateStory}
             className="text-2xl"
@@ -142,6 +185,7 @@ const CreateStory = () => {
           >
             Generate Story
           </Button>
+          <span className="">1 Credit will use</span>
         </div>
       </div>
     </>

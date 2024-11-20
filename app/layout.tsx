@@ -4,6 +4,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import ThemeProvider from "@/wrappers/ThemeProvider";
 import { Nunito } from 'next/font/google';
 import Navbar from "./(landingpage)/components/Navbar";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import Provider from "./provider";
 
 const AppFont = Nunito({ subsets: ['latin'], display: 'swap' });
 
@@ -18,25 +21,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={AppFont.className}>
-        <ClerkProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-          >
-            <div className="bg-[#cad3ff]">
-              <div className="max-w-7xl mx-auto">
-                <div className="min-h-screen">
-                  <Navbar />
-                  {children}
-                </div>
-              </div>
-            </div>
-          </ThemeProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={AppFont.className}>
+          <Provider>
+            {children}
+          </Provider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
