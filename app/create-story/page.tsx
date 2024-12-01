@@ -186,7 +186,7 @@ const CreateStory = () => {
           >
             Generate Story
           </Button>
-          <Link href="../Story"> 
+          <Link href="../write-story"> 
             <Button
               className="text-2xl"
               size="xl"
