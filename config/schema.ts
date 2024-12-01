@@ -1,31 +1,23 @@
-import { pgTable, serial, text, varchar, json, integer, timestamp, boolean, jsonb, pgEnum } from "drizzle-orm/pg-core";
-
-export const Story = pgTable("story", {
-    id: serial('id').primaryKey(),
-    storySubject: text('story_subject'),
-    storyType: varchar('story_type'),
-    ageGroup: text('age_group'),
-    imageStyle: text('image_style'),
-    output: json('output'),
-    coverImage: varchar('cover_image'),
-    userEmail: varchar('user_email'),
-    userName: varchar('user_name'),
-    userImage: varchar('user_image'),
-    createdAt: text('created_at'),
-    updatedAt: text('updated_at'),
-})
-
-export const User = pgTable("user", {
-    id: serial('id').primaryKey(),
-    userName: varchar('user_name'),
-    userEmail: varchar('user_email'),
-    userImage: varchar('user_image'),
-    credit: integer('credit').default(3),
-    createdAt: text('created_at'),
-    updatedAt: text('updated_at'),
-})
-
-export const users = pgTable("users", {
+import {
+    pgTable,
+    serial,
+    text,
+    varchar,
+    json,
+    integer,
+    timestamp,
+    boolean,
+    jsonb,
+    pgEnum,
+    doublePrecision,
+  } from "drizzle-orm/pg-core";
+  import { sql, relations } from "drizzle-orm";
+  
+  const genreEnum = pgEnum("genre", ["fantasy", "mystery", "romance", "sci-fi", "thriller", "non-fiction", "poetry"]);
+  const ageCategoryEnum = pgEnum("age_category", ["children", "young_adult", "adult"]);
+  const statusEnum = pgEnum("status", ["draft", "published", "archived"]);
+  
+  export const users = pgTable("users", {
     id: serial("id").primaryKey(),
     username: varchar("username", { length: 50 }).notNull().unique(),
     email: varchar("email", { length: 100 }).notNull().unique(),
@@ -40,13 +32,9 @@ export const users = pgTable("users", {
     preferences: jsonb("preferences"), // JSON object for user settings
     notificationSettings: jsonb("notification_settings"), // JSON object for notifications
     location: varchar("location", { length: 100 }), // Optional
-});
-
-const genreEnum = pgEnum("genre", ["fantasy", "mystery", "romance", "sci-fi", "thriller", "non-fiction", "poetry"]);
-const ageCategoryEnum = pgEnum("age_category", ["children", "young_adult", "adult"]);
-const statusEnum = pgEnum("status", ["draft", "published", "archived"]);
-
-export const stories = pgTable("stories", {
+  });
+  
+  export const stories = pgTable("stories", {
     id: varchar("id", { length: 36 }).primaryKey(), // UUID
     title: varchar("title", { length: 255 }).notNull(),
     content: text("content").notNull(),
@@ -58,20 +46,21 @@ export const stories = pgTable("stories", {
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
     status: statusEnum("status").notNull().default("draft"),
-    tags: array(varchar("tags", { length: 50 }), "text").default([]),
+    tags: jsonb("tags").default(sql`'[]'::jsonb`),
     viewsCount: integer("views_count").notNull().default(0),
     commentsCount: integer("comments_count").notNull().default(0),
     coverImage: varchar("cover_image", { length: 255 }),
     readingTime: integer("reading_time"),
     narrationAudio: varchar("narration_audio", { length: 255 }),
-    ratingsAverage: float("ratings_average").notNull().default(0),
+    ratingsAverage: doublePrecision("ratings_average").notNull().default(0),
     reportsCount: integer("reports_count").notNull().default(0),
-});
-
-// Define relationships (optional but helpful)
-export const storyRelations = relations(stories, ({ one }) => ({
+  });
+  
+  // Define relationships
+  export const storyRelations = relations(stories, ({ one }) => ({
     author: one(users, {
-        fields: [stories.authorId],
-        references: [users.id],
+      fields: [stories.authorId],
+      references: [users.id],
     }),
-}));
+  }));
+  

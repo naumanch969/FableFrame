@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import DashboardHeader from './_components/DashboardHeader'
 import UserStories from './_components/UserStories'

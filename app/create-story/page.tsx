@@ -17,6 +17,7 @@ import { root } from "postcss";
 import { useRouter } from "next/navigation";
 import { UserDetailContext } from "../_context/UserDetailContext";
 import { eq } from "drizzle-orm";
+import Link from "next/link"
 
 const CreateStory = () => {
   const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
@@ -185,6 +186,16 @@ const CreateStory = () => {
           >
             Generate Story
           </Button>
+          <Link href="../Story"> 
+            <Button
+              className="text-2xl"
+              size="xl"
+              disabled={loading}
+            >
+              Write Story
+            </Button>
+          </Link>
+          
           <span className="">1 Credit will use</span>
         </div>
       </div>

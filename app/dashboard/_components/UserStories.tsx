@@ -1,7 +1,8 @@
 "use client"
 
 import { db } from '@/config/db'
-import { Story } from '@/config/schema'
+import { Story } from '@/config/schemas/Story'
+import { User } from '@/config/schemas/User'
 import { useUser } from '@clerk/nextjs'
 import { desc, eq } from 'drizzle-orm'
 import React, { useEffect, useState } from 'react'
@@ -24,7 +25,8 @@ const UserStories = () => {
         const result = await db
             .select()
             .from(Story)
-            .where(eq(Story.userEmail, user?.primaryEmailAddress?.emailAddress ?? ""))
+            .innerJoin(User, eq(User.id, Story.id))
+            .where(eq(User.email, user?.primaryEmailAddress?.emailAddress ?? ""))
             .orderBy(desc(Story.id))
 
         console.log(result)
