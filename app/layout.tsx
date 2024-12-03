@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import ThemeProvider from "@/wrappers/ThemeProvider";
 import { Nunito } from 'next/font/google';
-import Navbar from "./(landingpage)/components/Navbar";
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Provider from "./provider";
+import { ConvexClientProvider } from "@/wrappers/ConvexProvideer";
 
 const AppFont = Nunito({ subsets: ['latin'], display: 'swap' });
 
@@ -25,7 +23,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={AppFont.className}>
           <Provider>
-            {children}
+            <ConvexClientProvider>
+              {children}
+            </ConvexClientProvider>
           </Provider>
         </body>
       </html>

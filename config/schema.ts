@@ -3,7 +3,6 @@ import {
     serial,
     text,
     varchar,
-    json,
     integer,
     timestamp,
     boolean,
