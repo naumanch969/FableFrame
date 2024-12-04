@@ -10,8 +10,8 @@ import { ThemeProvider } from "@/wrappers/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "InterX",
-  description: "A new way to communicate with your team",
+  title: "StoryBot",
+  description: "",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {

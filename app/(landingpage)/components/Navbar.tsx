@@ -16,7 +16,7 @@ export default function Navbar() {
     ]
 
     return (
-        <nav className="py-6 flex justify-center">
+        <nav className="px-8 py-6 flex justify-center">
 
             <div className="w-full flex items-center justify-between ">
                 {/* Left: Logo */}
@@ -34,7 +34,7 @@ export default function Navbar() {
                             <Link
                                 href={menu.path}
                                 key={index}
-                                className=" text-xl text-primary font-medium hover:underline "
+                                className="text-lg text-primary font-medium hover:underline "
                             >{menu.name}</Link>
                         ))
                     }

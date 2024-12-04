@@ -4,17 +4,24 @@ import React, { useState } from 'react'
 import { SignInFlow } from '../types'
 import SignInCard from './sign-in-card'
 import SignUpCard from './sign-up-card'
+import Image from 'next/image'
 
 const AuthScreen = () => {
 
     const [state, setState] = useState<SignInFlow>("signIn")
 
     return (
-        <div className='grid grid-cols-1 md:grid-cols-2' >
-            <div className="col-span-1">
-                <img src='/login.png' alt='Login' className='max-h-screen w-full' />
+        <div style={{ height: 'calc(100vh - 8rem)' }} className='flex flex-col justify-center items-center gap-6 bg-[#5c3856] ' >
+
+            <div className="w-60 h-20 relative ">
+                <Image
+                    src='/logo.svg'
+                    alt='Logo'
+                    layout='fill'
+                    className=''
+                />
             </div>
-            <div className="col-span-1 flex justify-center items-center h-full order-first md:order-last">
+            <div className="md:h-auto md:w-[420px] ">
                 {
                     state == 'signIn'
                         ?

@@ -42,7 +42,7 @@ const SignUpCard = ({ setState }: Props) => {
   }
 
   return (
-    <Card className='w-full h-full p-8' >
+    <Card style={{ padding: '5rem' }} className='w-full h-full ' >
 
       <CardHeader className='px-0 pt-0' >
         <CardTitle>Sign Up to Continue</CardTitle>
@@ -57,8 +57,8 @@ const SignUpCard = ({ setState }: Props) => {
         </div>
       }
 
-      <CardContent className='space-y-5 px-0 pb-0' >
-        <form onSubmit={onPasswordSignUp} className="space-y-2.5">
+      <CardContent className='flex flex-col gap-5 px-0 pb-0' >
+        <form onSubmit={onPasswordSignUp} className="flex flex-col gap-4">
           <Input
             disabled={pending}
             value={name}
@@ -100,7 +100,7 @@ const SignUpCard = ({ setState }: Props) => {
         </form>
         <Separator />
 
-        <div className="flex flex-col gap-y-2.5">
+        <div className="flex flex-col gap-2">
           <Button
             variant='outline'
             size='lg'
@@ -108,7 +108,7 @@ const SignUpCard = ({ setState }: Props) => {
             disabled={pending}
             onClick={() => onProviderSignUp('google')}
           >
-            <FcGoogle className='size-5 absolute top-3 left-2.5 ' /> Continue with Google
+            <FcGoogle className='size-5' /> Continue with Google
           </Button>
           <Button
             variant='outline'
@@ -117,7 +117,7 @@ const SignUpCard = ({ setState }: Props) => {
             disabled={pending}
             onClick={() => onProviderSignUp('github')}
           >
-            <FaGithub className='size-5 absolute top-3 left-2.5 ' /> Continue with Github
+            <FaGithub className='size-5' /> Continue with Github
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">

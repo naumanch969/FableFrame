@@ -14,14 +14,14 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
-import type * as http from "../services/http.js";
-import type * as services_comment from "../services/comment.js";
-import type * as services_hashtag from "../services/hashtag.js";
-import type * as services_notification from "../services/notification.js";
-import type * as services_report from "../services/report.js";
-import type * as services_share from "../services/share.js";
-import type * as services_story from "../services/story.js";
-import type * as services_user from "../services/user.js";
+import type * as comment from "../comment.js";
+import type * as hashtag from "../hashtag.js";
+import type * as http from "../http.js";
+import type * as notification from "../notification.js";
+import type * as report from "../report.js";
+import type * as share from "../share.js";
+import type * as story from "../story.js";
+import type * as user from "../user.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -33,14 +33,14 @@ import type * as services_user from "../services/user.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  comment: typeof comment;
+  hashtag: typeof hashtag;
   http: typeof http;
-  "services/comment": typeof services_comment;
-  "services/hashtag": typeof services_hashtag;
-  "services/notification": typeof services_notification;
-  "services/report": typeof services_report;
-  "services/share": typeof services_share;
-  "services/story": typeof services_story;
-  "services/user": typeof services_user;
+  notification: typeof notification;
+  report: typeof report;
+  share: typeof share;
+  story: typeof story;
+  user: typeof user;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

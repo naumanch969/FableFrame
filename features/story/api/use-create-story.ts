@@ -19,7 +19,7 @@ export const useCreateStory = () => {
     const [error, setError] = useState<Error | null>(null)
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
-    const mutation = useMutation(api.services.story.create)
+    const mutation = useMutation(api.story.create)
 
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])

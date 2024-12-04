@@ -9,7 +9,7 @@ import {
   
   export default convexAuthNextjsMiddleware(async (request) => {
     const isPublic = isPublicPage(request);
-    const isAuthenticated = await isAuthenticatedNextjs(); // Assuming it returns a Promise
+    const isAuthenticated = await isAuthenticatedNextjs();  
     
     // Redirect unauthenticated users trying to access non-public pages
     if (!isPublic && !isAuthenticated) {
@@ -26,7 +26,6 @@ import {
   });
   
   export const config = {
-    // Matcher to apply middleware to all routes except static assets and Next.js internals
-    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+     matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
   };
   

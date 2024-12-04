@@ -1,5 +1,5 @@
 import { v } from 'convex/values';
-import { mutation, query } from '../_generated/server';
+import { mutation, query } from './_generated/server';
 import { STORY_REPORT_STATUSES } from '@/constants';
 
 export const create = mutation({

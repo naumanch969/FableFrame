@@ -3,8 +3,8 @@ import { api } from "@/convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
 
-type RequestType = { id: Id<"workspaces"> }
-type ResponseType = Id<"workspaces"> | null
+type RequestType = { id: Id<"stories"> }
+type ResponseType = Id<"stories"> | null
 
 type Options = {
     onSuccess?: (data: ResponseType) => void
@@ -20,7 +20,7 @@ export const useRemoveStory = () => {
     const [error, setError] = useState<Error | null>(null)
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
-    const mutation = useMutation(api.services.story.remove)
+    const mutation = useMutation(api.story.remove)
 
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])
