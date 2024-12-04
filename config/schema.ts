@@ -16,7 +16,7 @@ import {
   const ageCategoryEnum = pgEnum("age_category", ["children", "young_adult", "adult"]);
   const statusEnum = pgEnum("status", ["draft", "published", "archived"]);
   
-  export const users = pgTable("users", {
+  export const User = pgTable("users", {
     id: serial("id").primaryKey(),
     username: varchar("username", { length: 50 }).notNull().unique(),
     email: varchar("email", { length: 100 }).notNull().unique(),
@@ -37,7 +37,7 @@ import {
     id: varchar("id", { length: 36 }).primaryKey(), // UUID
     title: varchar("title", { length: 255 }).notNull(),
     content: text("content").notNull(),
-    authorId: varchar("author_id", { length: 36 }).notNull().references(() => users.id), // Foreign Key
+    authorId: varchar("author_id", { length: 36 }).notNull().references(() => User.id), // Foreign Key
     genre: genreEnum("genre").notNull(),
     ageCategory: ageCategoryEnum("age_category"),
     isPublic: boolean("is_public").notNull().default(true),
@@ -57,9 +57,9 @@ import {
   
   // Define relationships
   export const storyRelations = relations(stories, ({ one }) => ({
-    author: one(users, {
+    author: one(User, {
       fields: [stories.authorId],
-      references: [users.id],
+      references: [User.id],
     }),
   }));
   

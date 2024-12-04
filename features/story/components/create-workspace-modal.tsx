@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useCreateWorkspaceModal } from '../store/use-create-workspace-modal'
+import { useCreateStoryModal } from '../store/use-create-workspace-modal'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useCreateWorkspace } from '../api/use-create-workspace'
+import { useCreateStory } from '../api/use-create-story'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-const CreateWorkspaceModal = () => {
+const CreateStoryModal = () => {
 
     const router = useRouter()
-    const { mutate, isPending } = useCreateWorkspace()
-    const [open, setOpen] = useCreateWorkspaceModal()
+    const { mutate, isPending } = useCreateStory()
+    const [open, setOpen] = useCreateStoryModal()
 
     const [name, setName] = useState("")
  
@@ -20,7 +20,7 @@ const CreateWorkspaceModal = () => {
 
         mutate({ name }, {
             onSuccess(id) {
-                toast.success('Workspace created')
+                toast.success('Story created')
                 router.push(`/workspace/${id}`)
                 onClose()
             },
@@ -46,7 +46,7 @@ const CreateWorkspaceModal = () => {
                         autoFocus
                         onChange={e => setName(e.target.value)}
                         minLength={3}
-                        placeholder="Workspace name e.g. 'Work', 'Personal', 'Home'"
+                        placeholder="Story name e.g. 'Work', 'Personal', 'Home'"
                     />
                     <div className="flex justify-end">
                         <Button disabled={isPending} >Create</Button>
@@ -57,4 +57,4 @@ const CreateWorkspaceModal = () => {
     )
 }
 
-export default CreateWorkspaceModal
+export default CreateStoryModal

@@ -3,11 +3,10 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { UserButton, useUser } from "@clerk/nextjs";
 
 export default function Navbar() {
 
-    const { isSignedIn } = useUser()
+    const isSignedIn = false
 
     const menus = [
         { name: 'Home', path: '/' },
@@ -47,7 +46,6 @@ export default function Navbar() {
                     <Link href='/dashboard' >
                         <Button size='lg' className='' >{isSignedIn ? 'Dashboard' : 'Get Started'}</Button>
                     </Link>
-                    <UserButton />
                 </div>
             </div>
         </nav>

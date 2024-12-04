@@ -6,7 +6,6 @@ import { ToastContainer } from 'react-toastify'
 import Navbar from './(landingpage)/components/Navbar'
 import { db } from '@/config/db'
 import { User } from '@/config/schema'
-import { eq } from 'drizzle-orm'
 import { useUser } from '@clerk/nextjs'
 import { UserDetailContext } from './_context/UserDetailContext'
 
@@ -26,22 +25,22 @@ const Provider = ({ children }: { children: ReactNode }) => {
         const result = await db
             .select()
             .from(User)
-            .where(eq(User.userEmail, user.primaryEmailAddress?.emailAddress ?? ""))
+            // .where(eq(User.userEmail, user.primaryEmailAddress?.emailAddress ?? ""))
 
         if (result.length === 0) {
-            const newUser = await db.insert(User).values({
-                userName: user.fullName,
-                userEmail: user.primaryEmailAddress?.emailAddress,
-                userImage: user?.userImage
-            })
-                .returning({
-                    userEmail: User.userEmail,
-                    userName: User.userName,
-                    userImage: User.userImage,
-                    credit: User.credit,
-                })
+            // const newUser = await db.insert(User).values({
+            //     userName: user.fullName,
+            //     userEmail: user.primaryEmailAddress?.emailAddress,
+            //     userImage: user?.userImage
+            // })
+            //     .returning({
+            //         userEmail: User.userEmail,
+            //         userName: User.userName,
+            //         userImage: User.userImage,
+            //         credit: User.credit,
+            //     })
 
-            setUserDetail(newUser)
+            // setUserDetail(newUser)
         }
         else {
             setUserDetail(result[0])

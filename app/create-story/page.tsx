@@ -11,7 +11,6 @@ import { db } from "@/config/db";
 import { Story, User } from "@/config/schema";
 import axios from "axios";
 import CustomLoader from "./_components/CustomLoader";
-import { useUser } from "@clerk/nextjs";
 import { toast } from "react-toastify";
 import { root } from "postcss";
 import { useRouter } from "next/navigation";
@@ -22,7 +21,7 @@ import Link from "next/link"
 const CreateStory = () => {
   const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
 
-  const { user } = useUser();
+  const user = null;
   const router = useRouter();
   const { userDetail } = useContext(UserDetailContext)
 

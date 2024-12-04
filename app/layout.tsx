@@ -1,34 +1,44 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Nunito } from 'next/font/google';
-import 'react-toastify/dist/ReactToastify.css';
-import Provider from "./provider";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/wrappers/ConvexProvideer";
+import { ToastContainer } from 'react-toastify'
+import Navbar from './(landingpage)/components/Navbar'
+import { ThemeProvider } from "@/wrappers/ThemeProvider";
 
-const AppFont = Nunito({ subsets: ['latin'], display: 'swap' });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FableFrame",
-  description: "Your Tale, Your Frame",
+  title: "InterX",
+  description: "A new way to communicate with your team",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
-    <ClerkProvider>
+    <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className={AppFont.className}>
-          <Provider>
-            <ConvexClientProvider>
-              {children}
-            </ConvexClientProvider>
-          </Provider>
+        <body className={inter.className}>
+          <ConvexClientProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ToastContainer />
+              <div className="bg-[#cad3ff]">
+                <div className="max-w-7xl mx-auto">
+                  <div className="min-h-screen">
+                    <Navbar />
+                    {children}
+                  </div>
+                </div>
+              </div>
+            </ThemeProvider> 
+          </ConvexClientProvider>
         </body>
       </html>
-    </ClerkProvider>
+    </ConvexAuthNextjsServerProvider>
   );
 }

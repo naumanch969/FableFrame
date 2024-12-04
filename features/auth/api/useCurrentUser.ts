@@ -1,8 +1,8 @@
+import { api } from "@/convex/_generated/api"
 import { useQuery } from "convex/react"
-import { api } from "../../../../convex/_generated/api"
 
 export const useCurrentUser = () => {
-    const data = useQuery(api.users.current)
+    const data = useQuery(api.services.user.current)
 
     const isLoading = data == undefined
 

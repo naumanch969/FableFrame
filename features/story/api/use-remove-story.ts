@@ -1,13 +1,10 @@
 import { useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "@/convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { Id } from "@/convex/_generated/dataModel";
 
-type RequestType = {
-    value: string,
-    messageId: Id<"messages">,
-}
-type ResponseType = Id<"reactions"> | null
+type RequestType = { id: Id<"workspaces"> }
+type ResponseType = Id<"workspaces"> | null
 
 type Options = {
     onSuccess?: (data: ResponseType) => void
@@ -16,13 +13,14 @@ type Options = {
     throwError?: Boolean
 }
 
-export const useToggleReaction = () => {
+
+export const useRemoveStory = () => {
 
     const [data, setData] = useState<ResponseType>(null)
     const [error, setError] = useState<Error | null>(null)
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
-    const mutation = useMutation(api.reactions.toggle)
+    const mutation = useMutation(api.services.story.remove)
 
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])

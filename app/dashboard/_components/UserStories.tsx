@@ -3,7 +3,6 @@
 import { db } from '@/config/db'
 import { Story } from '@/config/schemas/Story'
 import { User } from '@/config/schemas/User'
-import { useUser } from '@clerk/nextjs'
 import { desc, eq } from 'drizzle-orm'
 import React, { useEffect, useState } from 'react'
 import StoryItem from './StoryItem'
@@ -11,7 +10,7 @@ import CustomLoader from '@/app/create-story/_components/CustomLoader'
 
 const UserStories = () => {
 
-    const { user } = useUser()
+    const user = null
 
     const [stories, setStories] = useState<any[]>([])
     const [loading, setLoading] = useState(false)
