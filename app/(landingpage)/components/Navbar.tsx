@@ -3,16 +3,20 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
 
-    const isSignedIn = false
+    const { data } = useCurrentUser()
+    const isSignedIn = Boolean(data)
+    const pathname = usePathname()
 
     const menus = [
         { name: 'Home', path: '/' },
         { name: 'Create Story', path: '/create-story' },
         { name: 'Explore Story', path: '/explore' },
-        { name: 'Contact Us', path: '/contact-us' },
+        { name: 'Contact Us', path: '/contact' },
     ]
 
     return (
@@ -28,23 +32,26 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                <div className="hidden md:flex gap-8 text-primary-foreground">
-                    {
-                        menus.map((menu, index) => (
-                            <Link
-                                href={menu.path}
-                                key={index}
-                                className="text-lg text-primary font-medium hover:underline "
-                            >{menu.name}</Link>
-                        ))
-                    }
-                </div>
+                {
+                    isSignedIn &&
+                    <div className="hidden md:flex gap-8 text-primary-foreground">
+                        {
+                            menus.map((menu, index) => (
+                                <Link
+                                    href={menu.path}
+                                    key={index}
+                                    className="text-lg text-primary font-medium hover:underline "
+                                >{menu.name}</Link>
+                            ))
+                        }
+                    </div>
+                }
 
                 {/* Right: Theme Toggle, and Profile Dropdown */}
                 <div className="flex items-center gap-6">
                     {/* <ModeToggle /> */}
-                    <Link href='/dashboard' >
-                        <Button size='lg' className='' >{isSignedIn ? 'Dashboard' : 'Get Started'}</Button>
+                    <Link href='/explore' >
+                        <Button size='lg' >{isSignedIn ? 'Dashboard' : 'Get Started'}</Button>
                     </Link>
                 </div>
             </div>

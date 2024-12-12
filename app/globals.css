@@ -44,7 +44,7 @@ body {
     --popover: 240 10% 15%;     /*hsl(240 10% 15%)*/
     --popover-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
     --primary: 239, 33%, 48%;   /*hsl(239, 33%, 48%)*/
-    --primary-foreground: 240 10% 15%;      /*hsl(240 10% 15%)*/
+    --primary-foreground: 0 0% 98%;      /*hsl(240 10% 15%)*/
     --secondary: 225 10% 25%;     /*hsl(225 10% 25%)*/
     --secondary-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
     --muted: 225 10% 20%;     /*hsl(225 10% 20%)*/

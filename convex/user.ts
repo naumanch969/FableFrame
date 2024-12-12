@@ -10,7 +10,12 @@ export const current = query({
         const userId = await auth.getUserId(ctx)
         if (userId == null) return null
 
-        return await ctx.db.get(userId)
+        const profile = await ctx.db
+            .query('profiles')
+            .withIndex('by_user_id', (q) => q.eq('user_id', userId))
+            .first()
+
+        return profile;
     }
 })
 
@@ -60,7 +65,12 @@ export const update = mutation({
             throw new Error('User not found');
         }
 
-        const updatedUser = await ctx.db.patch(args.user_id, {
+        const profile = await ctx.db
+            .query('profiles')
+            .withIndex('by_user_id', (q) => q.eq('user_id', args.user_id))
+            .first();
+
+        const updatedUser = await ctx.db.patch(profile?._id!, {
             username: args.username,
             email: args.email,
             role: args.role,

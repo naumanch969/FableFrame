@@ -1,5 +1,6 @@
 "use client"
 
+import { STORY_IMAGE_STYLES } from '@/constants'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
@@ -27,21 +28,24 @@ const ImageStyle = ({ userSelection }: { userSelection: any }) => {
             imageUrl: '/pixel.png',
             isFree: true
         },
-    ]
+    ].map((option, i) => ({
+        ...option,
+        label: STORY_IMAGE_STYLES[i]
+    }))
 
     const [selectedOption, setSelectedOption] = useState<string>('')
 
     useEffect(() => {
         userSelection({
-            fieldName: 'imageStyle',
-            fieldValue: selectedOption
+            name: 'imageStyle',
+            value: selectedOption
         })
     }, [selectedOption])
 
     return (
         <div className='' >
 
-            <label htmlFor="" className="font-bold text-4xl text-primary">4. Image Style</label>
+            <label htmlFor="" className="font-bold text-xl text-primary">5. Image Style</label>
             <div className="grid grid-cols-3 gap-5 mt-3">
                 {
                     options.map((option, index) => (
@@ -50,7 +54,7 @@ const ImageStyle = ({ userSelection }: { userSelection: any }) => {
                             key={index}
                             className={`${option.label == selectedOption ? 'grayscale-0 border-2 rounded-3xl border-primary ' : 'grayscale'} flex gap-4 p-1 relative grayscale hover:grayscale-0 cursor-pointer `}
                         >
-                            <h2 className="absolute bottom-5 text-white text-center w-full text-2xl ">{option.label}</h2>
+                            <h2 className="absolute bottom-5 text-white text-center w-full text-lg ">{option.label}</h2>
                             <Image
                                 src={option.imageUrl}
                                 alt={option.label}

@@ -1,42 +1,27 @@
 "use client";
 
-import { db } from '@/config/db';
-import { Story } from '@/config/schema';
-import { eq } from 'drizzle-orm';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import HTMLFlipBook from 'react-pageflip'
-import BookCoverPage from './_components/BookCoverPage';
-import StoryPages from './_components/StoryPages';
-import LastPage from './_components/LastPage';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import BookCoverPage from '../../view-story/[storyId]/_components/BookCoverPage';
+import StoryPages from '../../view-story/[storyId]/_components/StoryPages';
+import LastPage from '../../view-story/[storyId]/_components/LastPage';
+import { useGetStory } from '@/features/story/api/use-get-story';
+import { useStoryId } from '@/hooks/use-story-id';
+import { Id } from '@/convex/_generated/dataModel';
 
 const ViewStory = ({ params }: { params: any }) => {
 
-    const storyId = params.storyId
-    const bookRef = useRef(null)
 
-    const [story, setStory] = useState<any>(null)
-    const [mounted, setMounted] = useState(false)
+    const storyId = params.storyId
+    const id = useStoryId() as Id<"stories">
+    const bookRef = useRef(null)
+    const { data: story } = useGetStory({ id })
+
     const [page, setPage] = useState(0)
 
-    useEffect(() => {
-        setMounted(true)
-        console.log('here')
-        const call = async () => {
-            const result = await db
-                .select()
-                .from(Story)
-                .where(eq(Story.id, storyId))
 
-            setStory(result[0]!)
-        }
-        call()
-
-    }, [])
-
-  
-    if (!mounted) return null
     return (
         <div className='flex items-center justify-center flex-col relative' >
 
@@ -55,13 +40,13 @@ const ViewStory = ({ params }: { params: any }) => {
                     ref={bookRef}
                 >
                     <div className="">
-                        <BookCoverPage imageUrl={story?.coverImage} />
+                        <BookCoverPage imageUrl={story?.cover_image!} />
                     </div>
 
                     {
-                        [...Array(story?.output?.chapters?.length)]?.map((_, index) => (
+                        [...Array(story?.chapters?.length)]?.map((_, index) => (
                             <div key={index} className='bg-white p-20 border' >
-                                <StoryPages chapter={story?.output?.chapters?.[index]} />
+                                <StoryPages chapter={story?.chapters?.[index]} />
                             </div>
                         ))
                     }

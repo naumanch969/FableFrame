@@ -16,7 +16,7 @@ const Footer = () => {
 
   return (
     <HydrationWrapper>
-      <footer className="flex flex-col items-center bg-background py-8 text-foreground pt-20 " >
+      <footer className="flex flex-col items-center py-8" >
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Section 1: About */}
           <div className="space-y-8" >
@@ -25,7 +25,7 @@ const Footer = () => {
               <h2 className="font-bold text-2xl text-primary">Constellation</h2>
               {/* <Image src='/logo.svg' alt='Logo' height={40} width={160} /> */}
             </Link>
-            <p className="mt-2 text-lg text-muted-foreground">
+            <p className="mt-2 text-lg text-primary">
               FableFrame is an AI-powered storytelling platform where users can generate, save, and share creative stories. Join us and turn your imagination into compelling narratives.
             </p>
           </div>
@@ -37,7 +37,7 @@ const Footer = () => {
               {
                 quickLinks.map((link, index) => (
                   <li key={index} >
-                    <Link href={link.path} className="text-muted-foreground hover:text-primary hover:underline">{link.name}</Link>
+                    <Link href={link.path} className="text-primary hover:underline">{link.name}</Link>
                   </li>
                 ))
               }
@@ -50,12 +50,12 @@ const Footer = () => {
               <h4 className="font-bold text-xl text-primary">Contact Us</h4>
               <ul className="mt-2 space-y-2 text-sm">
                 <li className="flex items-center gap-2">
-                  <MailIcon className="w-6 h-6" />
-                  <Link href="mailto:support@fableframe.com" className="text-lg text-muted-foreground hover:text-accent">support@fableframe.com</Link>
+                  <MailIcon className="w-6 h-6 text-primary" />
+                  <Link href="mailto:support@fableframe.com" className="text-lg text-primary hover:text-accent">support@fableframe.com</Link>
                 </li>
                 <li className="flex items-center gap-2">
-                  <PhoneIcon className="w-6 h-6" />
-                  <span className="text-lg text-muted-foreground " >+1 (555) 123-4567</span>
+                  <PhoneIcon className="w-6 h-6 text-primary" />
+                  <span className="text-lg text-primary " >+1 (555) 123-4567</span>
                 </li>
               </ul>
             </div>
@@ -82,7 +82,7 @@ const Footer = () => {
           </div>
         </div>
         {/* Copyright */}
-        <div className="mt-8 text-center text-sm text-muted-foreground" >
+        <div className="mt-8 text-center text-sm text-primary" >
           © {new Date().getFullYear()} FableFrame. All rights reserved.
         </div>
       </footer>

@@ -7,7 +7,7 @@ import { FC } from 'react'
 
 const Hero: FC = () => {
     return (
-        <section className="mt-10 grid grid-cols-1 md:grid-cols-2">
+        <section className="py-24 grid grid-cols-1 md:grid-cols-2">
 
             <div className="">
                 <h2 className='text-[70px] text-primary font-extrabold py-10 ' >Craft Magical Stories for kids in Minutes</h2>

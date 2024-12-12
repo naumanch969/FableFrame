@@ -1,205 +1,187 @@
-"use client";
-
-import React, { useContext, useState } from "react";
-import StorySubjectInput from "./_components/StorySubjectInput";
-import StoryType from "./_components/StoryType";
-import AgeGroup from "./_components/AgeGroup";
-import ImageStyle from "./_components/ImageStyle";
-import { Button } from "@/components/ui/button";
-import { chatSession } from "@/config/gemini";
-import { db } from "@/config/db";
-import { Story, User } from "@/config/schema";
-import axios from "axios";
-import CustomLoader from "./_components/CustomLoader";
-import { toast } from "react-toastify";
-import { root } from "postcss";
-import { useRouter } from "next/navigation";
-import { UserDetailContext } from "../_context/UserDetailContext";
-import { eq } from "drizzle-orm";
-import Link from "next/link"
+"use client"
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import StorySubjectInput from './_components/StorySubjectInput'
+import Genre from './_components/Genre'
+import AgeGroup from './_components/AgeCategory'
+import ImageStyle from './_components/ImageStyle'
+import CustomLoader from './_components/CustomLoader'
+import { alertAndReturnFalse, blobToBase64, stringToBase64 } from '@/lib/utils'
+import { useCreateStory } from '@/features/story/api/use-create-story'
+import { STORY_STATUSES, STORY_TYPES } from '@/constants'
+import { chatSession } from '@/config/gemini'
+import { getDownloadURL, ref, uploadString } from 'firebase/storage'
+import { storage } from '@/config/firebase'
 
 const CreateStory = () => {
+
+  //////////////////////////////////// VARIABLES //////////////////////////////////////////
+  const { mutate } = useCreateStory()
   const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
 
-  const user = null;
-  const router = useRouter();
-  const { userDetail } = useContext(UserDetailContext)
-
+  //////////////////////////////////// STATES //////////////////////////////////////////
   const [formData, setFormData] = useState({
-    storySubject: "",
-    storyType: "",
-    ageGroup: "",
+    prompt: "",
+    title: "",
+    genre: "",
+    ageCategory: "",
     imageStyle: "",
   });
+  const [loading, setLoading] = useState(false)
 
-  const [loading, setLoading] = useState(false);
-
-  const handleUserSelection = ({ fieldName, fieldValue }: { fieldName: string, fieldValue: string }) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
+  //////////////////////////////////// FUNCTIONS //////////////////////////////////////////
+  const onChange = ({ name, value }: { name: string, value: string }) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const validateForm = (): boolean => {
-    const { storySubject, storyType, ageGroup, imageStyle } = formData;
-    console.log(formData)
-    if (!storySubject) return alertAndReturnFalse("Please select a story subject.");
-    if (!storyType) return alertAndReturnFalse("Please select a story type.");
-    if (!ageGroup) return alertAndReturnFalse("Please select an age group.");
+    const { title, genre, ageCategory, imageStyle } = formData;
+
+    if (!title) return alertAndReturnFalse("Please enter a title.");
+    if (!genre) return alertAndReturnFalse("Please select a genre.");
+    if (!ageCategory) return alertAndReturnFalse("Please select an age category.");
     if (!imageStyle) return alertAndReturnFalse("Please select an image style.");
 
     return true;
   };
 
-  const alertAndReturnFalse = (message: string) => {
-    alert(message);
-    return false;
-  };
-
-  // Generate the story using the AI API
-  const generateStory = async () => {
-
-    if (userDetail?.credit <= 0) return toast("You don't have enough credit to generate story", { type: "error" });
-
+  const onGenerate = async () => {
     if (!validateForm()) return;
 
-    const { storySubject, storyType, ageGroup, imageStyle } = formData;
-
-    const FINAL_PROMPT = CREATE_STORY_PROMPT
-      .replace("{ageGrop}", ageGroup)
-      .replace("{storyType}", storyType)
-      .replace("{storySubject}", storySubject)
-      .replace("{imageStyle}", imageStyle);
-
+    setLoading(true)
     try {
-      setLoading(true);
+
+      console.log('formdata', formData)
+
+      const FINAL_PROMPT = constructPrompt({ age_category: formData.ageCategory, genre: formData.genre, image_style: formData?.imageStyle, title: formData?.title, prompt });
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
-      const story = JSON.parse(result?.response?.text() || "{}");
-      console.log("Generated story:", story);
+      const ai_output = JSON.parse(result?.response?.text() || "{}");
 
-      // const url = await generateImage(story.output)
+      console.log('ai_output', ai_output)
 
-      const imageUrl = await saveStoryCoverToFirebase("https://th.bing.com/th?id=OIP.IISM9PvVY1fkWaR8QnyLfgHaHa&w=250&h=250&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.1&pid=3.1&rm=2");
+      let coverImageUrl;
+      const cover_image = await generateImage('Create a story cover image');
+      coverImageUrl = await saveStoryCoverToFirebase(cover_image!);
 
-      await saveStoryToDatabase(story, imageUrl);
+      await mutate({
+        formData: {
+          prompt: formData.prompt,
+          genre: formData.genre,
+          image_style: formData.imageStyle,
+          age_category: formData.ageCategory,
+          type: STORY_TYPES[0],
+          is_public: true,
+          status: STORY_STATUSES[1],
+          ai_output,
+          cover_image: coverImageUrl,
+          chapters: ai_output?.chapters,
+          title: ai_output?.title || formData.title,
+        }
+      })
 
-      await deductCredit();
+      alert("Story generated successfully")
 
-      toast("Story generated successfully!", { type: "success" });
 
-      router.push('/view-story/' + story.id)
-    } catch (err) {
-      console.error("Error generating story:", err);
-      toast("An error occurred while generating the story. Please try again.", { type: "error" });
-    } finally {
-      setLoading(false);
+
+    } catch (error) {
+      console.log(error)
+      alert("Failed to generate story")
     }
-  };
-
-  const generateImage = async (prompt: string) => {
-    try {
-      const imageUrl = await axios.post("/api/generate-image", { prompt });
-      return imageUrl
-    }
-    catch (err) {
-      console.error("Error generating image:", err);
-      toast("An error occurred while generating the image. Please try again.", { type: "error" });
-    }
+    setLoading(false)
   }
 
-  // Save story cover to Firebase and return the image URL
-  const saveStoryCoverToFirebase = async (url: string): Promise<string> => {
+  const constructPrompt = ({ age_category, genre, image_style, title, prompt }: any) => {
+    return CREATE_STORY_PROMPT
+      .replace("{age_category}", age_category)
+      .replace("{genre}", genre)
+      .replace("{image_style}", image_style)
+      .replace("{title}", `${title} ${prompt ? `and start writing a story about it. ${prompt}` : ''}`);
+  };
+
+  const saveStoryCoverToFirebase = async (url: string | Blob): Promise<string> => {
     try {
-      const response = await axios.post("/api/save-image", { url });
-      return response?.data?.imageUrl || "";
+      let base64: string | null = null;
+
+      if (typeof url === 'string') {
+        base64 = await stringToBase64(url);
+      } else if (url instanceof Blob) {
+        base64 = await blobToBase64(url);
+      }
+
+      if (!base64) {
+        throw new Error("Invalid image URL or Blob");
+      }
+
+      const fileName = `${Date.now()}.png`;
+      const imageReference = ref(storage, fileName);
+
+      console.log(fileName, 'fileName')
+      await uploadString(imageReference, base64, 'data_url');
+      console.log('Uploaded image to Firebase Storage');
+
+      const downloadUrl = await getDownloadURL(imageReference);
+      console.log('Download URL:', downloadUrl);
+
+      return downloadUrl;
     } catch (err) {
-      toast("An error occurred while saving the story cover image. Please try again.", { type: "error" });
       throw new Error("Failed to save story cover image.");
     }
   };
 
-  // Save the story to the database
-  const saveStoryToDatabase = async (story: any, coverImage: string) => {
+
+  const generateImage = async (prompt: string) => {
     try {
-      const { storySubject, storyType, ageGroup, imageStyle } = formData;
 
-      const result = await db
-        .insert(Story)
-        .values({
-          storySubject,
-          storyType,
-          ageGroup,
-          imageStyle,
-          output: story,
-          coverImage,
-          userEmail: user?.primaryEmailAddress?.emailAddress,
-          userImage: user?.imageUrl,
-          userName: user?.fullName
-        })
-        .returning({ id: Story.id });
+      // TODO: use image gen api
+      // const response = await fetch("https://api-inference-huggingface.co/models/Melonie/text_to_image_finetuned", {
+      //     headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_HUGGING_FACE_API_KEY}` },
+      //     method: 'POST',
+      //     body: JSON.stringify({ inputs: prompt })
+      // })
 
-      console.log("Story saved to database:", result);
-    } catch (err) {
-      console.error("Error saving story to database:", err);
-      toast("An error occurred while saving the story. Please try again.", { type: "error" });
-    }
-  };
+      // const data = await response.blob();
+      const data = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfwgHAy2Y8VC3wlkTatDNLirXVTrNEWnam3A&s"
 
-  const deductCredit = async () => {
-    try {
-      const result = await db
-        .update(User)
-        .set({ credit: Number(userDetail.credit - 1) })
-        .where(eq(User.userEmail, user?.primaryEmailAddress?.emailAddress ?? ""))
-        .returning({ id: User.id });
+      return data;
     }
     catch (err) {
-      console.error("Error deducting credit:", err);
+      console.error("Error generating image:", err);
     }
   }
 
+
+
+  //////////////////////////////////// RENDER //////////////////////////////////////////
   return (
     <>
       <CustomLoader open={loading} onClose={() => setLoading(false)} />
 
       <div className="p-10">
-        <h2
-          className="font-extrabold text-[70px] text-primary text-center"
-        >
+        <h2 className="font-extrabold text-3xl text-primary text-center mb-2">
           Create Your Story
         </h2>
-        <p className="text-2xl text-primary text-center">
+        <p className="text-lg text-primary text-center">
           Unlock your creativity with AI: Craft stories like never before! Let our AI bring your imagination to life, one story at a time.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-40">
-          <StorySubjectInput userSelection={handleUserSelection} />
-          <StoryType userSelection={handleUserSelection} />
-          <AgeGroup userSelection={handleUserSelection} />
-          <ImageStyle userSelection={handleUserSelection} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 ">
+          <StorySubjectInput userSelection={onChange} />
+          <Genre userSelection={onChange} />
+          <AgeGroup userSelection={onChange} />
+          <ImageStyle userSelection={onChange} />
         </div>
         <div className="flex flex-col justify-end items-end w-full my-10">
           <Button
-            onClick={generateStory}
-            className="text-2xl"
+            onClick={onGenerate}
             size="xl"
             disabled={loading}
           >
-            Generate Story
+            {loading ? 'Loading...' : 'Generate Story'}
           </Button>
-          <Link href="../write-story"> 
-            <Button
-              className="text-2xl"
-              size="xl"
-              disabled={loading}
-            >
-              Write Story
-            </Button>
-          </Link>
-          
-          <span className="">1 Credit will use</span>
+          <span className="text-gray-500 text-xs mt-1 " >1 Credit will use</span>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default CreateStory;
+export default CreateStory

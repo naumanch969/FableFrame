@@ -1,11 +1,10 @@
-import { UserDetailContext } from '@/app/_context/UserDetailContext'
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser'
 import Image from 'next/image'
 import React, { useContext } from 'react'
 
 const DashboardHeader = () => {
 
-    const { userDetail } = useContext(UserDetailContext)
-
+    const { data } = useCurrentUser()
 
     return (
         <div className='bg-primary flex justify-between items-center p-10 rounded-md' >
@@ -19,7 +18,7 @@ const DashboardHeader = () => {
                     height={60}
                     className=''
                 />
-                <span className="">{userDetail?.credit} Credits Left</span>
+                <span className="">{data?.credit} Credits Left</span>
             </div>
 
         </div>

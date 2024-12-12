@@ -1,8 +1,7 @@
 "use client"
 
-import ThemeProvider from '@/wrappers/ThemeProvider'
+import { ThemeProvider } from '@/wrappers/ThemeProvider'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
 import Navbar from './(landingpage)/components/Navbar'
 import { db } from '@/config/db'
 import { User } from '@/config/schema'
@@ -25,7 +24,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
         const result = await db
             .select()
             .from(User)
-            // .where(eq(User.userEmail, user.primaryEmailAddress?.emailAddress ?? ""))
+        // .where(eq(User.userEmail, user.primaryEmailAddress?.emailAddress ?? ""))
 
         if (result.length === 0) {
             // const newUser = await db.insert(User).values({
@@ -54,7 +53,6 @@ const Provider = ({ children }: { children: ReactNode }) => {
                 defaultTheme="light"
                 enableSystem
             >
-                <ToastContainer />
                 <div className="bg-[#cad3ff]">
                     <div className="max-w-7xl mx-auto">
                         <div className="min-h-screen">
