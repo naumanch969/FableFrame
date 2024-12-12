@@ -8,6 +8,7 @@ const Thumbnails = ({ currentPage, setCurrentPage, story }: { currentPage: numbe
     const totalPages = story?.chapters?.length
 
     const handlePageClick = (index: number) => {
+        console.log('index', index)
         setCurrentPage(index);
     };
 

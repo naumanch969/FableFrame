@@ -1,3 +1,4 @@
+// ProfilePage.tsx
 "use client";
 import React, { useState } from 'react';
 import ProfileCard from './components/ProfileCard';
@@ -9,6 +10,13 @@ const ProfilePage: React.FC = () => {
         name: 'John Doe',
         email: 'john@example.com',
         bio: 'A passionate writer.',
+        age: 30,
+        numberOfStories: 5,
+        location: 'New York',
+        profilePicture: null as string | null,
+        draft: 0,
+        likedStories: 0,
+        savedStories: 0,
     });
     const [editing, setEditing] = useState(false);
     const [ConfirmDialog, confirm] = useConfirm('Discard Changes?', 'Are you sure you want to discard unsaved changes?');
@@ -26,12 +34,16 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
+        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md space-y-6">
+            {/* Profile Section: Display ProfileCard or ProfileForm */}
             {editing ? (
                 <ProfileForm
                     initialName={profile.name}
                     initialEmail={profile.email}
                     initialBio={profile.bio}
+                    initialAge={profile.age}
+                    initialLocation={profile.location}
+                    initialProfilePicture={profile.profilePicture}
                     onSave={handleSave}
                     onCancel={handleCancel}
                 />
@@ -40,7 +52,14 @@ const ProfilePage: React.FC = () => {
                     name={profile.name}
                     email={profile.email}
                     bio={profile.bio}
+                    age={profile.age}
+                    location={profile.location}
+                    profilePicture={profile.profilePicture}
                     onEdit={handleEdit}
+                    drafts={profile.draft}
+                    likedStories={profile.likedStories}
+                    savedStories={profile.savedStories}
+                    numberOfStories={profile.numberOfStories}
                 />
             )}
             <ConfirmDialog />

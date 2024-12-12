@@ -7,8 +7,8 @@ import Loader from '@/components/Loader'
 
 const DashboardPage = () => {
 
-  const { isLoading } = useGetPublicStories()
-
+  const { isLoading, data } = useGetPublicStories()
+  console.log('data', data)
   return (
     <div className='min-h-screen px-8' >
 

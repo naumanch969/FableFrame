@@ -29,13 +29,13 @@ const StoryView = () => {
     };
 
     const handlePrev = () => {
+        console.log('currentPage, curr', currentPage)
         if (currentPage > 0) {
             setCurrentPage((prev) => prev - 1);
         } else {
             console.log('Already at the cover page');
         }
     };
-
 
 
     if (isLoading) {
@@ -71,7 +71,7 @@ const StoryView = () => {
                             ) : (
                                 <ContentPage
                                     title={chapters[currentPage - 1]?.title}
-                                    content={chapters[currentPage - 1]?.title}
+                                    content={chapters[currentPage - 1]?.text}
                                     pageNumber={currentPage}
                                 />
                             )}
@@ -83,7 +83,7 @@ const StoryView = () => {
                             ) : (
                                 <ContentPage
                                     title={chapters[currentPage]?.title}
-                                    content={chapters[currentPage]?.title}
+                                    content={chapters[currentPage]?.text}
                                     pageNumber={currentPage + 1}
                                 />
                             )}
