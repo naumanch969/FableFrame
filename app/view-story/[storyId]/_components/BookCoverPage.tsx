@@ -9,11 +9,11 @@ const BookCoverPage = ({ imageUrl }: { imageUrl: string }) => {
     return (
         <div>
             <Image
-                src={imageUrl}
+                src={imageUrl || "/sample_cover_image.jpeg"}
                 alt='cover'
                 width={500}
                 height={500}
-                
+
             />
         </div>
     )

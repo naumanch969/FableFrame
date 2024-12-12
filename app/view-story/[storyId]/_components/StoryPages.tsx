@@ -16,10 +16,10 @@ const StoryPages = ({ chapter }: { chapter: any }) => {
     return (
         <div className='' >
             <h2 className="text-2xl font-bold text-primary">
-                {chapter?.chapter_title}
-                <span onClick={() => playSpeech(chapter?.chapter_content)} className='bg-primary' ><Play /></span>
+                {chapter?.title}
+                <span onClick={() => playSpeech(chapter?.text)} className='bg-primary' ><Play /></span>
             </h2>
-            <p className="text-xl p-10 mt-3 rounded-lg bg-slate-100">{chapter?.chapter_text}</p>
+            <p className="text-xl p-10 mt-3 rounded-lg bg-slate-100">{chapter?.text}</p>
         </div>
     )
 }
