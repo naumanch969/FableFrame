@@ -1,3 +1,4 @@
+// ProfilePage.tsx
 "use client";
 import React, { useState } from 'react';
 import ProfileCard from './components/ProfileCard';
@@ -12,7 +13,10 @@ const ProfilePage: React.FC = () => {
         age: 30,
         numberOfStories: 5,
         location: 'New York',
-        profilePicture: null as File | null,
+        profilePicture: null as string | null,
+        draft: 0,
+        likedStories: 0,
+        savedStories: 0,
     });
     const [editing, setEditing] = useState(false);
     const [ConfirmDialog, confirm] = useConfirm('Discard Changes?', 'Are you sure you want to discard unsaved changes?');
@@ -38,7 +42,6 @@ const ProfilePage: React.FC = () => {
                     initialEmail={profile.email}
                     initialBio={profile.bio}
                     initialAge={profile.age}
-                    initialNumberOfStories={profile.numberOfStories}
                     initialLocation={profile.location}
                     initialProfilePicture={profile.profilePicture}
                     onSave={handleSave}
@@ -50,10 +53,13 @@ const ProfilePage: React.FC = () => {
                     email={profile.email}
                     bio={profile.bio}
                     age={profile.age}
-                    numberOfStories={profile.numberOfStories}
                     location={profile.location}
                     profilePicture={profile.profilePicture}
                     onEdit={handleEdit}
+                    drafts={profile.draft}
+                    likedStories={profile.likedStories}
+                    savedStories={profile.savedStories}
+                    numberOfStories={profile.numberOfStories}
                 />
             )}
             <ConfirmDialog />

@@ -8,6 +8,9 @@ interface ProfileCardProps {
     numberOfStories: number;
     location: string;
     profilePicture: string | null;
+    drafts: number;
+    likedStories: number;
+    savedStories: number;
     onEdit: () => void;
 }
 
@@ -19,6 +22,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     numberOfStories,
     location,
     profilePicture,
+    drafts,
+    likedStories,
+    savedStories,
     onEdit,
 }) => {
     return (
@@ -44,12 +50,24 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     <p>{age}</p>
                 </div>
                 <div>
+                    <h3 className="text-lg font-medium">Location</h3>
+                    <p>{location}</p>
+                </div>
+                <div>
                     <h3 className="text-lg font-medium">Stories</h3>
                     <p>{numberOfStories}</p>
                 </div>
                 <div>
-                    <h3 className="text-lg font-medium">Location</h3>
-                    <p>{location}</p>
+                    <h3 className="text-lg font-medium">Drafts</h3>
+                    <p>{drafts}</p>
+                </div>
+                <div>
+                    <h3 className="text-lg font-medium">Likes</h3>
+                    <p>{likedStories}</p>
+                </div>
+                <div>
+                    <h3 className="text-lg font-medium">Shares</h3>
+                    <p>{savedStories}</p>
                 </div>
             </div>
             <div className="flex justify-end">

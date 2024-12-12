@@ -1,3 +1,4 @@
+// ProfileForm.tsx
 import React, { useState } from 'react';
 
 interface ProfileFormProps {
@@ -33,13 +34,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
     const handleSubmit = () => {
         onSave({
-            username: name,
-            email: email,
-            bio: bio,
-            date_of_birth: age,
-            preferences: { numberOfStories },
-            location: location,
-            profile_picture_url: profilePicture,
+            name,
+            email,
+            bio,
+            age,
+            numberOfStories,
+            location,
+            profilePicture,
         });
     };
 
