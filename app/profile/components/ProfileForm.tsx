@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 
-type ProfileFormProps = {
+interface ProfileFormProps {
     initialName: string;
     initialEmail: string;
     initialBio: string;
     initialAge: number;
     initialNumberOfStories: number;
     initialLocation: string;
-    initialProfilePicture: File | null;
-    onSave: (data: {
-        name: string;
-        email: string;
-        bio: string;
-        age: number;
-        numberOfStories: number;
-        location: string;
-        profilePicture: File | null;
-    }) => void;
+    initialProfilePicture: string | null;
+    onSave: (updatedProfile: any) => void;
     onCancel: () => void;
-};
+}
 
 const ProfileForm: React.FC<ProfileFormProps> = ({
     initialName,
@@ -40,92 +32,96 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     const [profilePicture, setProfilePicture] = useState(initialProfilePicture);
 
     const handleSubmit = () => {
-        onSave({ name, email, bio, age, numberOfStories, location, profilePicture });
+        onSave({
+            username: name,
+            email: email,
+            bio: bio,
+            date_of_birth: age,
+            preferences: { numberOfStories },
+            location: location,
+            profile_picture_url: profilePicture,
+        });
     };
 
     return (
-        <div className="space-y-6">
-            {/* Form Fields */}
-            <div className="space-y-4">
+        <div className="space-y-4">
+            <div className="flex items-center space-x-4">
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setProfilePicture(URL.createObjectURL(e.target.files![0]))}
+                    className="hidden"
+                    id="profile-picture"
+                />
+                <label htmlFor="profile-picture" className="w-16 h-16 bg-gray-300 rounded-full cursor-pointer">
+                    {profilePicture && <img src={profilePicture} alt="Profile" className="w-full h-full rounded-full" />}
+                </label>
                 <div>
-                    <label className="block text-gray-700">Name</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full p-3 border rounded-md"
-                    />
-                </div>
-                <div>
-                    <label className="block text-gray-700">Email</label>
+                    <h2 className="text-2xl font-semibold">
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="border-b-2 border-gray-300 focus:outline-none"
+                        />
+                    </h2>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-3 border rounded-md"
+                        className="mt-2 w-full border-b-2 border-gray-300 focus:outline-none"
+                    />
+                </div>
+            </div>
+            <div>
+                <h3 className="text-lg font-medium">Bio</h3>
+                <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    className="w-full border-b-2 border-gray-300 focus:outline-none"
+                />
+            </div>
+            <div className="flex space-x-8">
+                <div>
+                    <h3 className="text-lg font-medium">Age</h3>
+                    <input
+                        type="number"
+                        value={age}
+                        onChange={(e) => setAge(Number(e.target.value))}
+                        className="border-b-2 border-gray-300 focus:outline-none"
                     />
                 </div>
                 <div>
-                    <label className="block text-gray-700">Bio</label>
-                    <textarea
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                        className="w-full p-3 border rounded-md"
-                        rows={4}
-                    />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-gray-700">Age</label>
-                        <input
-                            type="number"
-                            value={age}
-                            onChange={(e) => setAge(Number(e.target.value))}
-                            className="w-full p-3 border rounded-md"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-gray-700">Location</label>
-                        <input
-                            type="text"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                            className="w-full p-3 border rounded-md"
-                        />
-                    </div>
-                </div>
-                <div>
-                    <label className="block text-gray-700">Number of Stories</label>
+                    <h3 className="text-lg font-medium">Stories</h3>
                     <input
                         type="number"
                         value={numberOfStories}
                         onChange={(e) => setNumberOfStories(Number(e.target.value))}
-                        className="w-full p-3 border rounded-md"
+                        className="border-b-2 border-gray-300 focus:outline-none"
                     />
                 </div>
                 <div>
-                    <label className="block text-gray-700">Profile Picture</label>
+                    <h3 className="text-lg font-medium">Location</h3>
                     <input
-                        type="file"
-                        onChange={(e) => setProfilePicture(e.target.files ? e.target.files[0] : null)}
-                        className="w-full p-3 border rounded-md"
+                        type="text"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        className="border-b-2 border-gray-300 focus:outline-none"
                     />
                 </div>
             </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-end gap-4">
+            <div className="flex justify-end space-x-4">
                 <button
                     onClick={onCancel}
-                    className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
                 >
                     Cancel
                 </button>
                 <button
                     onClick={handleSubmit}
-                    className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md"
                 >
-                    Save
+                    Save Changes
                 </button>
             </div>
         </div>

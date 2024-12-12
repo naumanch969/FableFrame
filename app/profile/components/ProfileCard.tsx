@@ -1,15 +1,15 @@
 import React from 'react';
 
-type ProfileCardProps = {
+interface ProfileCardProps {
     name: string;
     email: string;
     bio: string;
     age: number;
     numberOfStories: number;
     location: string;
-    profilePicture: File | null;
+    profilePicture: string | null;
     onEdit: () => void;
-};
+}
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
     name,
@@ -21,47 +21,44 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     profilePicture,
     onEdit,
 }) => {
-    const profilePicUrl = profilePicture ? URL.createObjectURL(profilePicture) : '/default-profile.png';
-
     return (
-        <div className="flex space-x-8">
-            {/* Left: Profile Picture */}
-            <div className="flex-shrink-0">
-                <img
-                    src={profilePicUrl}
-                    alt="Profile"
-                    className="w-32 h-32 rounded-full border-4 border-gray-200"
-                />
+        <div className="space-y-4">
+            <div className="flex items-center space-x-4">
+                {profilePicture ? (
+                    <img src={profilePicture} alt="Profile" className="w-16 h-16 rounded-full" />
+                ) : (
+                    <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
+                )}
+                <div>
+                    <h2 className="text-2xl font-semibold">{name}</h2>
+                    <p className="text-sm text-gray-500">{email}</p>
+                </div>
             </div>
-            
-            {/* Right: Profile Information */}
-            <div className="flex-grow space-y-4">
-                <h2 className="text-3xl font-semibold text-gray-900">{name}</h2>
-                <p className="text-lg text-gray-600">{bio}</p>
-
-                <div className="flex space-x-8 text-gray-700">
-                    <div>
-                        <p className="font-medium">Age</p>
-                        <p>{age}</p>
-                    </div>
-                    <div>
-                        <p className="font-medium">Location</p>
-                        <p>{location}</p>
-                    </div>
-                    <div>
-                        <p className="font-medium">Stories</p>
-                        <p>{numberOfStories}</p>
-                    </div>
+            <div>
+                <h3 className="text-lg font-medium">Bio</h3>
+                <p>{bio}</p>
+            </div>
+            <div className="flex space-x-8">
+                <div>
+                    <h3 className="text-lg font-medium">Age</h3>
+                    <p>{age}</p>
                 </div>
-
-                <div className="flex justify-end">
-                    <button
-                        onClick={onEdit}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                    >
-                        Edit Profile
-                    </button>
+                <div>
+                    <h3 className="text-lg font-medium">Stories</h3>
+                    <p>{numberOfStories}</p>
                 </div>
+                <div>
+                    <h3 className="text-lg font-medium">Location</h3>
+                    <p>{location}</p>
+                </div>
+            </div>
+            <div className="flex justify-end">
+                <button
+                    onClick={onEdit}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md"
+                >
+                    Edit Profile
+                </button>
             </div>
         </div>
     );

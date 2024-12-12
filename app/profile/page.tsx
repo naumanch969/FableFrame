@@ -8,7 +8,7 @@ const ProfilePage: React.FC = () => {
     const [profile, setProfile] = useState({
         name: 'John Doe',
         email: 'john@example.com',
-        bio: 'A passionate writer. Currently working at XYZ Company.',
+        bio: 'A passionate writer.',
         age: 30,
         numberOfStories: 5,
         location: 'New York',
@@ -30,7 +30,7 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="p-8 max-w-4xl mx-auto bg-white rounded-lg shadow-xl space-y-6">
+        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md space-y-6">
             {/* Profile Section: Display ProfileCard or ProfileForm */}
             {editing ? (
                 <ProfileForm
