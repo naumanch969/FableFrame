@@ -8,7 +8,11 @@ const ProfilePage: React.FC = () => {
     const [profile, setProfile] = useState({
         name: 'John Doe',
         email: 'john@example.com',
-        bio: 'A passionate writer.',
+        bio: 'A passionate writer. Currently working at XYZ Company.',
+        age: 30,
+        numberOfStories: 5,
+        location: 'New York',
+        profilePicture: null as File | null,
     });
     const [editing, setEditing] = useState(false);
     const [ConfirmDialog, confirm] = useConfirm('Discard Changes?', 'Are you sure you want to discard unsaved changes?');
@@ -26,12 +30,17 @@ const ProfilePage: React.FC = () => {
     };
 
     return (
-        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
+        <div className="p-8 max-w-4xl mx-auto bg-white rounded-lg shadow-xl space-y-6">
+            {/* Profile Section: Display ProfileCard or ProfileForm */}
             {editing ? (
                 <ProfileForm
                     initialName={profile.name}
                     initialEmail={profile.email}
                     initialBio={profile.bio}
+                    initialAge={profile.age}
+                    initialNumberOfStories={profile.numberOfStories}
+                    initialLocation={profile.location}
+                    initialProfilePicture={profile.profilePicture}
                     onSave={handleSave}
                     onCancel={handleCancel}
                 />
@@ -40,6 +49,10 @@ const ProfilePage: React.FC = () => {
                     name={profile.name}
                     email={profile.email}
                     bio={profile.bio}
+                    age={profile.age}
+                    numberOfStories={profile.numberOfStories}
+                    location={profile.location}
+                    profilePicture={profile.profilePicture}
                     onEdit={handleEdit}
                 />
             )}
