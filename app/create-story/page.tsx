@@ -12,11 +12,13 @@ import { STORY_STATUSES, STORY_TYPES } from '@/constants'
 import { chatSession } from '@/config/gemini'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { storage } from '@/config/firebase'
+import { useRouter } from 'next/navigation'
 
 const CreateStory = () => {
 
   //////////////////////////////////// VARIABLES //////////////////////////////////////////
-  const { mutate } = useCreateStory()
+  const { mutate, data } = useCreateStory()
+  const router = useRouter()
   const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
 
   //////////////////////////////////// STATES //////////////////////////////////////////
@@ -63,7 +65,7 @@ const CreateStory = () => {
       const cover_image = await generateImage('Create a story cover image');
       coverImageUrl = await saveStoryCoverToFirebase(cover_image!);
 
-      await mutate({
+      const storyId = await mutate({
         formData: {
           prompt: formData.prompt,
           genre: formData.genre,
@@ -81,6 +83,7 @@ const CreateStory = () => {
 
       alert("Story generated successfully")
 
+      console.log('data', data, storyId)
 
 
     } catch (error) {

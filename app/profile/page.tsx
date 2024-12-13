@@ -4,65 +4,30 @@ import React, { useState } from 'react';
 import ProfileCard from './components/ProfileCard';
 import ProfileForm from './components/ProfileForm';
 import { useConfirm } from '@/hooks/use-confirm';
+import ProfileSidebar from './components/ProfileSidebar';
+import ProfileMenubar from './components/ProfileMenubar';
+import { useGetPublicStories } from '@/features/story/api/use-get-public-stories';
+import StoryItem from '@/components/StoryItem';
 
 const ProfilePage: React.FC = () => {
-    const [profile, setProfile] = useState({
-        name: 'John Doe',
-        email: 'john@example.com',
-        bio: 'A passionate writer.',
-        age: 30,
-        numberOfStories: 5,
-        location: 'New York',
-        profilePicture: null as string | null,
-        draft: 0,
-        likedStories: 0,
-        savedStories: 0,
-    });
-    const [editing, setEditing] = useState(false);
-    const [ConfirmDialog, confirm] = useConfirm('Discard Changes?', 'Are you sure you want to discard unsaved changes?');
 
-    const handleEdit = () => setEditing(true);
-
-    const handleSave = (updatedProfile: typeof profile) => {
-        setProfile(updatedProfile);
-        setEditing(false);
-    };
-
-    const handleCancel = async () => {
-        const confirmed = await confirm();
-        if (confirmed) setEditing(false);
-    };
+    const { data } = useGetPublicStories()
 
     return (
-        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md space-y-6">
-            {/* Profile Section: Display ProfileCard or ProfileForm */}
-            {editing ? (
-                <ProfileForm
-                    initialName={profile.name}
-                    initialEmail={profile.email}
-                    initialBio={profile.bio}
-                    initialAge={profile.age}
-                    initialLocation={profile.location}
-                    initialProfilePicture={profile.profilePicture}
-                    onSave={handleSave}
-                    onCancel={handleCancel}
-                />
-            ) : (
-                <ProfileCard
-                    name={profile.name}
-                    email={profile.email}
-                    bio={profile.bio}
-                    age={profile.age}
-                    location={profile.location}
-                    profilePicture={profile.profilePicture}
-                    onEdit={handleEdit}
-                    drafts={profile.draft}
-                    likedStories={profile.likedStories}
-                    savedStories={profile.savedStories}
-                    numberOfStories={profile.numberOfStories}
-                />
-            )}
-            <ConfirmDialog />
+        <div className="grid grid-cols-4 gap-4 w-full">
+            <div className="col-span-1">
+                <ProfileSidebar />
+            </div>
+            <div className="col-span-3 w-full space-y-4 ">
+                <ProfileMenubar />
+                <div className="grid grid-cols-3 w-full gap-4 ">
+                    {
+                        data?.map((story: any, index: number) => (
+                            <StoryItem story={story} key={index} />
+                        ))
+                    }
+                </div>
+            </div>
         </div>
     );
 };

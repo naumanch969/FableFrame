@@ -1,7 +1,8 @@
 import { v } from 'convex/values'
-import { mutation, query } from './_generated/server'
+import { mutation, MutationCtx, query, QueryCtx } from './_generated/server'
 import { auth } from './auth'
 import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from '@/constants'
+import { Id } from './_generated/dataModel'
 
 // export const generateStoryContent = action({
 //     args: {
@@ -19,6 +20,17 @@ import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES,
 //     },
 // });
 
+const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
+    return await ctx.db.get(profileId)
+}
+const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
+    let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
+    return profile
+}
+const populateStoryLikes = async (ctx: QueryCtx, storyId: Id<"stories">) => {
+    const likes = await ctx.db.query("likes").withIndex("by_story_id", (q) => q.eq("story_id", storyId)).collect()
+    return likes
+}
 
 export const create_ai = mutation({
     args: {
@@ -48,15 +60,18 @@ export const create_ai = mutation({
         const userId = await auth.getUserId(ctx);
         if (!userId) throw new Error('Unauthenticated');
 
+        let profile: any = await populateProfileByUserId(ctx, userId)
+
         let content = '';
         chapters.forEach((chapter: any) => {
             content += chapter?.text;
+            content += chapter?.title;
         });
         const reading_time = Math.ceil(content.split(' ').length / 200);
 
         const storyId = await ctx.db.insert('stories', {
             title,
-            author_id: userId,
+            author_id: profile?._id,
             genre,
             prompt,
             image_style,
@@ -70,30 +85,9 @@ export const create_ai = mutation({
             ratings_average: 0,
             reports_count: 0,
             ai_output: JSON.stringify(ai_output),
-            chapters
+            chapters,
         });
 
-        let profile: any = await ctx.db.query('profiles').withIndex('by_user_id', q => q.eq("user_id", userId)).first();
-        if (!profile) {
-            const user = await ctx.db.get(userId);
-
-            profile = await ctx.db.insert('profiles', {
-                user_id: userId,
-                username: user?.name!,
-                email: user?.email!,
-                credit: 120,
-                role: USER_ROLES[0],
-                profile_picture_url: '',
-                bio: '',
-                date_of_birth: '',
-                is_verified: true,
-                preferences: {},
-                notification_settings: {},
-                location: ''
-            });
-
-            profile = await ctx.db.get(profile);
-        }
 
         await ctx.db.patch(profile?._id, { credit: profile.credit - 3 });
 
@@ -143,10 +137,12 @@ export const create_manual = mutation({
         // Calculate reading time
         const reading_time = Math.ceil(content.split(" ").length / 200);
 
+        let profile: any = await populateProfileByUserId(ctx, userId)
+
         // Insert the story into the database
         const storyId = await ctx.db.insert("stories", {
             title,
-            author_id: userId,
+            author_id: profile?._id,
             genre,
             image_style,
             age_category,
@@ -163,29 +159,6 @@ export const create_manual = mutation({
             chapters,
         });
 
-        // Fetch or create the user profile
-        let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
-        if (!profile) {
-            const user = await ctx.db.get(userId);
-
-            profile = await ctx.db.insert("profiles", {
-                user_id: userId,
-                username: user?.name!,
-                email: user?.email!,
-                credit: 120,
-                role: USER_ROLES[0],
-                profile_picture_url: "",
-                bio: "",
-                date_of_birth: "",
-                is_verified: true,
-                preferences: {},
-                notification_settings: {},
-                location: "",
-            });
-
-            profile = await ctx.db.get(profile);
-        }
-
         // Deduct 3 credits from the user's profile
         await ctx.db.patch(profile?._id, { credit: profile.credit - 3 });
 
@@ -199,12 +172,23 @@ export const get_public = query({
     handler: async (ctx) => {
 
         const stories = await ctx.db
-            .query('stories')
-            .collect()
+            .query("stories")
+            .withIndex("by_is_public", q => q.eq("is_public", true))
+            .collect();
 
-        return stories
-    }
-})
+        const response: any = []
+
+        for (const story of stories) {
+            const author = await populateProfile(ctx, story.author_id)
+            const likes = await populateStoryLikes(ctx, story._id)
+            if (author) response.push({ ...story, author, likes: likes?.map(like => like?.profile_id) })
+        }
+
+        return response
+
+    },
+});
+
 
 export const get_user = query({
     args: {},
@@ -212,16 +196,18 @@ export const get_user = query({
         const userId = await auth.getUserId(ctx)
         if (!userId) return []
 
+        const profile = await populateProfileByUserId(ctx, userId)
+
         const stories = await ctx.db
             .query('stories')
-            .withIndex('by_author_id', q => q.eq("author_id", userId))
+            .withIndex('by_author_id', q => q.eq("author_id", profile?._id))
             .collect()
 
         return stories
     }
 })
 
-export const getById = query({
+export const get_by_id = query({
     args: { id: v.id("stories") },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
@@ -232,6 +218,38 @@ export const getById = query({
         return story
     }
 })
+
+export const get_liked_stories = query({
+    args: { user_id: v.id("users") },
+    handler: async (ctx, { user_id }) => {
+        // Fetch the user's profile
+        const profile = await ctx.db
+            .query("profiles")
+            .withIndex("by_user_id", q => q.eq("user_id", user_id))
+            .unique();
+
+        if (!profile) {
+            throw new Error("Profile not found for the given user_id");
+        }
+
+        // Fetch all liked story IDs for the user's profile
+        const likedStoryIds = await ctx.db
+            .query("likes")
+            .withIndex("by_profile_id", q => q.eq("profile_id", profile._id))
+            .collect();
+
+        const storyIds = likedStoryIds.map(like => like.story_id);
+
+        // Fetch stories by the liked story IDs
+        const likedStories = await ctx.db
+            .query("stories")
+            .filter(q => q.or(...storyIds.map(id => q.eq(q.field("_id"), id))))
+            .collect();
+
+        return likedStories;
+    },
+});
+
 
 export const update = mutation({
     args: {
@@ -245,8 +263,10 @@ export const update = mutation({
         const userId = await auth.getUserId(ctx)
         if (!userId) throw new Error("Unauthenticated")
 
+        const profile = await populateProfileByUserId(ctx, userId)
+
         const story = await ctx.db.get(args.id)
-        if (!story || story.author_id !== userId)
+        if (!story || story.author_id !== profile?._id)
             throw new Error('Unauthorized')
 
         await ctx.db.patch(args.id, {
@@ -270,7 +290,9 @@ export const remove = mutation({
         const story = await ctx.db.get(args.id)
         if (!story) throw new Error('Story not found')
 
-        if (story.author_id !== userId) {
+        const profile = await populateProfileByUserId(ctx, userId)
+
+        if (story.author_id !== profile?._id) {
             throw new Error('Unauthorized')
         }
 

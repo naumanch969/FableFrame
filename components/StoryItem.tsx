@@ -1,32 +1,38 @@
 import React from 'react';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Share, Flag, Heart } from 'lucide-react';
-import { FcLike } from 'react-icons/fc';
+import { Share, Flag, Heart, Share2 } from 'lucide-react';
+import Hint from './Hint';
+import { useLikeDislikeStory } from '@/features/like/api/use-like-dislike-story';
+import { user } from '@nextui-org/react';
+import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const StoryItem = ({ story }: { story: any }) => {
+
+    const { mutate } = useLikeDislikeStory()
+    const { data: profile } = useCurrentUser()
+    const isLiked = story?.likes?.includes(profile?._id)
+
+    const onLike = async () => {
+        await mutate({ story_id: story?._id })
+
+    }
+
     return (
-        <Link href={'/explore/' + story?._id} className='block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
+        <div className='block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
             <Card className="relative w-full flex flex-col justify-between h-full bg-white p-2 ">
 
-                <div className='' >
+                <Link href={'/explore/' + story?._id} className='' >
                     {story?.is_public && (
-                        <div className="absolute top-2 left-2 flex items-center gap-2 bg-black/60 text-white py-1 px-2 rounded-lg z-10">
-                            <Image
-                                src={story?.authorImage || "/sample_author_image.jpeg"}
-                                alt={story?.authorName || 'Author'}
-                                width={40}
-                                height={40}
-                                className="rounded-full object-cover"
-                            />
-                            <p className="text-xs font-medium">{story?.authorName || 'Unknown Author'}</p>
+                        <div className="absolute top-2 left-2 flex items-center gap-2 bg-black/60 py-1.5 px-1.5 rounded-lg z-10">
+                            <Avatar className="h-6 w-6">
+                                <AvatarImage src={profile?.profile_picture_url} alt={profile?.username} />
+                                <AvatarFallback className="capitalize text-md" >{profile?.username?.charAt(0) || "U"}</AvatarFallback>
+                            </Avatar>
+                            <p className="text-xs font-medium text-white capitalize">{story?.author?.username || 'Unknown Author'}</p>
                         </div>
                     )}
                     <Image
@@ -45,21 +51,27 @@ const StoryItem = ({ story }: { story: any }) => {
                             <span className="">{story?.reading_time} mins read</span>
                         </p>
                     </h2>
-                </div>
+                </Link>
 
                 <div className="flex justify-end items-center gap-1 bg-white">
-                    <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <Heart className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <Share className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <Flag className="w-4 h-4" />
-                    </Button>
+                    <Hint label='Like' >
+                        <Button onClick={onLike} variant={isLiked ? "default" : "ghost"} size="icon" className="flex items-center justify-center">
+                            <Heart className="w-4 h-4" />
+                        </Button>
+                    </Hint>
+                    <Hint label='Share' >
+                        <Button variant="ghost" size="icon" className="flex items-center justify-center">
+                            <Share2 className="w-4 h-4" />
+                        </Button>
+                    </Hint>
+                    <Hint label='Report' >
+                        <Button variant="ghost" size="icon" className="flex items-center justify-center">
+                            <Flag className="w-4 h-4" />
+                        </Button>
+                    </Hint>
                 </div>
             </Card>
-        </Link>
+        </div>
     );
 };
 

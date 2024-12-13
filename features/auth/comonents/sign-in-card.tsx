@@ -8,6 +8,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { SignInFlow } from '../types'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { TriangleAlert } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -27,6 +28,7 @@ const SignInCard = ({ setState }: Props) => {
 
     setPending(true)
     signIn("password", { email, password, flow: "signIn" })
+      .then(() => toast.success("Login successfully.", { position: 'top-right' }))
       .catch(() => setError("Invalid email or password"))
       .finally(() => setPending(false))
   }
@@ -88,7 +90,7 @@ const SignInCard = ({ setState }: Props) => {
             disabled={pending}
             onClick={() => onProviderSignIn('google')}
           >
-            <FcGoogle className='size-5 '  /> Continue with Google
+            <FcGoogle className='size-5 ' /> Continue with Google
           </Button>
           <Button
             variant='outline'

@@ -5,6 +5,7 @@ import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/wrappers/ConvexProvideer";
 import Navbar from './(landingpage)/components/Navbar'
 import { ThemeProvider } from "@/wrappers/ThemeProvider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               enableSystem
               disableTransitionOnChange
             >
+              <Toaster />
               <div className="bg-[#cad3ff]">
                 <div className="max-w-7xl mx-auto">
                   <div className="min-h-screen">
@@ -33,7 +35,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                   </div>
                 </div>
               </div>
-            </ThemeProvider> 
+            </ThemeProvider>
           </ConvexClientProvider>
         </body>
       </html>

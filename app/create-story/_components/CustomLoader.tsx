@@ -13,6 +13,7 @@ const CustomLoader = ({ open, onClose }: { open: boolean, onClose: () => void })
       title=''
       open={open}
       onClose={onClose}
+      showCloseButton={false}
     >
       <div className="w-full flex justify-center items-center p-10 bg-white rounded-3xl ">
         <Image

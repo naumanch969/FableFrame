@@ -9,13 +9,14 @@ interface Props {
     children: ReactNode,
     open: boolean,
     onClose: () => void,
+    showCloseButton?: boolean
 }
 
-export const Modal = ({ title, description, children, open, onClose }: Props) => {
+export const Modal = ({ title, description, children, open, onClose, showCloseButton = true }: Props) => {
 
 
     return (
-        <Dialog open={open} onOpenChange={onClose} >
+        <Dialog open={open} onOpenChange={showCloseButton ? onClose : () => { }} >
             <DialogContent>
                 {
                     <DialogHeader>
@@ -23,7 +24,7 @@ export const Modal = ({ title, description, children, open, onClose }: Props) =>
                     </DialogHeader>
                 }
                 {
-                 
+
                     <DialogDescription>{description}</DialogDescription>
                 }
                 {children}

@@ -18,7 +18,6 @@ const schema = defineSchema({
         preferences: v.optional(v.any()),
         notification_settings: v.optional(v.any()),
         location: v.optional(v.string()),
-
     })
         .index("by_user_id", ["user_id"])
         .index("by_email", ["email"])
@@ -28,7 +27,7 @@ const schema = defineSchema({
 
     stories: defineTable({
         title: v.string(),
-        author_id: v.id("users"),
+        author_id: v.id("profiles"),
         genre: v.union(...STORY_GENRES.map(v.literal)),
         image_style: v.union(...STORY_IMAGE_STYLES.map(v.literal)),
         age_category: v.union(...STORY_AGE_CATEGORIES.map(v.literal)),
@@ -51,9 +50,16 @@ const schema = defineSchema({
         .index("by_views_count", ["views_count"])
         .index("by_age_category", ["age_category"]),
 
+    likes: defineTable({
+        story_id: v.id("stories"),
+        profile_id: v.id("profiles"),
+    })
+        .index("by_profile_id", ["profile_id"])
+        .index("by_story_id", ["story_id"]),
+
     comments: defineTable({
         content: v.string(),
-        author_id: v.id("users"),
+        author_id: v.id("profiles"),
         story_id: v.id("stories"),
         status: v.union(...COMMENT_STATUSES.map(v.literal)),
         parent_id: v.optional(v.string()),
@@ -67,7 +73,7 @@ const schema = defineSchema({
     }),
 
     notifications: defineTable({
-        user_id: v.id("users"),
+        user_id: v.id("profiles"),
         type: v.union(...NOTIFICATION_TYPES.map(v.literal)),
         content: v.string(),
         is_read: v.boolean(),
@@ -78,8 +84,8 @@ const schema = defineSchema({
     }),
 
     shares: defineTable({
-        from_id: v.id("users"),
-        to_id: v.id("users"),
+        from_id: v.id("profiles"),
+        to_id: v.id("profiles"),
         story_id: v.id("stories"),
         shared_at: v.string(),
         restriction: v.union(...SHARE_RESTRICTIONS.map(v.literal)),
@@ -89,7 +95,7 @@ const schema = defineSchema({
 
     story_reports: defineTable({
         story_id: v.id("stories"),
-        user_id: v.id("users"),
+        user_id: v.id("profiles"),
         reason: v.string(),
         status: v.union(...STORY_REPORT_STATUSES.map(v.literal)),
         created_at: v.string(),

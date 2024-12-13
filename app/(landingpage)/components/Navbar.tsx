@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
 import { usePathname } from "next/navigation";
+import ProfileButton from "@/components/ProfileButton";
 
 export default function Navbar() {
 
@@ -27,7 +28,7 @@ export default function Navbar() {
                 <div className="text-primary-foreground font-bold text-lg">
                     <Link href="/" className="flex items-center gap-2">
                         <Image src='/logo_mini.svg' alt='Logo' height={32} width={32} />
-                        <h2 className="font-bold text-2xl text-primary">Constellation</h2>
+                        <h2 className="font-bold text-2xl text-primary">StoryBot</h2>
                         {/* <Image src='/logo.svg' alt='Logo' height={40} width={160} /> */}
                     </Link>
                 </div>
@@ -50,9 +51,15 @@ export default function Navbar() {
                 {/* Right: Theme Toggle, and Profile Dropdown */}
                 <div className="flex items-center gap-6">
                     {/* <ModeToggle /> */}
-                    <Link href='/explore' >
-                        <Button size='lg' >{isSignedIn ? 'Dashboard' : 'Get Started'}</Button>
-                    </Link>
+                    {
+                        isSignedIn
+                            ?
+                            <ProfileButton />
+                            :
+                            <Link href='/explore' >
+                                <Button size='lg' >Get Started</Button>
+                            </Link>
+                    }
                 </div>
             </div>
         </nav>

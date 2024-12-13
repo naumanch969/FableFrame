@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import StoryView from './components/StoryView';
 import RecommendedStories from './components/RecommendedStories';
 import { useGetPublicStories } from '@/features/story/api/use-get-public-stories';
+import Footer from '@/components/Footer';
 
 const ViewStory = () => {
     const { data, isLoading } = useGetPublicStories();
@@ -38,6 +39,7 @@ const ViewStory = () => {
                     isLoading={isLoading}
                 />
             </div>
+            <Footer />
         </div>
     );
 };

@@ -7,8 +7,8 @@ import { useGetPublicStories } from '@/features/story/api/use-get-public-stories
 
 const UserStories = () => {
 
-    const { data } = useGetPublicStories()
-    console.log('data', data)
+    const { data: stories } = useGetPublicStories()
+
     const [loading, setLoading] = useState(false)
 
     return (
@@ -17,11 +17,11 @@ const UserStories = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-6 mt-10">
                 {
                     !loading &&
-                        data?.length === 0
+                        stories?.length === 0
                         ?
                         <div className="text-center">No stories found for this user.</div>
                         :
-                        data?.map((story, index) => (
+                        stories?.map((story, index) => (
                             <StoryItem story={story} key={index} />
                         ))
                 }

@@ -17,6 +17,7 @@ import type * as auth from "../auth.js";
 import type * as comment from "../comment.js";
 import type * as hashtag from "../hashtag.js";
 import type * as http from "../http.js";
+import type * as like from "../like.js";
 import type * as notification from "../notification.js";
 import type * as report from "../report.js";
 import type * as share from "../share.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   comment: typeof comment;
   hashtag: typeof hashtag;
   http: typeof http;
+  like: typeof like;
   notification: typeof notification;
   report: typeof report;
   share: typeof share;
