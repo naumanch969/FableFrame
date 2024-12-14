@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useCreateStoryModal } from '../store/use-create-workspace-modal'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useCreateStory } from '../api/use-create-story'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { useCreateStoryModal } from '@/features/story/store/use-create-workspace-modal'
+import { useReportStory } from '@/features/report/api/use-report-story'
 
-const CreateStoryModal = () => {
+const ReportStoryModal = () => {
 
     const router = useRouter()
-    const { mutate, isPending } = useCreateStory()
+    const { mutate, isPending } = useReportStory()
     const [open, setOpen] = useCreateStoryModal()
 
     const [name, setName] = useState("")
@@ -57,4 +57,4 @@ const CreateStoryModal = () => {
     )
 }
 
-export default CreateStoryModal
+export default ReportStoryModal
