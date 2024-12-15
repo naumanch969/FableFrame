@@ -1,80 +1,99 @@
 export const STORY_GENRES = [
-    "general",
-    "fantasy",
-    "sci-fi",
-    "mystery",
-    "romance",
-    "horror",
-    "thriller",
-    "adventure",
-    "historical",
-    "non-fiction",
-    "drama",
-    "comedy",
-]
+    { key: "general", label: "General" },
+    { key: "fantasy", label: "Fantasy" },
+    { key: "sci-fi", label: "Sci-Fi" },
+    { key: "mystery", label: "Mystery" },
+    { key: "romance", label: "Romance" },
+    { key: "horror", label: "Horror" },
+    { key: "thriller", label: "Thriller" },
+    { key: "adventure", label: "Adventure" },
+    { key: "historical", label: "Historical" },
+    { key: "non-fiction", label: "Non-fiction" },
+    { key: "drama", label: "Drama" },
+    { key: "comedy", label: "Comedy" }
+];
 
 export const STORY_STATUSES = [
-    "published",
-    "draft",
-    "deleted",
-    "archived",
-]
+    { key: "published", label: "Published" },
+    { key: "draft", label: "Draft" },
+    { key: "deleted", label: "Deleted" },
+    { key: "archived", label: "Archived" }
+];
 
 export const STORY_IMAGE_STYLES = [
-    "3D-cartoon",
-    "paper-cut",
-    "water-color",
-    "pixel-style"
+    { key: "3D-cartoon", label: "3D Cartoon" },
+    { key: "paper-cut", label: "Paper Cut" },
+    { key: "water-color", label: "Watercolor" },
+    { key: "pixel-style", label: "Pixel Style" }
 ];
 
 export const STORY_AGE_CATEGORIES = [
-    "children",
-    "teens",
-    "young_adult",
-    "adult",
-    "mature"
+    { key: "children", label: "Children" },
+    { key: "teens", label: "Teens" },
+    { key: "young_adult", label: "Young Adult" },
+    { key: "adult", label: "Adult" },
+    { key: "mature", label: "Mature" }
 ];
 
-
 export const STORY_TYPES = [
-    "ai_generated",
-    "manual"
+    { key: "ai_generated", label: "AI Generated" },
+    { key: "manual", label: "Manual" }
 ];
 
 export const USER_ROLES = [
-    "user",
-    "admin"
+    { key: "user", label: "User" },
+    { key: "admin", label: "Admin" }
 ];
 
 export const COMMENT_STATUSES = [
-    "approved",
-    "pending",
-    "rejected",
-    "flagged"
+    { key: "approved", label: "Approved" },
+    { key: "pending", label: "Pending" },
+    { key: "rejected", label: "Rejected" },
+    { key: "flagged", label: "Flagged" }
 ];
 
 export const NOTIFICATION_TYPES = [
-    "comment",
-    "like",
-    "share",
-    "follow",
-    "reply"
+    { key: "comment", label: "Comment" },
+    { key: "like", label: "Like" },
+    { key: "share", label: "Share" },
+    { key: "follow", label: "Follow" },
+    { key: "reply", label: "Reply" }
 ];
 
 export const NOTIFICATION_PRIORITIES = [
-    "critical",
-    "high",
-    "normal"
+    { key: "critical", label: "Critical" },
+    { key: "high", label: "High" },
+    { key: "normal", label: "Normal" }
 ];
 
 export const SHARE_RESTRICTIONS = [
-    "read-only",
-    "limited-time",
-    "full-access"
+    { key: "read-only", label: "Read-Only" },
+    { key: "limited-time", label: "Limited Time" },
+    { key: "full-access", label: "Full Access" }
 ];
 
 export const STORY_REPORT_STATUSES = [
-    "pending",
-    "resolved",
-    "dismissed"
+    { key: "pending", label: "Pending" },
+    { key: "resolved", label: "Resolved" },
+    { key: "dismissed", label: "Dismissed" }
 ];
+
+export const REPORT_REASONS = [
+    { key: "hate_speech", label: "Hate Speech" },
+    { key: "violence_or_threats", label: "Violence or Threats" },
+    { key: "malicious_content", label: "Malicious Content" },
+    { key: "sexually_explicit_content", label: "Sexually Explicit Content" },
+    { key: "illegal_activity", label: "Illegal Activity" },
+    { key: "terrorism_or_extremism", label: "Terrorism or Extremism" },
+    { key: "spam_or_advertising", label: "Spam or Advertising" },
+    { key: "plagiarism", label: "Plagiarism" },
+    { key: "copyright_infringement", label: "Copyright Infringement" },
+    { key: "misleading_or_false_information", label: "Misleading or False Information" },
+    { key: "offensive_language", label: "Offensive Language" },
+    { key: "poor_quality_or_irrelevant_content", label: "Poor Quality or Irrelevant Content" },
+    { key: "harassment_or_bullying", label: "Harassment or Bullying" },
+    { key: "sharing_personal_information", label: "Sharing Personal Information" },
+    { key: "non_age_appropriate_content", label: "Non-age-appropriate Content" },
+    { key: "misuse_of_ai_or_tools", label: "Misuse of AI or Tools" }
+  ];
+  

@@ -1,24 +1,8 @@
 import { v } from 'convex/values'
-import { mutation, MutationCtx, query, QueryCtx } from './_generated/server'
+import { mutation, query, QueryCtx } from './_generated/server'
 import { auth } from './auth'
-import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from '@/constants'
+import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
 import { Id } from './_generated/dataModel'
-
-// export const generateStoryContent = action({
-//     args: {
-//         prompt: v.string(),
-//     },
-//     handler: async ({ prompt }: any) => {
-//         try {
-//             const result = await chatSession.sendMessage(prompt);
-//             const ai_output = JSON.parse(result?.response?.text() || "{}");
-//             return ai_output;
-//         } catch (error) {
-//             console.error("Error generating story:", error);
-//             throw new Error("Failed to generate story content.");
-//         }
-//     },
-// });
 
 const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
     return await ctx.db.get(profileId)
@@ -31,17 +15,21 @@ const populateStoryLikes = async (ctx: QueryCtx, storyId: Id<"stories">) => {
     const likes = await ctx.db.query("likes").withIndex("by_story_id", (q) => q.eq("story_id", storyId)).collect()
     return likes
 }
+const populateStoryReports = async (ctx: QueryCtx, storyId: Id<"stories">) => {
+    const likes = await ctx.db.query("story_reports").withIndex("by_story_id", (q) => q.eq("story_id", storyId)).collect()
+    return likes
+}
 
 export const create_ai = mutation({
     args: {
         title: v.string(),
         prompt: v.string(),
-        genre: v.union(...STORY_GENRES.map(v.literal)),
-        image_style: v.union(...STORY_IMAGE_STYLES.map(v.literal)),
-        age_category: v.union(...STORY_AGE_CATEGORIES.map(v.literal)),
-        type: v.union(...STORY_TYPES.map(v.literal)),
+        genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))),
+        image_style: v.union(...STORY_IMAGE_STYLES.map(item => v.literal(item.key))),
+        age_category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))),
+        type: v.union(...STORY_TYPES.map(item => v.literal(item.key))),
         is_public: v.boolean(),
-        status: v.union(...STORY_STATUSES.map(v.literal)),
+        status: v.union(...STORY_STATUSES.map(item => v.literal(item.key))),
         cover_image: v.string(),
         ai_output: v.any(),
         chapters: v.array(v.any())
@@ -71,7 +59,7 @@ export const create_ai = mutation({
 
         const storyId = await ctx.db.insert('stories', {
             title,
-            author_id: profile?._id,
+            profile_id: profile?._id,
             genre,
             prompt,
             image_style,
@@ -99,12 +87,12 @@ export const create_manual = mutation({
     args: {
         title: v.string(),
         content: v.string(), // Full story content
-        genre: v.union(...STORY_GENRES.map(v.literal)),
-        image_style: v.union(...STORY_IMAGE_STYLES.map(v.literal)),
-        age_category: v.union(...STORY_AGE_CATEGORIES.map(v.literal)),
-        type: v.union(...STORY_TYPES.map(v.literal)), // Should include "manual" as a type
+        genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))),
+        image_style: v.union(...STORY_IMAGE_STYLES.map(item => v.literal(item.key))),
+        age_category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))),
+        type: v.union(...STORY_TYPES.map(item => v.literal(item.key))), // Should include "manual" as a type
         is_public: v.boolean(),
-        status: v.union(...STORY_STATUSES.map(v.literal)),
+        status: v.union(...STORY_STATUSES.map(item => v.literal(item.key))),
         cover_image: v.string(), // URL for the cover image
         chapters: v.array(v.any()), // Manual stories can also have chapters
     },
@@ -142,7 +130,7 @@ export const create_manual = mutation({
         // Insert the story into the database
         const storyId = await ctx.db.insert("stories", {
             title,
-            author_id: profile?._id,
+            profile_id: profile?._id,
             genre,
             image_style,
             age_category,
@@ -166,7 +154,6 @@ export const create_manual = mutation({
     },
 });
 
-
 export const get_public = query({
     args: {},
     handler: async (ctx) => {
@@ -179,9 +166,10 @@ export const get_public = query({
         const response: any = []
 
         for (const story of stories) {
-            const author = await populateProfile(ctx, story.author_id)
+            const author = await populateProfile(ctx, story.profile_id)
             const likes = await populateStoryLikes(ctx, story._id)
-            if (author) response.push({ ...story, author, likes: likes?.map(like => like?.profile_id) })
+            const reports = await populateStoryReports(ctx, story._id)
+            if (author) response.push({ ...story, author, likes: likes?.map(like => like?.profile_id), reports: reports?.map(report => report?.profile_id) })
         }
 
         return response
@@ -200,7 +188,7 @@ export const get_user = query({
 
         const stories = await ctx.db
             .query('stories')
-            .withIndex('by_author_id', q => q.eq("author_id", profile?._id))
+            .withIndex('by_profile_id', q => q.eq("profile_id", profile?._id))
             .collect()
 
         return stories
@@ -256,8 +244,8 @@ export const update = mutation({
         id: v.id("stories"),
         title: v.string(),
         content: v.string(),
-        genre: v.union(...STORY_GENRES.map(v.literal)),
-        status: v.union(...STORY_STATUSES.map(v.literal)),
+        genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))),
+        status: v.union(...STORY_STATUSES.map(item => v.literal(item.key))),
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
@@ -266,7 +254,7 @@ export const update = mutation({
         const profile = await populateProfileByUserId(ctx, userId)
 
         const story = await ctx.db.get(args.id)
-        if (!story || story.author_id !== profile?._id)
+        if (!story || story.profile_id !== profile?._id)
             throw new Error('Unauthorized')
 
         await ctx.db.patch(args.id, {
@@ -292,7 +280,7 @@ export const remove = mutation({
 
         const profile = await populateProfileByUserId(ctx, userId)
 
-        if (story.author_id !== profile?._id) {
+        if (story.profile_id !== profile?._id) {
             throw new Error('Unauthorized')
         }
 

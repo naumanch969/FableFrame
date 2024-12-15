@@ -49,7 +49,7 @@ export const update = mutation({
         user_id: v.id('users'),
         username: v.optional(v.string()),
         email: v.optional(v.string()),
-        role: v.optional(v.union(...USER_ROLES.map(v.literal))),
+        role: v.optional(v.union(...USER_ROLES.map(item => v.literal(item.key)))),
         profile_picture_url: v.optional(v.string()),
         bio: v.optional(v.string()),
         date_of_birth: v.optional(v.string()),

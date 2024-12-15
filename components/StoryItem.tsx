@@ -9,16 +9,28 @@ import { useLikeDislikeStory } from '@/features/like/api/use-like-dislike-story'
 import { user } from '@nextui-org/react';
 import { useCurrentUser } from '@/features/auth/api/useCurrentUser';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Doc, Id } from '@/convex/_generated/dataModel';
+import { useCreateReportModal } from '@/hooks/use-create-report-modal';
+import { useSelectedStory } from '@/hooks/use-selected-story';
 
-const StoryItem = ({ story }: { story: any }) => {
+const StoryItem = ({ story }: { story: Doc<"stories"> & { author: Doc<"profiles">, likes: (Id<"profiles">)[], reports: (Id<"profiles">)[] } }) => {
 
     const { mutate } = useLikeDislikeStory()
     const { data: profile } = useCurrentUser()
-    const isLiked = story?.likes?.includes(profile?._id)
+
+    const [_open, setOpen] = useCreateReportModal()
+    const [_story, setStory] = useSelectedStory()
+
+    const isLiked = story?.likes?.includes(profile?._id!)
+    const isReported = story?.reports?.includes(profile?._id!)
 
     const onLike = async () => {
         await mutate({ story_id: story?._id })
+    }
 
+    const onReport = () => {
+        setStory(story)
+        setOpen(true)
     }
 
     return (
@@ -36,7 +48,7 @@ const StoryItem = ({ story }: { story: any }) => {
                         </div>
                     )}
                     <Image
-                        src={story?.coverImage || "/sample_cover_image.jpeg"}
+                        src={story?.cover_image || "/sample_cover_image.jpeg"}
                         alt={story?.title || 'Story Cover'}
                         className="w-full object-cover rounded-lg "
                         width={300}
@@ -65,7 +77,7 @@ const StoryItem = ({ story }: { story: any }) => {
                         </Button>
                     </Hint>
                     <Hint label='Report' >
-                        <Button variant="ghost" size="icon" className="flex items-center justify-center">
+                        <Button onClick={onReport} variant={isReported ? "default" : "ghost"} size="icon" className="flex items-center justify-center">
                             <Flag className="w-4 h-4" />
                         </Button>
                     </Hint>

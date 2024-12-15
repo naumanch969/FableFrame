@@ -4,19 +4,19 @@ import { NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES } from '@/constants';
 
 export const create = mutation({
     args: {
-        user_id: v.id('users'),
-        type: v.union(...NOTIFICATION_TYPES.map(v.literal)),
+        profile_id: v.id('profiles'),
+        type: v.union(...NOTIFICATION_TYPES.map(item => v.literal(item.key))),
         content: v.string(),
         is_read: v.boolean(),
         related_entity_id: v.optional(v.string()),
         entity_type: v.optional(v.string()),
-        priority: v.union(...NOTIFICATION_PRIORITIES.map(v.literal)),
+        priority: v.union(...NOTIFICATION_PRIORITIES.map(item => v.literal(item.key))),
         is_dismissed: v.boolean(),
     },
     handler: async (ctx, args) => {
 
         const newNotification = await ctx.db.insert('notifications', {
-            user_id: args.user_id,
+            profile_id: args.profile_id,
             type: args.type,
             content: args.content,
             is_read: args.is_read,
@@ -25,19 +25,19 @@ export const create = mutation({
             priority: args.priority,
             is_dismissed: args.is_dismissed,
         });
-        
+
         return newNotification;
     },
 });
 
 export const get = query({
     args: {
-        user_id: v.id('users'),
+        profile_id: v.id('profiles'),
     },
     handler: async (ctx, args) => {
         const notifications = await ctx.db
             .query('notifications')
-            .filter((q) => q.eq(q.field('user_id'), args.user_id))  
+            .filter((q) => q.eq(q.field('profile_id'), args.profile_id))
             .collect();
 
         return notifications;
@@ -84,7 +84,7 @@ export const remove = mutation({
     },
 });
 
-export const markAsRead = mutation({
+export const mark_as_read = mutation({
     args: {
         notification_id: v.id('notifications'),
     },

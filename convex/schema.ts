@@ -1,4 +1,4 @@
-import { COMMENT_STATUSES, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
+import { COMMENT_STATUSES, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -10,7 +10,7 @@ const schema = defineSchema({
         username: v.string(),
         email: v.string(),
         credit: v.number(),
-        role: v.union(...USER_ROLES.map(v.literal)),
+        role: v.union(...USER_ROLES.map(item => v.literal(item.key))),
         profile_picture_url: v.optional(v.string()),
         bio: v.optional(v.string()),
         date_of_birth: v.optional(v.string()),
@@ -27,15 +27,15 @@ const schema = defineSchema({
 
     stories: defineTable({
         title: v.string(),
-        author_id: v.id("profiles"),
-        genre: v.union(...STORY_GENRES.map(v.literal)),
-        image_style: v.union(...STORY_IMAGE_STYLES.map(v.literal)),
-        age_category: v.union(...STORY_AGE_CATEGORIES.map(v.literal)),
+        profile_id: v.id("profiles"),
+        genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))),
+        image_style: v.union(...STORY_IMAGE_STYLES.map(item => v.literal(item.key))),
+        age_category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))),
         cover_image: v.string(),
         prompt: v.string(),
-        type: v.union(...STORY_TYPES.map(v.literal)),
+        type: v.union(...STORY_TYPES.map(item => v.literal(item.key))),
         is_public: v.boolean(),
-        status: v.union(...STORY_STATUSES.map(v.literal)),
+        status: v.union(...STORY_STATUSES.map(item => v.literal(item.key))),
         views_count: v.number(),
         reading_time: v.optional(v.number()),
         ratings_average: v.number(),
@@ -43,7 +43,7 @@ const schema = defineSchema({
         ai_output: v.string(),
         chapters: v.array(v.any()),
     })
-        .index("by_author_id", ["author_id"])
+        .index("by_profile_id", ["profile_id"])
         .index("by_genre", ["genre"])
         .index("by_status", ["status"])
         .index("by_is_public", ["is_public"])
@@ -59,9 +59,9 @@ const schema = defineSchema({
 
     comments: defineTable({
         content: v.string(),
-        author_id: v.id("profiles"),
+        profile_id: v.id("profiles"),
         story_id: v.id("stories"),
-        status: v.union(...COMMENT_STATUSES.map(v.literal)),
+        status: v.union(...COMMENT_STATUSES.map(item => v.literal(item.key))),
         parent_id: v.optional(v.string()),
         likes_count: v.number(),
         reports_count: v.number(),
@@ -73,13 +73,13 @@ const schema = defineSchema({
     }),
 
     notifications: defineTable({
-        user_id: v.id("profiles"),
-        type: v.union(...NOTIFICATION_TYPES.map(v.literal)),
+        profile_id: v.id("profiles"),
+        type: v.union(...NOTIFICATION_TYPES.map(item => v.literal(item.key))),
         content: v.string(),
         is_read: v.boolean(),
         related_entity_id: v.optional(v.string()),
         entity_type: v.optional(v.string()),
-        priority: v.union(...NOTIFICATION_PRIORITIES.map(v.literal)),
+        priority: v.union(...NOTIFICATION_PRIORITIES.map(item => v.literal(item.key))),
         is_dismissed: v.boolean(),
     }),
 
@@ -88,18 +88,21 @@ const schema = defineSchema({
         to_id: v.id("profiles"),
         story_id: v.id("stories"),
         shared_at: v.string(),
-        restriction: v.union(...SHARE_RESTRICTIONS.map(v.literal)),
+        restriction: v.union(...SHARE_RESTRICTIONS.map(item => v.literal(item.key))),
         message: v.string(),
         expires_at: v.string(),
     }),
 
     story_reports: defineTable({
         story_id: v.id("stories"),
-        user_id: v.id("profiles"),
-        reason: v.string(),
-        status: v.union(...STORY_REPORT_STATUSES.map(v.literal)),
+        profile_id: v.id("profiles"),
+        type: v.union(...REPORT_REASONS.map(item => v.literal(item.key))),
+        reason: v.optional(v.string()),
+        status: v.union(...STORY_REPORT_STATUSES.map(item => v.literal(item.key))),
         created_at: v.string(),
-    }),
+    })
+        .index("by_story_id", ["story_id"]),
+    
 })
 
 export default schema;

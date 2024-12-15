@@ -6,6 +6,7 @@ import { ConvexClientProvider } from "@/wrappers/ConvexProvideer";
 import Navbar from './(landingpage)/components/Navbar'
 import { ThemeProvider } from "@/wrappers/ThemeProvider";
 import { Toaster } from "sonner";
+import Modals from "@/wrappers/Modals";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               disableTransitionOnChange
             >
               <Toaster />
+              <Modals />
               <div className="bg-[#cad3ff]">
                 <div className="max-w-7xl mx-auto">
                   <div className="min-h-screen">

@@ -2,11 +2,19 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import { REPORT_REASONS, STORY_REPORT_STATUSES } from "@/constants";
 
 type RequestType = {
-    story_id: Id<"stories">
+    formData: {
+        story_id: Id<"stories">,
+        profile_id: Id<"profiles">,
+        reason?: string,
+        type: typeof REPORT_REASONS[number]['key'];
+        status: typeof STORY_REPORT_STATUSES[number]['key'];
+        created_at: string
+    }
 }
-type ResponseType = { message: string } | null
+type ResponseType = Id<"story_reports"> | null
 
 type Options = {
     onSuccess?: (data: ResponseType) => void
@@ -15,13 +23,13 @@ type Options = {
     throwError?: Boolean
 }
 
-export const useReportStory = () => {
+export const useCreateReport = () => {
 
     const [data, setData] = useState<ResponseType>(null)
     const [error, setError] = useState<Error | null>(null)
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
-    const mutation = useMutation(api.like.toggle_like_dislike_story)
+    const mutation = useMutation(api.report.create)
 
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])
@@ -35,7 +43,7 @@ export const useReportStory = () => {
             setError(null)
             setState('pending')
 
-            const response = await mutation(values)
+            const response = await mutation(values.formData)
             options?.onSuccess?.(response)
         }
         catch (error) {

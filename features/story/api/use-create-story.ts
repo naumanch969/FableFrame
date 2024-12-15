@@ -8,12 +8,12 @@ type RequestType = {
     formData: {
         title: string;
         prompt: string;
-        genre: typeof STORY_GENRES[number];
-        image_style: typeof STORY_IMAGE_STYLES[number];
-        age_category: typeof STORY_AGE_CATEGORIES[number];
-        type: typeof STORY_TYPES[number];
+        genre: typeof STORY_GENRES[number]['key'];
+        image_style: typeof STORY_IMAGE_STYLES[number]['key'];
+        age_category: typeof STORY_AGE_CATEGORIES[number]['key'];
+        type: typeof STORY_TYPES[number]['key'];
         is_public: boolean;
-        status: typeof STORY_STATUSES[number];
+        status: typeof STORY_STATUSES[number]['key'];
         ai_output: any;
         cover_image: string,
         chapters: any[]

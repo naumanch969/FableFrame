@@ -4,11 +4,11 @@ import { SHARE_RESTRICTIONS } from '@/constants';
 
 export const create = mutation({
     args: {
-        from_id: v.id('users'),
-        to_id: v.id('users'),
+        from_id: v.id('profiles'),
+        to_id: v.id('profiles'),
         story_id: v.id('stories'),
         shared_at: v.string(),
-        restriction: v.union(...SHARE_RESTRICTIONS.map(v.literal)),
+        restriction: v.union(...SHARE_RESTRICTIONS.map(item => v.literal(item.key))),
         message: v.string(),
         expires_at: v.string(),
     },
@@ -28,16 +28,16 @@ export const create = mutation({
     },
 });
 
-export const getByUser = query({
+export const get_by_user = query({
     args: {
-        user_id: v.id('users'),
+        profile_id: v.id('profiles'),
     },
     handler: async (ctx, args) => {
 
         const shares = await ctx.db
             .query('shares')
             .filter(
-                (q) => q.eq(q.field('from_id'), args.user_id).or(q.eq(q.field('to_id'), args.user_id))
+                (q) => q.eq(q.field('from_id'), args.profile_id).or(q.eq(q.field('to_id'), args.profile_id))
             )
             .collect();
 
@@ -45,7 +45,7 @@ export const getByUser = query({
     },
 });
 
-export const getByStory = query({
+export const get_by_story = query({
     args: {
         story_id: v.id('stories'),
     },

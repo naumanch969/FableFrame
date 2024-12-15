@@ -1,6 +1,12 @@
 import { v } from 'convex/values';
-import { mutation, query } from './_generated/server';
+import { mutation, query, QueryCtx } from './_generated/server';
 import { auth } from './auth';
+import { Id } from './_generated/dataModel';
+
+const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
+    let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
+    return profile
+}
 
 export const create = mutation({
     args: {
@@ -12,10 +18,12 @@ export const create = mutation({
         const userId = await auth.getUserId(ctx);
         if (!userId) throw new Error('Unauthenticated');
 
+        let profile: any = await populateProfileByUserId(ctx, userId)
+
         const comment = await ctx.db.insert('comments', {
             content: args.content,
             story_id: args.story_id,
-            author_id: userId,
+            profile_id: profile?._id,
             status: "pending", // Default status
             parent_id: args.parent_id,
             likes_count: 0,
@@ -33,11 +41,14 @@ export const update = mutation({
         content: v.string(),
     },
     handler: async (ctx, args) => {
+
         const userId = await auth.getUserId(ctx);
         if (!userId) throw new Error('Unauthenticated');
 
+        const profile = await populateProfileByUserId(ctx, userId)
+
         const comment = await ctx.db.get(args.comment_id);
-        if (!comment || comment.author_id !== userId)
+        if (!comment || comment.profile_id !== profile?._id)
             throw new Error('Unauthorized to edit this comment');
 
         await ctx.db.patch(args.comment_id, { content: args.content });
@@ -54,15 +65,17 @@ export const remove = mutation({
         const userId = await auth.getUserId(ctx);
         if (!userId) throw new Error('Unauthenticated');
 
+        const profile = await populateProfileByUserId(ctx, userId)
+
         const comment = await ctx.db.get(args.comment_id);
         if (!comment) throw new Error('Comment not found');
 
-        if (comment.author_id !== userId) {
-            const userRole = await ctx.db
-                .query('users')
-                .filter((q) => q.id(userId))
+        if (comment.profile_id !== profile?._id) {
+            const profile = await ctx.db
+                .query('profiles')
+                // .filter((q) => q.id(userId))
                 .unique();
-            if (userRole?.role !== 'admin') throw new Error('Unauthorized');
+            if (profile?.role !== 'admin') throw new Error('Unauthorized');
         }
 
         await ctx.db.patch(args.comment_id, { is_deleted: true });
@@ -79,9 +92,9 @@ export const getByStory = query({
 
         const comments = await ctx.db
             .query('comments')
-            .filter((q) => 
+            .filter((q) =>
                 q.eq(q.field('story_id'), args.story_id)
-                 .eq('is_deleted', false)
+                // .eq('is_deleted', false)
             )
             .collect();
 
@@ -143,8 +156,9 @@ export const updateStatus = mutation({
         const userId = await auth.getUserId(ctx);
         if (!userId) throw new Error('Unauthenticated');
 
-        const user = await ctx.db.get(userId);
-        if (user?.role !== 'admin') throw new Error('Unauthorized');
+        const profile = await populateProfileByUserId(ctx, userId)
+
+        if (profile?.role !== 'admin') throw new Error('Unauthorized');
 
         await ctx.db.patch(args.comment_id, { status: args.status });
 
@@ -158,9 +172,11 @@ export const getByUser = query({
     },
     handler: async (ctx, args) => {
 
+        const profile = await populateProfileByUserId(ctx, args.user_id)
+
         const comments = await ctx.db
             .query('comments')
-            .filter((q) => q.eq(q.field('author_id'), args.user_id).eq('is_deleted', false))
+            .filter((q) => q.eq(q.field('profile_id'), profile?._id).eq('is_deleted', false))
             .collect();
 
         return comments;
