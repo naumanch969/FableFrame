@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
-import { SignInFlow } from '../types'
 import { TriangleAlert } from 'lucide-react'
 import { useAuthActions } from '@convex-dev/auth/react'
+import { SignInFlow } from '@/types'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -31,7 +31,27 @@ const SignUpCard = ({ setState }: Props) => {
     // TODO: Show message for password validation: convex by-default manage password validation
 
     setPending(true)
-    signIn("password", { name, email, password, flow: "signUp" })
+    const d = signIn("password", { name, email, password, flow: "signUp" })
+      .then((payload) => {
+        console.log('payload', payload)
+        // mutate({
+        //   formData: {
+        //     email: email,
+        //     role: 'user',
+        //     user_id: email,
+        //     username: name,
+        //     bio: "",
+        //     date_of_birth: "",
+        //     is_verified: true,
+        //     location: "",
+        //     notification_settings: "",
+        //     preferences: "",
+        //     profile_picture_url: "",
+        //   }
+        // })
+        //   .then(() => toast.success("Profile created successfully.", { position: 'top-right' }))
+
+      })
       .catch(() => setError("Something went wrong!"))
       .finally(() => setPending(false))
   }
@@ -42,7 +62,7 @@ const SignUpCard = ({ setState }: Props) => {
   }
 
   return (
-    <Card style={{ padding: '5rem' }} className='w-full h-full ' >
+    <Card style={{ padding: '3rem' }} className='w-full h-full ' >
 
       <CardHeader className='px-0 pt-0' >
         <CardTitle>Sign Up to Continue</CardTitle>

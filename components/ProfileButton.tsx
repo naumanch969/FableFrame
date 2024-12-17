@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
+import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 
 const ProfileButton: React.FC = () => {
 
-    const { data } = useCurrentUser();
+    const { data } = useCurrentProfile();
     const { signOut } = useAuthActions()
 
     const onLogout = async () => {

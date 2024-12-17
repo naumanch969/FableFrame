@@ -2,10 +2,10 @@ import { api } from "@/convex/_generated/api"
 import { useQuery } from "convex/react"
 
 export const useCurrentUser = () => {
-    const data = useQuery(api.user.current)
+    const data = useQuery(api.user.get_current)
 
     const isLoading = data == undefined
 
-    return {data, isLoading}
+    return { data, isLoading }
 
 }

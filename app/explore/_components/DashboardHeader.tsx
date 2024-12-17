@@ -1,10 +1,10 @@
-import { useCurrentUser } from '@/features/auth/api/useCurrentUser'
+import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 import Image from 'next/image'
 import React, { useContext } from 'react'
 
 const DashboardHeader = () => {
 
-    const { data } = useCurrentUser()
+    const { data } = useCurrentProfile()
 
     return (
         <div className='bg-primary flex justify-between items-center p-10 rounded-md' >

@@ -28,23 +28,6 @@ export const create = mutation({
     },
 });
 
-export const get_by_user = query({
-    args: {
-        profile_id: v.id('profiles'),
-    },
-    handler: async (ctx, args) => {
-
-        const shares = await ctx.db
-            .query('shares')
-            .filter(
-                (q) => q.eq(q.field('from_id'), args.profile_id).or(q.eq(q.field('to_id'), args.profile_id))
-            )
-            .collect();
-
-        return shares;
-    },
-});
-
 export const get_by_story = query({
     args: {
         story_id: v.id('stories'),

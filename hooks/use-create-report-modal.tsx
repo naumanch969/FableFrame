@@ -1,7 +1,9 @@
 import { atom, useAtom } from 'jotai'
 
-const modalState = atom(false)
+type ModalState = boolean;
 
-export const useCreateReportModal = () => {
-  return useAtom(modalState)
+const modalState = atom<ModalState>(false);
+
+export const useCreateReportModal = (): [ModalState, (value: ModalState) => void] => {
+  return useAtom(modalState);
 }

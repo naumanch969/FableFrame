@@ -48,6 +48,8 @@ const schema = defineSchema({
         .index("by_status", ["status"])
         .index("by_is_public", ["is_public"])
         .index("by_views_count", ["views_count"])
+        .index("by_profile_id_and_status", ["profile_id", "status"])
+        .index("by_profile_id_and_type", ["profile_id", "type"])
         .index("by_age_category", ["age_category"]),
 
     likes: defineTable({
@@ -91,7 +93,11 @@ const schema = defineSchema({
         restriction: v.union(...SHARE_RESTRICTIONS.map(item => v.literal(item.key))),
         message: v.string(),
         expires_at: v.string(),
-    }),
+    })
+        .index("by_from_id", ["from_id"])
+        .index("by_to_id", ["to_id"])
+        .index("by_story_id", ["story_id"])
+        .index("by_restriction", ["restriction"]),
 
     story_reports: defineTable({
         story_id: v.id("stories"),
@@ -102,7 +108,15 @@ const schema = defineSchema({
         created_at: v.string(),
     })
         .index("by_story_id", ["story_id"]),
-    
+
+    contacts: defineTable({
+        name: v.string(),
+        email: v.string(),
+        message: v.string(),
+        created_at: v.string(),
+    })
+        .index("by_email", ["email"]),
+
 })
 
 export default schema;

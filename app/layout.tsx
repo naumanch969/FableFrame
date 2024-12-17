@@ -7,6 +7,7 @@ import Navbar from './(landingpage)/components/Navbar'
 import { ThemeProvider } from "@/wrappers/ThemeProvider";
 import { Toaster } from "sonner";
 import Modals from "@/wrappers/Modals";
+import ProfileSetup from "@/wrappers/ProfileSetup";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             >
               <Toaster />
               <Modals />
+              <ProfileSetup />
               <div className="bg-[#cad3ff]">
                 <div className="max-w-7xl mx-auto">
                   <div className="min-h-screen">

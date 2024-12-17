@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const useGetStory = ({ id }: Props) => {
-    const data = useQuery(api.story.get_by_id, { id })
+    const data = useQuery(api.story.get_story_by_id, { id })
     const isLoading = data == undefined
 
     return { data, isLoading }

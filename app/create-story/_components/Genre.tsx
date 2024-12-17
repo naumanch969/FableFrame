@@ -34,7 +34,7 @@ const Genre = ({ userSelection }: { userSelection: any }) => {
         },
     ].map((option, i) => ({
         ...option,
-        label: STORY_GENRES[i]
+        label: STORY_GENRES[i].key
     }))
 
     const [selectedOption, setSelectedOption] = useState<string>('')

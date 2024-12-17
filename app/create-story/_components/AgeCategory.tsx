@@ -22,7 +22,7 @@ const AgeGroup = ({ userSelection }: { userSelection: any }) => {
         },
     ].map((option, i) => ({
         ...option,
-        label: STORY_AGE_CATEGORIES[i]
+        label: STORY_AGE_CATEGORIES[i].key
     }))
 
     const [selectedOption, setSelectedOption] = useState<string>('')

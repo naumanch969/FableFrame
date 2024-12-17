@@ -1,6 +1,7 @@
 "use client"
 
 import CreateReportModal from '@/components/modals/create-report-modal'
+import CreateShareModal from '@/components/modals/create-share-modal'
 import React, { useEffect, useState } from 'react'
 
 const Modals = () => {
@@ -14,6 +15,7 @@ const Modals = () => {
     return (
         <>
             <CreateReportModal />
+            <CreateShareModal />
         </>
     )
 }

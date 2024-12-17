@@ -1,5 +1,5 @@
-import AuthScreen from '@/features/auth/comonents/auth-screen'
 import React from 'react'
+import AuthScreen from './components/auth-screen'
 
 const AuthPage = () => {
 

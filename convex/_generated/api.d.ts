@@ -15,10 +15,12 @@ import type {
 } from "convex/server";
 import type * as auth from "../auth.js";
 import type * as comment from "../comment.js";
+import type * as contact from "../contact.js";
 import type * as hashtag from "../hashtag.js";
 import type * as http from "../http.js";
 import type * as like from "../like.js";
 import type * as notification from "../notification.js";
+import type * as profile from "../profile.js";
 import type * as report from "../report.js";
 import type * as share from "../share.js";
 import type * as story from "../story.js";
@@ -35,10 +37,12 @@ import type * as user from "../user.js";
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   comment: typeof comment;
+  contact: typeof contact;
   hashtag: typeof hashtag;
   http: typeof http;
   like: typeof like;
   notification: typeof notification;
+  profile: typeof profile;
   report: typeof report;
   share: typeof share;
   story: typeof story;

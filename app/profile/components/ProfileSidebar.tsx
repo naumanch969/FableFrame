@@ -1,12 +1,23 @@
 import Hint from "@/components/Hint";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
+import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { useGetDraftStories } from "@/features/story/api/use-get-draft-stories";
+import { useGetLikedStories } from "@/features/story/api/use-get-liked-stories";
+import { useGetMyAIStories } from "@/features/story/api/use-get-my-ai-stories";
+import { useGetMyManualStories } from "@/features/story/api/use-get-my-manual-stories";
+import { useGetSharedStories } from "@/features/story/api/use-get-shared-stories";
 import { Bell, MapPin, UserRound } from "lucide-react";
 import React from "react";
 
 const ProfileSidebar: React.FC = () => {
-    const { data } = useCurrentUser();
+
+    const { data } = useCurrentProfile();
+    const { data: likedStories } = useGetLikedStories()
+    const { data: sharedStories } = useGetSharedStories()
+    const { data: draftStories } = useGetDraftStories()
+    const { data: myAIStories } = useGetMyAIStories()
+    const { data: myManualStories } = useGetMyManualStories()
 
     return (
         <Card className="w-full max-w-xs p-4 shadow-md">
@@ -62,16 +73,19 @@ const ProfileSidebar: React.FC = () => {
                     <h3 className="text-sm font-medium text-gray-800">Story Stats</h3>
                     <div className="flex flex-col justify-between gap-1 text-sm text-gray-600">
                         <div>
-                            <span className="font-medium">Drafts:</span> {2}
+                            <span className="font-medium">AI Stories:</span> {myAIStories?.length}
                         </div>
                         <div>
-                            <span className="font-medium">Manual Stories:</span> {10}
+                            <span className="font-medium">Manual Stories:</span> {myManualStories?.length}
                         </div>
                         <div>
-                            <span className="font-medium">AI Stories:</span> {23}
+                            <span className="font-medium">Drafts:</span> {draftStories?.length}
                         </div>
                         <div>
-                            <span className="font-medium">Liked Stories:</span> {30}
+                            <span className="font-medium">Liked Stories:</span> {likedStories?.length}
+                        </div>
+                        <div>
+                            <span className="font-medium">Shared Stories:</span> {sharedStories?.length}
                         </div>
                     </div>
                 </div>

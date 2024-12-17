@@ -8,11 +8,11 @@ import ImageStyle from './_components/ImageStyle'
 import CustomLoader from './_components/CustomLoader'
 import { alertAndReturnFalse, blobToBase64, stringToBase64 } from '@/lib/utils'
 import { useCreateStory } from '@/features/story/api/use-create-story'
-import { STORY_STATUSES, STORY_TYPES } from '@/constants'
 import { chatSession } from '@/config/gemini'
 import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { storage } from '@/config/firebase'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 const CreateStory = () => {
 
@@ -65,15 +65,15 @@ const CreateStory = () => {
       const cover_image = await generateImage('Create a story cover image');
       coverImageUrl = await saveStoryCoverToFirebase(cover_image!);
 
-      const storyId = await mutate({
+      await mutate({
         formData: {
           prompt: formData.prompt,
           genre: formData.genre,
           image_style: formData.imageStyle,
           age_category: formData.ageCategory,
-          type: STORY_TYPES[0],
+          type: 'ai_generated',
           is_public: true,
-          status: STORY_STATUSES[1],
+          status: 'draft',
           ai_output,
           cover_image: coverImageUrl,
           chapters: ai_output?.chapters,
@@ -81,14 +81,11 @@ const CreateStory = () => {
         }
       })
 
-      alert("Story generated successfully")
-
-      console.log('data', data, storyId)
-
+      toast.success("Story generated successfully", { position: 'top-right' })
 
     } catch (error) {
       console.log(error)
-      alert("Failed to generate story")
+      toast.error("Failed to generate story", { position: 'top-right' })
     }
     setLoading(false)
   }
@@ -178,7 +175,7 @@ const CreateStory = () => {
             size="xl"
             disabled={loading}
           >
-            {loading ? 'Loading...' : 'Generate Story'}
+            {'Generate Story'}
           </Button>
           <span className="text-gray-500 text-xs mt-1 " >1 Credit will use</span>
         </div>

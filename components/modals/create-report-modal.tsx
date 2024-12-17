@@ -6,17 +6,17 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useCreateReport } from '@/features/report/api/use-create-report'
 import { useCreateReportModal } from '@/hooks/use-create-report-modal'
-import { useCurrentUser } from '@/features/auth/api/useCurrentUser'
+import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 import { useSelectedStory } from '@/hooks/use-selected-story'
 import { REPORT_REASONS } from '@/constants'
-import { Select, SelectTrigger, SelectValue, SelectItem } from '@/components/ui/select'
+import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select'
 
 const CreateReportModal = () => {
-    
+
     const router = useRouter()
-    const { data: profile } = useCurrentUser()
+    const { data: profile } = useCurrentProfile()
     const { mutate, isPending } = useCreateReport()
-    
+
     const [story, setStory] = useSelectedStory()
     const [open, setOpen] = useCreateReportModal()
 
@@ -46,10 +46,11 @@ const CreateReportModal = () => {
             created_at: new Date().toISOString()
         }
 
+        console.log('input', input)
+
         mutate({ formData: input }, {
             onSuccess(id) {
                 toast.success('Report submitted successfully')
-                router.push(`/workspace/${id}`)
                 onClose()
             },
             onError() {
@@ -71,38 +72,35 @@ const CreateReportModal = () => {
                 </DialogHeader>
                 <form onSubmit={onSubmit} className='space-y-4'>
                     {/* Reason Select */}
-                    <div>
+                    <div className='flex flex-col gap-2' >
                         <label htmlFor="reason" className="block text-sm font-medium">Reason</label>
-                        <Select
-                            value={reason}
-                            onValueChange={setReason}
+                        <Input
                             disabled={isPending}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a reason" />
-                            </SelectTrigger>
-                            <SelectItem value="">Select a reason</SelectItem>
-                            {REPORT_REASONS.map((reasonItem) => (
-                                <SelectItem key={reasonItem.key} value={reasonItem.key}>
-                                    {reasonItem.label}
-                                </SelectItem>
-                            ))}
-                        </Select>
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            placeholder='Reason'
+                            type='text'
+                            required={true}
+                        />
                     </div>
-
-                    {/* Type Select */}
-                    <div>
-                        <label htmlFor="type" className="block text-sm font-medium">Type</label>
+                    {/* Reason Select */}
+                    <div className='flex flex-col gap-2' >
+                        <label htmlFor="reason" className="block text-sm font-medium">Type</label>
                         <Select
                             value={type}
                             onValueChange={setType}
-                            disabled={isPending || !reason}
+                            disabled={isPending}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Select a type" />
                             </SelectTrigger>
-                            <SelectItem value="">Select a type</SelectItem>
-                            {/* You can add dynamic type filtering logic here */}
+                            <SelectContent>
+                                {REPORT_REASONS.map((reasonItem) => (
+                                    <SelectItem key={reasonItem.key} value={reasonItem.key}>
+                                        {reasonItem.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
                         </Select>
                     </div>
 

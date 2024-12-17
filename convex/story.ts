@@ -2,7 +2,7 @@ import { v } from 'convex/values'
 import { mutation, query, QueryCtx } from './_generated/server'
 import { auth } from './auth'
 import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
-import { Id } from './_generated/dataModel'
+import { Doc, Id } from './_generated/dataModel'
 
 const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
     return await ctx.db.get(profileId)
@@ -19,6 +19,405 @@ const populateStoryReports = async (ctx: QueryCtx, storyId: Id<"stories">) => {
     const likes = await ctx.db.query("story_reports").withIndex("by_story_id", (q) => q.eq("story_id", storyId)).collect()
     return likes
 }
+const populateStoryShares = async (ctx: QueryCtx, storyId: Id<"stories">) => {
+    const shares = await ctx.db.query("shares").withIndex("by_story_id", (q) => q.eq("story_id", storyId)).collect()
+    return shares
+}
+const populateStory = async (ctx: QueryCtx, storyId: Id<"stories">) => {
+    return await ctx.db.get(storyId)
+}
+
+const populateAllStoryFields = async (ctx: QueryCtx, story: Doc<"stories">) => {
+    const author = await populateProfile(ctx, story.profile_id)
+    const likes = await populateStoryLikes(ctx, story._id)
+    const reports = await populateStoryReports(ctx, story._id)
+    const shares = await populateStoryShares(ctx, story._id)
+
+    return {
+        ...story,
+        author,
+        likes,
+        reports,
+        shares
+    }
+}
+
+export const get_public = query({
+    args: {},
+    handler: async (ctx) => {
+
+        const stories = await ctx.db
+            .query("stories")
+            .withIndex("by_is_public", q => q.eq("is_public", true))
+            .collect();
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+
+    },
+});
+
+export const get_user_stories = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx)
+        if (!userId) return []
+
+        const profile = await populateProfileByUserId(ctx, userId)
+
+        const stories = await ctx.db
+            .query('stories')
+            .withIndex('by_profile_id', q => q.eq("profile_id", profile?._id))
+            .collect()
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+})
+
+export const get_genre_stories = query({
+    args: { genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))) },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx)
+        if (!userId) return []
+
+        const stories = await ctx.db
+            .query('stories')
+            .withIndex('by_genre', q => q.eq("genre", args.genre))
+            .collect()
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+})
+
+export const get_age_category_stories = query({
+    args: { age_category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))) },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx)
+        if (!userId) return []
+
+        const stories = await ctx.db
+            .query('stories')
+            .withIndex('by_age_category', q => q.eq("age_category", args.age_category))
+            .collect()
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+})
+
+export const get_popular_stories = query({
+    args: {},
+    handler: async (ctx, args) => {
+
+        const userId = await auth.getUserId(ctx)
+        if (!userId) return []
+
+        const stories = await ctx.db
+            .query('stories')
+            .order('asc')
+            .take(10)
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+})
+
+export const get_user_recommended_stories = query({
+    args: {},
+    handler: async (ctx, args) => {
+
+        const userId = await auth.getUserId(ctx)
+        if (!userId) throw new Error("Unauthenticated")
+
+        // Fetch the user's profile
+        const profile = await ctx.db
+            .query("profiles")
+            .withIndex("by_user_id", q => q.eq("user_id", userId))
+            .unique();
+
+        if (!profile) {
+            throw new Error("Profile not found for the given user_id");
+        }
+
+        // Fetch all liked story IDs for the user's profile
+        const likedStoryIds = await ctx.db
+            .query("likes")
+            .withIndex("by_profile_id", q => q.eq("profile_id", profile._id))
+            .collect();
+
+        const storyIds = likedStoryIds.map(like => like.story_id);
+
+        // Fetch stories by the liked story IDs
+        const likedStories = await ctx.db
+            .query("stories")
+            .filter(q => q.or(...storyIds.map(id => q.eq(q.field("_id"), id))))
+            .collect();
+
+        const response: any = []
+
+        for (const story of likedStories) {
+            const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+})
+
+export const get_story_by_id = query({
+    args: { id: v.id("stories") },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx)
+        if (!userId) throw new Error("Unauthenticated")
+
+        const story = await ctx.db.get(args.id)
+
+        return story
+    }
+})
+
+export const get_liked_stories = query({
+    args: {},
+    handler: async (ctx) => {
+
+        const userId = await auth.getUserId(ctx)
+        if (!userId) throw new Error("Unauthenticated")
+
+        // Fetch the user's profile
+        const profile = await ctx.db
+            .query("profiles")
+            .withIndex("by_user_id", q => q.eq("user_id", userId))
+            .unique();
+
+        if (!profile) {
+            throw new Error("Profile not found for the given user_id");
+        }
+
+        // Fetch all liked story IDs for the user's profile
+        const likedStoryIds = await ctx.db
+            .query("likes")
+            .withIndex("by_profile_id", q => q.eq("profile_id", profile._id))
+            .collect();
+
+        const storyIds = likedStoryIds.map(like => like.story_id);
+
+        // Fetch stories by the liked story IDs
+        const likedStories = await ctx.db
+            .query("stories")
+            .filter(q => q.or(...storyIds.map(id => q.eq(q.field("_id"), id))))
+            .collect();
+
+        const response: any = []
+
+        for (const story of likedStories) {
+            const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    },
+});
+
+export const get_shared_stories = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) throw new Error("Unauthenticated");
+
+        const profile = await populateProfileByUserId(ctx, userId);
+
+        const shares = await ctx.db
+            .query('shares')
+            .withIndex('by_to_id', q => q.eq('to_id', profile?._id))
+            .collect()
+
+        let stories = [];
+        for (const share of shares) {
+            const story = await populateStory(ctx, share?.story_id)
+            if (story)
+                stories.push(story)
+        }
+
+        const response: any = []
+
+        for (const story of stories) {
+            const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+});
+
+export const get_my_manual_stories = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) throw new Error("Unauthenticated");
+
+        const profile = await populateProfileByUserId(ctx, userId);
+
+        const manualStories = await ctx.db
+            .query("stories")
+            .withIndex("by_profile_id_and_type", q => q.eq("profile_id", profile?._id).eq('type', 'manual'))
+            .collect();
+
+        const response: any = []
+
+        for (const story of manualStories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+});
+
+export const get_draft_stories = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) throw new Error("Unauthenticated");
+
+        const profile = await populateProfileByUserId(ctx, userId);
+
+        const draftStories = await ctx.db
+            .query("stories")
+            .withIndex("by_profile_id_and_status", q => q.eq("profile_id", profile?._id).eq('status', 'draft'))
+            .collect();
+
+        const response: any = []
+
+        for (const story of draftStories) {
+            const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+});
+
+export const get_my_ai_stories = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) throw new Error("Unauthenticated");
+
+        const profile = await populateProfileByUserId(ctx, userId);
+
+        const aiStories = await ctx.db
+            .query("stories")
+            .withIndex("by_profile_id_and_type", q => q.eq("profile_id", profile?._id).eq('type', 'ai_generated'))
+            .collect();
+
+        const response: any = []
+
+        for (const story of aiStories) {
+            const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+});
 
 export const create_ai = mutation({
     args: {
@@ -77,7 +476,7 @@ export const create_ai = mutation({
         });
 
 
-        await ctx.db.patch(profile?._id, { credit: profile.credit - 3 });
+        await ctx.db.patch(profile?._id, { credit: profile.credit - 1 });
 
         return storyId;
     }
@@ -153,91 +552,6 @@ export const create_manual = mutation({
         return storyId;
     },
 });
-
-export const get_public = query({
-    args: {},
-    handler: async (ctx) => {
-
-        const stories = await ctx.db
-            .query("stories")
-            .withIndex("by_is_public", q => q.eq("is_public", true))
-            .collect();
-
-        const response: any = []
-
-        for (const story of stories) {
-            const author = await populateProfile(ctx, story.profile_id)
-            const likes = await populateStoryLikes(ctx, story._id)
-            const reports = await populateStoryReports(ctx, story._id)
-            if (author) response.push({ ...story, author, likes: likes?.map(like => like?.profile_id), reports: reports?.map(report => report?.profile_id) })
-        }
-
-        return response
-
-    },
-});
-
-
-export const get_user = query({
-    args: {},
-    handler: async (ctx) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return []
-
-        const profile = await populateProfileByUserId(ctx, userId)
-
-        const stories = await ctx.db
-            .query('stories')
-            .withIndex('by_profile_id', q => q.eq("profile_id", profile?._id))
-            .collect()
-
-        return stories
-    }
-})
-
-export const get_by_id = query({
-    args: { id: v.id("stories") },
-    handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
-
-        const story = await ctx.db.get(args.id)
-
-        return story
-    }
-})
-
-export const get_liked_stories = query({
-    args: { user_id: v.id("users") },
-    handler: async (ctx, { user_id }) => {
-        // Fetch the user's profile
-        const profile = await ctx.db
-            .query("profiles")
-            .withIndex("by_user_id", q => q.eq("user_id", user_id))
-            .unique();
-
-        if (!profile) {
-            throw new Error("Profile not found for the given user_id");
-        }
-
-        // Fetch all liked story IDs for the user's profile
-        const likedStoryIds = await ctx.db
-            .query("likes")
-            .withIndex("by_profile_id", q => q.eq("profile_id", profile._id))
-            .collect();
-
-        const storyIds = likedStoryIds.map(like => like.story_id);
-
-        // Fetch stories by the liked story IDs
-        const likedStories = await ctx.db
-            .query("stories")
-            .filter(q => q.or(...storyIds.map(id => q.eq(q.field("_id"), id))))
-            .collect();
-
-        return likedStories;
-    },
-});
-
 
 export const update = mutation({
     args: {

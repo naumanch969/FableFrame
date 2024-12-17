@@ -3,15 +3,13 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
-import { usePathname } from "next/navigation";
 import ProfileButton from "@/components/ProfileButton";
+import { useCurrentUser } from "@/features/users/api/useCurrentUser";
 
 export default function Navbar() {
 
-    const { data } = useCurrentUser()
-    const isSignedIn = Boolean(data)
-    const pathname = usePathname()
+    const { data: user } = useCurrentUser()
+    const isSignedIn = Boolean(user)
 
     const menus = [
         { name: 'Home', path: '/' },

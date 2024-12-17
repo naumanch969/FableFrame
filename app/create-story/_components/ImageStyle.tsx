@@ -30,7 +30,7 @@ const ImageStyle = ({ userSelection }: { userSelection: any }) => {
         },
     ].map((option, i) => ({
         ...option,
-        label: STORY_IMAGE_STYLES[i]
+        label: STORY_IMAGE_STYLES[i].key
     }))
 
     const [selectedOption, setSelectedOption] = useState<string>('')

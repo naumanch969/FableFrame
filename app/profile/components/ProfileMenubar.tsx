@@ -21,15 +21,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, isActive, onClick }) => {
     );
 };
 
-const ProfileMenubar: React.FC = () => {
-    const [activeItem, setActiveItem] = useState("your");
+const ProfileMenubar = ({ activeItem, setActiveItem }: { activeItem: any, setActiveItem: any }) => {
+
 
     const menuItems = [
-        { label: "Your Stories", key: "your" },
         { label: "AI Stories", key: "ai" },
+        { label: "Manual Stories", key: "your" },
         { label: "Draft Stories", key: "draft" },
-        { label: "Shared Stories", key: "shared" },
         { label: "Liked Stories", key: "liked" },
+        { label: "Shared Stories", key: "shared" },
     ];
 
     const handleMenuClick = (key: string) => {

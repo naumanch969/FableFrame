@@ -5,10 +5,10 @@ import { Separator } from '@/components/ui/separator'
 import React, { useState } from 'react'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
-import { SignInFlow } from '../types'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { TriangleAlert } from 'lucide-react'
 import { toast } from 'sonner'
+import { SignInFlow } from '@/types'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -39,7 +39,7 @@ const SignInCard = ({ setState }: Props) => {
   }
 
   return (
-    <Card style={{ padding: '5rem' }} className='w-full h-full ' >
+    <Card style={{ padding: '3rem' }} className='w-full h-full ' >
 
       <CardHeader className='px-0 pt-0' >
         <CardTitle>Login to Continue</CardTitle>

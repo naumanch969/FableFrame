@@ -12,6 +12,7 @@ import Thumbnails from './Thumbnails';
 
 
 const StoryView = () => {
+
     const id = useStoryId() as Id<"stories">;
     const { data: story, isLoading } = useGetStory({ id });
 
