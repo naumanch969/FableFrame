@@ -45,7 +45,7 @@ const ImageStyle = ({ userSelection }: { userSelection: any }) => {
     return (
         <div className='' >
 
-            <label htmlFor="" className="font-bold text-xl text-primary">5. Image Style</label>
+            <label htmlFor="" className="font-bold text-xl text-foreground">5. Image Style</label>
             <div className="grid grid-cols-3 gap-5 mt-3">
                 {
                     options.map((option, index) => (

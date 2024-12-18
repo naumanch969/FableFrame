@@ -38,7 +38,7 @@ const WriteStory: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
+    <div className="p-6 max-w-4xl mx-auto bg-background rounded-lg shadow-md">
       <TitleInput />
       <ChapterToggle isChaptersEnabled={isChaptersEnabled} onToggle={handleChapterToggle} />
       <div className="space-y-6">

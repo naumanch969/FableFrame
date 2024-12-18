@@ -1,4 +1,4 @@
-import { COMMENT_STATUSES, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
+import { COMMENT_STATUSES, ENTITIES_NAMES, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -80,7 +80,8 @@ const schema = defineSchema({
         content: v.string(),
         is_read: v.boolean(),
         related_entity_id: v.optional(v.string()),
-        entity_type: v.optional(v.string()),
+        link: v.optional(v.string()),
+        entity_name: v.union(...ENTITIES_NAMES.map(item => v.literal(item.key))),
         priority: v.union(...NOTIFICATION_PRIORITIES.map(item => v.literal(item.key))),
         is_dismissed: v.boolean(),
     }),

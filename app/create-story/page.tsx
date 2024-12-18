@@ -13,22 +13,24 @@ import { getDownloadURL, ref, uploadString } from 'firebase/storage'
 import { storage } from '@/config/firebase'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { Id } from '@/convex/_generated/dataModel'
+import { CREATE_STORY_PROMPT } from '@/constants'
 
 const CreateStory = () => {
 
   //////////////////////////////////// VARIABLES //////////////////////////////////////////
   const { mutate, data } = useCreateStory()
   const router = useRouter()
-  const CREATE_STORY_PROMPT = process.env.NEXT_PUBLIC_CREATE_STORY_PROMPT || "";
-
-  //////////////////////////////////// STATES //////////////////////////////////////////
-  const [formData, setFormData] = useState({
+  const initialState = {
     prompt: "",
     title: "",
     genre: "",
     ageCategory: "",
     imageStyle: "",
-  });
+  }
+
+  //////////////////////////////////// STATES //////////////////////////////////////////
+  const [formData, setFormData] = useState(initialState);
   const [loading, setLoading] = useState(false)
 
   //////////////////////////////////// FUNCTIONS //////////////////////////////////////////
@@ -78,6 +80,11 @@ const CreateStory = () => {
           cover_image: coverImageUrl,
           chapters: ai_output?.chapters,
           title: ai_output?.title || formData.title,
+        }
+      }, {
+        onSuccess: (id: any) => {
+          router.push('/explore/' + id)
+          resetState()
         }
       })
 
@@ -149,7 +156,10 @@ const CreateStory = () => {
     }
   }
 
-
+  const resetState = () => {
+    setFormData(initialState)
+    setLoading(false)
+  }
 
   //////////////////////////////////// RENDER //////////////////////////////////////////
   return (
@@ -157,10 +167,10 @@ const CreateStory = () => {
       <CustomLoader open={loading} onClose={() => setLoading(false)} />
 
       <div className="p-10">
-        <h2 className="font-extrabold text-3xl text-primary text-center mb-2">
+        <h2 className="font-extrabold text-3xl text-foreground text-center mb-2">
           Create Your Story
         </h2>
-        <p className="text-lg text-primary text-center">
+        <p className="text-lg text-foreground text-center">
           Unlock your creativity with AI: Craft stories like never before! Let our AI bring your imagination to life, one story at a time.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 ">

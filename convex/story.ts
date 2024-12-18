@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 import { mutation, query, QueryCtx } from './_generated/server'
 import { auth } from './auth'
-import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
+import { NOTIFICATION_TYPES, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
 import { Doc, Id } from './_generated/dataModel'
 
 const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
@@ -240,7 +240,16 @@ export const get_story_by_id = query({
 
         const story = await ctx.db.get(args.id)
 
-        return story
+        let populated_story = await populateAllStoryFields(ctx, story!)
+
+        return {
+            ...story,
+            author: populated_story?.author,
+            likes: populated_story?.likes?.map(like => like?.profile_id),
+            reports: populated_story?.reports?.map(report => report?.profile_id),
+            shares: populated_story?.shares?.map(share => share?._id),
+        }
+
     }
 })
 
@@ -475,6 +484,17 @@ export const create_ai = mutation({
             chapters,
         });
 
+        // Create notification
+        await ctx.db.insert('notifications', {
+            profile_id: profile?._id!,
+            type: 'post',
+            content: 'Your story has been successfully created',
+            is_read: false,
+            related_entity_id: storyId,
+            entity_name: 'stories',
+            priority: 'low',
+            is_dismissed: false
+        });
 
         await ctx.db.patch(profile?._id, { credit: profile.credit - 1 });
 

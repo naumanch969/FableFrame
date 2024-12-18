@@ -49,7 +49,7 @@ const Genre = ({ userSelection }: { userSelection: any }) => {
     return (
         <div className='' >
 
-            <label htmlFor="" className="font-bold text-xl text-primary">3. Genre</label>
+            <label htmlFor="" className="font-bold text-xl text-foreground">3. Genre</label>
             <div className="grid grid-cols-3 gap-5 mt-3">
                 {
                     options.map((option, index) => (

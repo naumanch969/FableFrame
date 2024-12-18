@@ -37,7 +37,7 @@ const AgeGroup = ({ userSelection }: { userSelection: any }) => {
     return (
         <div className='' >
 
-            <label htmlFor="" className="font-bold text-xl text-primary">4. Age Group</label>
+            <label htmlFor="" className="font-bold text-xl text-foreground">4. Age Group</label>
             <div className="grid grid-cols-3 gap-5 mt-3">
                 {
                     options.map((option, index) => (

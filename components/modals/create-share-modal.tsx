@@ -16,7 +16,6 @@ import Required from '../Required'
 
 const CreateShareModal = () => {
 
-    const router = useRouter()
     const { data: profile } = useCurrentProfile()
     const { data: profiles } = useGetProfiles()
     const { mutate, isPending } = useCreateShare()
@@ -74,7 +73,7 @@ const CreateShareModal = () => {
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Report a Story</DialogTitle>
+                    <DialogTitle>Share Story</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={onSubmit} className='space-y-4'>
 

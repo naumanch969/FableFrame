@@ -51,7 +51,7 @@ const StoryItem = ({ story }: Props) => {
 
     return (
         <div className='block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
-            <Card className="relative w-full flex flex-col justify-between h-full bg-white p-2 ">
+            <Card className="relative w-full flex flex-col justify-between h-full bg-card p-2 ">
                 <div className="absolute top-2 right-2 py-1.5 px-1.5">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -81,7 +81,7 @@ const StoryItem = ({ story }: Props) => {
 
                 <Link href={'/explore/' + story?._id}>
                     <h2 className="w-full flex flex-col justify-between items-start gap-1 z-10 p-1 ">
-                        <p className="text-primary text-md text-start ">{story?.title || 'Untitled Story'}</p>
+                        <p className="text-foreground text-md text-start ">{story?.title || 'Untitled Story'}</p>
                         <p className="flex text-xs text-muted-foreground space-x-1 ">
                             <span className="">{story?.chapters?.length} chapters</span>
                             <span className="font-bold">.</span>
@@ -98,7 +98,7 @@ const StoryItem = ({ story }: Props) => {
                         </Avatar>
                         <p className="text-xs font-medium capitalize">{story?.author?.username || 'Unknown Author'}</p>
                     </Link>
-                    <div className="flex justify-end items-center gap-1 bg-white">
+                    <div className="flex justify-end items-center gap-1 bg-background">
                         <Hint label='Like' >
                             <Button onClick={onLike} variant={isLiked ? "default" : "ghost"} size="icon" className="flex items-center justify-center">
                                 <Heart className="w-4 h-4" />
@@ -127,7 +127,7 @@ export default StoryItem;
 StoryItem.Skeleton = () => {
     return (
         <div className="block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <Card className="relative w-full flex flex-col justify-between h-full bg-white p-2">
+            <Card className="relative w-full flex flex-col justify-between h-full bg-background p-2">
                 {/* Author info placeholder */}
                 <div className="absolute top-2 left-2 flex items-center gap-2 bg-gray-300 text-transparent py-1 px-2 rounded-lg z-10 animate-pulse">
                     <div className="w-10 h-10 rounded-full bg-gray-400" />
@@ -150,7 +150,7 @@ StoryItem.Skeleton = () => {
                 </h2>
 
                 {/* Buttons placeholder */}
-                <div className="flex justify-end items-center gap-1 bg-white animate-pulse">
+                <div className="flex justify-end items-center gap-1 bg-background animate-pulse">
                     <Button variant="ghost" size="icon" className="flex items-center justify-center">
                         <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
                     </Button>

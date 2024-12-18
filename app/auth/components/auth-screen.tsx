@@ -22,7 +22,7 @@ const AuthScreen = () => {
                         className=''
                     />
                 </div>
-                <h2 className="font-bold text-3xl text-primary">StoryBot</h2>
+                <h2 className="font-bold text-3xl text-foreground">StoryBot</h2>
             </div>
             <div className="md:h-auto md:w-[420px] ">
                 {

@@ -39,7 +39,7 @@ const ProfileMenubar = ({ activeItem, setActiveItem }: { activeItem: any, setAct
 
     return (
         <div className="w-full flex justify-center">
-            <div className="w-fit flex space-x-2 bg-white p-2 rounded-md shadow-md">
+            <div className="w-fit flex space-x-2 bg-background p-2 rounded-md shadow-md">
                 {menuItems.map((item) => (
                     <MenuItem
                         key={item.key}

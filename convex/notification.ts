@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES } from '@/constants';
 
-export const create = mutation({
+export const create_notification = mutation({
     args: {
         profile_id: v.id('profiles'),
         type: v.union(...NOTIFICATION_TYPES.map(item => v.literal(item.key))),
@@ -21,7 +21,7 @@ export const create = mutation({
             content: args.content,
             is_read: args.is_read,
             related_entity_id: args.related_entity_id,
-            entity_type: args.entity_type,
+            entity_name: args.entity_type!,
             priority: args.priority,
             is_dismissed: args.is_dismissed,
         });
@@ -30,7 +30,7 @@ export const create = mutation({
     },
 });
 
-export const get = query({
+export const get_notifications = query({
     args: {
         profile_id: v.id('profiles'),
     },
@@ -45,7 +45,7 @@ export const get = query({
 });
 
 
-export const update = mutation({
+export const update_notification = mutation({
     args: {
         notification_id: v.id('notifications'),
         is_read: v.boolean(),
@@ -67,7 +67,7 @@ export const update = mutation({
     },
 });
 
-export const remove = mutation({
+export const remove_notification = mutation({
     args: {
         notification_id: v.id('notifications'),
     },

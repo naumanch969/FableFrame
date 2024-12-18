@@ -1,3 +1,12 @@
+export const CREATE_STORY_PROMPT = `
+    NEXT_PUBLIC_CREATE_STORY_PROMPT=Create a captivating story for {age_category} kids in the {genre} genre, with all images in the {image_style} style. The story title is "{title}". Ensure the story has at least 10 chapters. Each chapter must include:
+    - A unique and descriptive title.
+    - A minimum of 200 words of engaging narrative text tailored to the target audience.
+    - A detailed image text prompt describing the visual elements of the chapter.
+
+    Additionally, provide a detailed image prompt for the story cover, incorporating the story title "{title}" and reflecting the overall theme and style. Return the response in a structured JSON format.
+`
+
 export const STORY_GENRES = [
     { key: "general", label: "General" },
     { key: "fantasy", label: "Fantasy" },
@@ -57,13 +66,15 @@ export const NOTIFICATION_TYPES = [
     { key: "like", label: "Like" },
     { key: "share", label: "Share" },
     { key: "follow", label: "Follow" },
-    { key: "reply", label: "Reply" }
+    { key: "reply", label: "Reply" },
+    { key: "post", label: "Post" },
 ];
 
 export const NOTIFICATION_PRIORITIES = [
     { key: "critical", label: "Critical" },
     { key: "high", label: "High" },
-    { key: "normal", label: "Normal" }
+    { key: "normal", label: "Normal" },
+    { key: "low", label: "Low" },
 ];
 
 export const SHARE_RESTRICTIONS = [
@@ -82,7 +93,6 @@ export const REPORT_REASONS = [
     { key: "hate_speech", label: "Hate Speech" },
     { key: "violence_or_threats", label: "Violence or Threats" },
     { key: "malicious_content", label: "Malicious Content" },
-    { key: "sexually_explicit_content", label: "Sexually Explicit Content" },
     { key: "illegal_activity", label: "Illegal Activity" },
     { key: "terrorism_or_extremism", label: "Terrorism or Extremism" },
     { key: "spam_or_advertising", label: "Spam or Advertising" },
@@ -95,5 +105,17 @@ export const REPORT_REASONS = [
     { key: "sharing_personal_information", label: "Sharing Personal Information" },
     { key: "non_age_appropriate_content", label: "Non-age-appropriate Content" },
     { key: "misuse_of_ai_or_tools", label: "Misuse of AI or Tools" }
-  ];
-  
+];
+
+export const ENTITIES_NAMES = [
+    { key: "profiles", label: "Profile" },
+    { key: "stories", label: "Story" },
+    { key: "likes", label: "Like" },
+    { key: "comments", label: "Comment" },
+    { key: "hashtags", label: "HashTag" },
+    { key: "notifications", label: "Notification" },
+    { key: "shares", label: "Share" },
+    { key: "story_reports", label: "Report" },
+    { key: "contacts", label: "Contact" },
+
+];

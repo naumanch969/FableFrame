@@ -71,14 +71,14 @@ const Contact = () => {
     <div className="min-h-screen flex flex-col items-center justify-start">
       {/* Header Section */}
       <div className="w-full py-12">
-        <h1 className="text-4xl font-bold text-center text-primary">Get in Touch with Us</h1>
+        <h1 className="text-4xl font-bold text-center text-foreground">Get in Touch with Us</h1>
         <p className="mt-2 text-xl text-center text-muted-foreground">
           We'd love to hear from you. Reach out with any questions or inquiries!
         </p>
       </div>
 
       {/* Contact Form Section */}
-      <div className="bg-white w-full max-w-5xl p-6 rounded-lg shadow-xl flex flex-col md:flex-row my-12 mb-24">
+      <div className="bg-background w-full max-w-5xl p-6 rounded-lg shadow-xl flex flex-col md:flex-row my-12 mb-24">
         {/* Left side: Image */}
         <div className="md:w-1/2 mb-6 md:mb-0">
           <img
@@ -91,7 +91,7 @@ const Contact = () => {
         {/* Right side: Contact Form */}
         <div className="md:w-1/2 pl-0 md:pl-6 flex flex-col gap-4">
 
-          <h2 className="text-3xl font-semibold text-primary">Contact Us</h2>
+          <h2 className="text-3xl font-semibold text-foreground">Contact Us</h2>
           <p className="text-sm text-muted-foreground">
             If you have any questions or need further information, please fill out the form below and we will get back to you as soon as possible.
           </p>

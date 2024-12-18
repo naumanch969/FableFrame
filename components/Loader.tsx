@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import React from 'react'
+import { Card } from './ui/card'
 
 const Loader = ({ src, title }: { src?: string, title?: string }) => {
     return (
-        <div className="w-fit flex flex-col justify-center items-center bg-white py-10 px-16 rounded-3xl ">
+        <Card className="w-fit flex flex-col justify-center items-center bg-card py-10 px-16 rounded-3xl ">
             <Image
                 src={src || '/loader.gif'}
                 alt='Loading...'
@@ -15,11 +16,11 @@ const Loader = ({ src, title }: { src?: string, title?: string }) => {
                 title
                 &&
                 <div className="text-center text-lg font-bold text-gray-600 mt-4">
-                    {title}
+                {title}
                 </div>
             }
 
-        </div>
+        </Card>
     )
 }
 

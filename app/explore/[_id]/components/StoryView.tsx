@@ -1,115 +1,194 @@
-"use client";
-
-import React, { ReactNode, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useGetStory } from '@/features/story/api/use-get-story';
-import { useStoryId } from '@/hooks/use-story-id';
-import { Id } from '@/convex/_generated/dataModel';
-import Loader from '@/components/Loader';
-import { ContentPage, CoverPage, EndPage } from './Page';
-import Thumbnails from './Thumbnails';
-
+import React, { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight, Heart, Share2 } from "lucide-react";
+import { useGetStory } from "@/features/story/api/use-get-story";
+import { useStoryId } from "@/hooks/use-story-id";
+import { Id } from "@/convex/_generated/dataModel";
+import Loader from "@/components/Loader";
+import { ContentPage, CoverPage, EndPage } from "./Page";
+import Thumbnails from "./Thumbnails";
+import HTMLFlipBook from "react-pageflip";
+import Hint from "@/components/Hint";
+import { useSelectedStory } from "@/hooks/use-selected-story";
+import { useCreateShareModal } from "@/hooks/use-create-share-modal";
+import { useLikeDislikeStory } from "@/features/like/api/use-like-dislike-story";
+import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import { Card } from "@/components/ui/card";
 
 const StoryView = () => {
 
+    ////////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////////////
     const id = useStoryId() as Id<"stories">;
+    const flipBookRef = useRef(null);
     const { data: story, isLoading } = useGetStory({ id });
+    const { mutate } = useLikeDislikeStory();
+    const { data: profile } = useCurrentProfile();
 
     const [currentPage, setCurrentPage] = useState(0);
+    const currentPageRef = useRef(currentPage); // to keep track of the current page without re-renders
+    const [_openShareModal, setOpenShareModal] = useCreateShareModal();
+    const [_story, setStory] = useSelectedStory();
 
     const chapters = story?.chapters || [];
     const totalPages = chapters.length;
+    // @ts-ignore
+    const isLiked = story?.likes?.includes(profile?._id!);
+
+    useEffect(() => {
+        currentPageRef.current = currentPage;
+    }, [currentPage]);
+
+    ////////////////////////////////////////////////////////// FUNCTIONS //////////////////////////////////////////////////////////////
+    const onFlip = (e: any) => {
+        setCurrentPage(e?.data);
+    };
+
+    const onLike = async () => {
+        await mutate({ story_id: story?._id! });
+    };
+
+    const onShare = () => {
+        // @ts-ignore
+        setStory(story!);
+        setOpenShareModal(true);
+    };
 
     const handleNext = () => {
         if (currentPage < totalPages + 1) {
-            setCurrentPage((prev) => prev + 1);
-        } else {
-            console.log('Already at the end page');
+            // @ts-ignore
+            flipBookRef?.current?.pageFlip()?.flipNext();
+            setCurrentPage(currentPage + 1);
         }
     };
 
     const handlePrev = () => {
-        console.log('currentPage, curr', currentPage)
         if (currentPage > 0) {
-            setCurrentPage((prev) => prev - 1);
-        } else {
-            console.log('Already at the cover page');
+            // @ts-ignore
+            flipBookRef.current?.pageFlip()?.flipPrev();
+            setCurrentPage(currentPage - 1);
         }
     };
 
+    const moveTo = (pageNumber: number) => {
+        if (flipBookRef?.current) {
+            // @ts-ignore
+            flipBookRef.current?.pageFlip()?.flip(pageNumber);
+            currentPageRef.current = pageNumber;
+        }
+    };
 
     if (isLoading) {
-        return <div className='min-h-[90vh] flex justify-center items-center' >
-            <Loader src='/loader_book.gif' title='Loading story for you...' />
-        </div>;
+        return (
+            <div className="min-h-[90vh] flex justify-center items-center">
+                <Loader src="/loader_book.gif" title="Loading story for you..." />
+            </div>
+        );
     }
 
     return (
         <div className="flex flex-col items-center justify-center gap-8 relative py-6">
-
-            <div className="flex flex-col items-center gap-4 w-full ">
-                <div className="bg-white w-full rounded-lg flex justify-center items-center p-4">
-                    <h2 className="font-bold text-3xl text-center text-primary rounded-md">
+            <div className="flex flex-col items-center gap-4 w-full">
+                {/* Heading */}
+                <Card className="relative bg-card w-full rounded-lg flex justify-center items-center p-4">
+                    <h2 className="font-bold text-3xl text-center text-foreground rounded-md">
                         {story?.title}
                     </h2>
-                </div>
-
-                <div className="flex items-center justify-between gap-4 w-full">
-                    <Button
-                        onClick={handlePrev}
-                        disabled={currentPage === 0}
-                        className="flex items-center justify-center"
-                    >
-                        <ArrowLeft />
-                    </Button>
-
-                    <div className="flex gap-4 bg-white shadow-md w-full h-[600px] rounded-md overflow-hidden">
-                        {/* Left Page */}
-                        <div className="flex-1 border-r">
-                            {currentPage === 0 ? (
-                                <CoverPage title={story?.title || ""} coverImage='/sample_cover_image.jpeg' />
-                            ) : (
-                                <ContentPage
-                                    title={chapters[currentPage - 1]?.title}
-                                    content={chapters[currentPage - 1]?.text}
-                                    pageNumber={currentPage}
-                                />
-                            )}
-                        </div>
-                        {/* Right Page */}
-                        <div className="flex-1">
-                            {currentPage === totalPages ? (
-                                <EndPage />
-                            ) : (
-                                <ContentPage
-                                    title={chapters[currentPage]?.title}
-                                    content={chapters[currentPage]?.text}
-                                    pageNumber={currentPage + 1}
-                                />
-                            )}
-                        </div>
+                    <div className="absolute right-4 flex justify-end items-center gap-2 bg-background">
+                        <Hint label='Like' >
+                            <Button onClick={onLike} variant={isLiked ? "default" : "ghost"} size="icon" className="flex items-center justify-center">
+                                <Heart className="w-6 h-6" />
+                            </Button>
+                        </Hint>
+                        <Hint label='Share' >
+                            <Button onClick={onShare} variant="ghost" size="icon" className="relative flex items-center justify-center">
+                                {
+                                    // @ts-ignore
+                                    story?.shares?.length > 0 &&
+                                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">
+                                        {/* @ts-ignore */}
+                                        {story?.shares?.length}
+                                    </span>
+                                }
+                                <Share2 className="w-6 h-6" />
+                            </Button>
+                        </Hint>
                     </div>
+                </Card>
 
-                    <Button
-                        onClick={handleNext}
-                        disabled={currentPage >= totalPages}
-                        className="flex items-center justify-center"
+
+                <Card className="relative flex justify-center w-full rounded-lg">
+                    {/* @ts-ignore */}
+                    <HTMLFlipBook
+                        width={1200}
+                        height={1200}
+                        size="stretch"
+                        minWidth={315}
+                        maxWidth={1200}
+                        minHeight={400}
+                        maxHeight={1200}
+                        maxShadowOpacity={0.5}
+                        showCover={false} // Ensures the layout does not leave empty panes
+                        mobileScrollSupport={true}
+                        onFlip={onFlip}
+                        className="shadow-lg w-full bg-card rounded-lg overflow-hidden"
+                        ref={flipBookRef}
                     >
-                        <ArrowRight />
-                    </Button>
-                </div>
+                        {/* Cover Page Duplicate (Right Pane) */}
+                        <div className="page">
+                            <CoverPage title={story?.title || ""} coverImage="/sample_cover_image.jpeg" />
+                        </div>
 
-                <div className="flex justify-center w-full">
+                        {/* Content Pages */}
+                        {chapters?.map((chapter: any, index: number) => (
+                            <div key={index} className="page">
+                                <ContentPage
+                                    content={chapter?.text}
+                                    pageNumber={index + 1}
+                                    title={chapter?.title}
+                                />
+                            </div>
+                        ))}
+
+                        {/* End Page */}
+                        <div className="page">
+                            <EndPage />
+                        </div>
+                    </HTMLFlipBook>
+
+                    {/* Left Arrow */}
+                    {
+                        currentPage > 0 &&
+                        <button
+                            onClick={handlePrev}
+                            disabled={currentPage === 0}
+                            className="absolute -left-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                        >
+                            <ArrowLeft className="w-6 h-6" />
+                        </button>
+                    }
+
+                    {/* Right Arrow */}
+                    {
+                        currentPage < totalPages &&
+                        <button
+                            onClick={handleNext}
+                            disabled={currentPage >= totalPages + 1}
+                            className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                        >
+                            <ArrowRight className="w-6 h-6" />
+                        </button>
+                    }
+
+                </Card>
+
+                <Card className="flex justify-center w-full">
                     <Thumbnails
                         story={story}
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        moveTo={moveTo}
                     />
-                </div>
-
+                </Card>
             </div>
-
         </div>
     );
 };

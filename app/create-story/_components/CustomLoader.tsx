@@ -15,7 +15,7 @@ const CustomLoader = ({ open, onClose }: { open: boolean, onClose: () => void })
       onClose={onClose}
       showCloseButton={false}
     >
-      <div className="w-full flex justify-center items-center p-10 bg-white rounded-3xl ">
+      <div className="w-full flex justify-center items-center p-10 bg-card rounded-3xl ">
         <Image
           src='/loader.gif'
           alt='Loading...'

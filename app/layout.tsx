@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/wrappers/ThemeProvider";
 import { Toaster } from "sonner";
 import Modals from "@/wrappers/Modals";
 import ProfileSetup from "@/wrappers/ProfileSetup";
+import BGWrapper from "@/wrappers/BGWrapper";
+import Drawers from "@/wrappers/Drawers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+
+
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
@@ -30,15 +34,17 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             >
               <Toaster />
               <Modals />
+              <Drawers />
               <ProfileSetup />
-              <div className="bg-[#cad3ff]">
-                <div className="max-w-7xl mx-auto">
+
+              <BGWrapper>
+                <div className="max-w-screen-xl px-6 mx-auto">
                   <div className="min-h-screen">
                     <Navbar />
                     {children}
                   </div>
                 </div>
-              </div>
+              </BGWrapper>
             </ThemeProvider>
           </ConvexClientProvider>
         </body>
