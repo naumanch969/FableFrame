@@ -1,4 +1,4 @@
-import { COMMENT_STATUSES, ENTITIES_NAMES, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
+import { COMMENT_STATUSES, ENTITIES_NAMES, FRIEND_REQUESTS, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -24,6 +24,26 @@ const schema = defineSchema({
         .index("by_role", ["role"])
         .index("by_is_verified", ["is_verified"])
         .index("by_username", ["username"]),
+
+    friend_requests: defineTable({
+        sender_id: v.id("profiles"),
+        receiver_id: v.id("profiles"),
+        status: v.optional(v.union(...FRIEND_REQUESTS.map(item => v.literal(item.key)))) // TODO: make it unoptional if req
+    })
+        .index("by_sender_id", ["sender_id"])
+        .index("by_receiver_id", ["receiver_id"])
+        .index("by_sender_id_receiver_id_status", ["sender_id", "receiver_id", "status"])
+        .index("by_receiver_id_status", ["receiver_id", "status"])
+        .index("by_sender_id_status", ["sender_id", "status"])
+        .index("by_status", ["status"]),
+
+    friends: defineTable({
+        profile_id: v.id("profiles"),
+        friend_id: v.id("profiles"),
+    })
+        .index("by_profile_id", ["profile_id"])
+        .index("by_profile_id_friend_id", ["profile_id", "friend_id"])
+        .index("by_friend_id", ["friend_id"]),
 
     stories: defineTable({
         title: v.string(),
@@ -117,6 +137,26 @@ const schema = defineSchema({
         created_at: v.string(),
     })
         .index("by_email", ["email"]),
+
+    chats: defineTable({
+        last_message: v.optional(v.string()),
+        last_message_timestamp: v.optional(v.string()),
+        participants: v.array(v.id("profiles")),
+        messages: v.array(v.id("messages")),
+        // TODO: we can store last 5 messages
+    })
+        .index("by_last_message_timestamp", ["last_message_timestamp"]),
+
+    messages: defineTable({
+        chat_id: v.id("chats"),
+        receiver_id: v.id("profiles"),
+        sender_id: v.id("profiles"),
+        read_by: v.optional(v.id("profiles")),
+        text: v.optional(v.string()),
+    })
+        .index("by_chat_id", ["chat_id"])
+        .index("by_sender_id", ["sender_id"])
+        .index("by_receiver_id", ["receiver_id"])
 
 })
 

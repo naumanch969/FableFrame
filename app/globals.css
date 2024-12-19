@@ -4,6 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  pointer-events: visible !important;
 }
 
  
@@ -22,8 +23,8 @@ body {
     --muted: 225 20% 90%;     /*hsl(225 20% 90%)*/
     --muted-foreground: 240 10% 40%;      /*hsl(240 10% 40%)*/
     --accent: 225 20% 90%;      /*hsl(220 60% 50%)*/
-    --accent-foreground: 239, 33%, 48%;      /*hsl(0 0% 98%)*
-    --destructive: 0 85% 65%;     /*hsl(0 85% 65%)*/
+    --accent-foreground: 239, 33%, 48%;      /*hsl(0 0% 98%)*/
+    --destructive: 0 85% 65%;    /*hsl(0 85% 65%) */
     --destructive-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
     --border: 220 10% 85%;      /*hsl(220 10% 85%)*/
     --input: 220 20% 95%;     /*hsl(220 20% 95%)*/

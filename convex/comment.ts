@@ -176,7 +176,7 @@ export const getByUser = query({
 
         const comments = await ctx.db
             .query('comments')
-            .filter((q) => q.eq(q.field('profile_id'), profile?._id).eq('is_deleted', false))
+            .filter((q) => q.eq(q.field('profile_id'), profile?._id).eq(q.field('is_deleted'), false))
             .collect();
 
         return comments;

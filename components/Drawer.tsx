@@ -6,6 +6,8 @@ import {
     SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet"
+import { Navigation } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 
 interface DrawerProps {
@@ -13,7 +15,8 @@ interface DrawerProps {
     title: string;
     description: string;
     children: ReactNode;
-    setOpen: any
+    setOpen: any;
+    link?: string;
 }
 
 const Drawer: React.FC<DrawerProps> = ({
@@ -21,14 +24,22 @@ const Drawer: React.FC<DrawerProps> = ({
     title,
     description,
     setOpen,
+    link,
     children
 }) => {
+
+    const router = useRouter()
+
+    const onNavigation = () => {
+        setOpen(false)
+        router.push(link!)
+    }
 
     return (
         <Sheet open={open} onOpenChange={setOpen} >
             <SheetContent className='' >
                 <SheetHeader>
-                    <SheetTitle>{title}</SheetTitle>
+                    <SheetTitle className='flex items-center gap-1' >{title} {link && <Navigation className='w-4 h-4 cursor-pointer' onClick={onNavigation} />}</SheetTitle>
                     <SheetDescription>
                         {description}
                     </SheetDescription>

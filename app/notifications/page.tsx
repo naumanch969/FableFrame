@@ -5,21 +5,12 @@ import { useGetNotifications } from '@/features/notification/api/useGetNotificat
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
 import { Doc } from '@/convex/_generated/dataModel';
 import Heading from '@/components/Heading';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
 
 const Notifications = () => {
 
   const { data: profile } = useCurrentProfile();
   const { data: notifications } = useGetNotifications(profile?._id!);
-  const [open, setOpen] = React.useState(false);
+
   const NotificationItem = ({ notification }: { notification: Doc<"notifications"> }) => {
     const timeAgo = new Date(notification?._creationTime).toLocaleString();
 
@@ -37,22 +28,9 @@ const Notifications = () => {
   return (
     <div className="">
 
-      <div onClick={() => setOpen(true)} className="w-full flex justify-start">
+      <div className="w-full flex justify-start">
         <Heading title="Notifications" size="large" />
       </div>
-
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
-
 
       {/* Display if no notifications are available */}
       {notifications && notifications.length === 0 ? (

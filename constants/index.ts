@@ -117,5 +117,11 @@ export const ENTITIES_NAMES = [
     { key: "shares", label: "Share" },
     { key: "story_reports", label: "Report" },
     { key: "contacts", label: "Contact" },
-
 ];
+
+export const FRIEND_REQUESTS = [
+    { key: "pending", label: "Pending" },
+    { key: "accepted", label: "Accepted" },
+    { key: "rejected", label: "Rejected" },
+];
+

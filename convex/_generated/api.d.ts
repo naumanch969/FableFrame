@@ -14,11 +14,15 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as chat from "../chat.js";
 import type * as comment from "../comment.js";
 import type * as contact from "../contact.js";
+import type * as friend from "../friend.js";
+import type * as friend_request from "../friend_request.js";
 import type * as hashtag from "../hashtag.js";
 import type * as http from "../http.js";
 import type * as like from "../like.js";
+import type * as message from "../message.js";
 import type * as notification from "../notification.js";
 import type * as profile from "../profile.js";
 import type * as report from "../report.js";
@@ -36,11 +40,15 @@ import type * as user from "../user.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  chat: typeof chat;
   comment: typeof comment;
   contact: typeof contact;
+  friend: typeof friend;
+  friend_request: typeof friend_request;
   hashtag: typeof hashtag;
   http: typeof http;
   like: typeof like;
+  message: typeof message;
   notification: typeof notification;
   profile: typeof profile;
   report: typeof report;

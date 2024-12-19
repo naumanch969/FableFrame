@@ -1,5 +1,5 @@
 import { useNotificationDrawer } from '@/hooks/use-notification-drawer';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
 import { useGetNotifications } from '@/features/notification/api/useGetNotifications';
 import Drawer from '@/components/Drawer';
@@ -46,6 +46,7 @@ const NotificationDrawer = () => {
             open={open}
             setOpen={setOpen}
             description='Here you can see all your notifications.'
+            link='/notifications'
         >
             <div className="space-y-4 mt-4 ">
                 {/* Loading Spinner */}

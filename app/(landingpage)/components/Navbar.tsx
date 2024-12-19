@@ -9,17 +9,20 @@ import { Bell } from "lucide-react";
 import Hint from "@/components/Hint";
 import ModeToggle from "@/components/ModeToggle";
 import NotificationMenu from "@/components/NotificationMenu";
+import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 
 export default function Navbar() {
 
     const { data: user } = useCurrentUser()
+    const { data: profile } = useCurrentProfile()
     const isSignedIn = Boolean(user)
 
     const menus = [
         { name: 'Home', path: '/' },
-        { name: 'Create Story', path: '/create-story' },
-        { name: 'Explore Story', path: '/explore' },
-        { name: 'Contact Us', path: '/contact' },
+        { name: 'Explore', path: '/explore' },
+        { name: 'Users', path: '/users' },
+        { name: 'Create', path: '/create-story' },
+        { name: 'Contact', path: '/contact' },
     ]
 
     return (
@@ -54,16 +57,12 @@ export default function Navbar() {
                 <div className="flex items-center gap-4">
                     <div className="flex gap-2">
                         <ModeToggle />
-                        <NotificationMenu />
+                        {
+                            Boolean(profile) && <NotificationMenu />
+                        }
                     </div>
                     {
-                        isSignedIn
-                            ?
-                            <ProfileButton />
-                            :
-                            <Link href='/explore' >
-                                <Button size='lg' >Get Started</Button>
-                            </Link>
+                        isSignedIn && <ProfileButton />
                     }
                 </div>
             </div>

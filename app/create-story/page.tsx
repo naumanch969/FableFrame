@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Id } from '@/convex/_generated/dataModel'
 import { CREATE_STORY_PROMPT } from '@/constants'
+import Heading from '@/components/Heading'
 
 const CreateStory = () => {
 
@@ -167,10 +168,8 @@ const CreateStory = () => {
       <CustomLoader open={loading} onClose={() => setLoading(false)} />
 
       <div className="p-10">
-        <h2 className="font-extrabold text-3xl text-foreground text-center mb-2">
-          Create Your Story
-        </h2>
-        <p className="text-lg text-foreground text-center">
+        <Heading title="Create Your Story" color='primary' size='large' />
+        <p className="text-lg text-primary text-center">
           Unlock your creativity with AI: Craft stories like never before! Let our AI bring your imagination to life, one story at a time.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 ">

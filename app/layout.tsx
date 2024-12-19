@@ -37,14 +37,12 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               <Drawers />
               <ProfileSetup />
 
-              <BGWrapper>
-                <div className="max-w-screen-xl px-6 mx-auto">
-                  <div className="min-h-screen">
-                    <Navbar />
-                    {children}
-                  </div>
+              <div className="max-w-screen-xl px-6 mx-auto">
+                <div className="min-h-screen">
+                  <Navbar />
+                  {children}
                 </div>
-              </BGWrapper>
+              </div>
             </ThemeProvider>
           </ConvexClientProvider>
         </body>

@@ -13,7 +13,6 @@ import {
 import { useGetNotifications } from "@/features/notification/api/useGetNotifications"
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
 import { Doc } from "@/convex/_generated/dataModel"
-import Link from "next/link"
 import { useNotificationDrawer } from "@/hooks/use-notification-drawer"
 
 function NotificationMenu() {
@@ -37,7 +36,6 @@ function NotificationMenu() {
         );
     }
     return (
-
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -52,9 +50,20 @@ function NotificationMenu() {
                         <NotificationItem key={index} notification={notification} />
                     ))
                 }
-                <DropdownMenuItem onClick={() => setOpen(true)} className="cursor-pointer flex justify-center p-2 w-full ">
-                    <span>Show More</span>
-                </DropdownMenuItem>
+                {
+                    notifications?.length! > 4 &&
+                    <DropdownMenuItem onClick={() => setOpen(true)} className="cursor-pointer flex justify-center p-2 w-full ">
+                        <span>Show More</span>
+                    </DropdownMenuItem>
+                }
+                {
+                    notifications?.length == 0 &&
+                    <div className="flex justify-center items-center py-2 px-2 ">
+                        <span className="text-sm w-full ">
+                            No notifications as per now.
+                        </span>
+                    </div>
+                }
             </DropdownMenuContent>
         </DropdownMenu>
     )
