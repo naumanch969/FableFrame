@@ -2,6 +2,7 @@ import axios from "axios";
 import { clsx, type ClassValue } from "clsx"
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge"
+import { formatDistanceToNow } from 'date-fns';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -30,4 +31,9 @@ export const blobToBase64 = (blob: Blob): Promise<string | null> => {
 export const alertAndReturnFalse = (message: string) => {
   toast.success(message, { position: 'top-right' });
   return false;
+};
+
+export const getRelativeTime = (date: Date) => {
+  if (!date) return ''
+  return formatDistanceToNow(new Date(date), { addSuffix: true });
 };

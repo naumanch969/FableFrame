@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/ui/button';
 import { Doc } from '@/convex/_generated/dataModel';
+import { useCreateChat } from '@/features/chat/api/useCreateChat';
+import { useGetMyChats } from '@/features/chat/api/useGetMyChats';
 import { useGetMyFriends } from '@/features/friend/api/useGetMyFriends';
 import { useAcceptRequest } from '@/features/friend_requests/api/useAcceptRequest';
 import { useDeleteRequest } from '@/features/friend_requests/api/useDeleteRequest';
@@ -24,6 +26,9 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
     const { data: friends } = useGetMyFriends()
     const { data: sentRequests } = useGetSendRequests()
     const { data: receivedRequests } = useGetReceivedRequests()
+    const { data: chats } = useGetMyChats()
+
+    const { mutate: createChat, isPending: creatingChat } = useCreateChat()
     const { mutate: addFriend, isPending: addingFriend } = useSendRequest()
     const { mutate: acceptRequeset, isPending: acceptingRequest } = useAcceptRequest()
     const { mutate: rejectRequest, isPending: rejectingRequest } = useRejectRequest()
@@ -32,8 +37,6 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
     const isFriend = friends?.some(f_profile => f_profile?._id == thisProfile?._id)
     const isFriendRequestSent = sentRequests?.some(receiver_profile => receiver_profile?._id == thisProfile?._id)
     const isFriendRequestReceived = receivedRequests?.some(sender_profile => sender_profile?._id == thisProfile?._id)
-
-    const chats: any = []
 
     //////////////////////////////////////////////////////// STATES /////////////////////////////////////////////////////////
 
@@ -64,14 +67,21 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
 
     const onCreateChat = () => {
 
-        const existingChat = chats.filter((chat: any) => chat?.participants?.findIndex((p: any) => String((p as Profile)._id) == String(thisProfile._id)) != -1);
-        if (existingChat.length > 0) {
-            localStorage.setItem('lastChat', String(existingChat[0]?._id));
-            router.push('/chat');
+        const existingChat = chats?.find((chat: any) => chat?.participants?.includes(thisProfile._id));
+
+        if (existingChat) {
+            localStorage.setItem('lastChat', existingChat?._id);
+            router.push('/chats?id=' + existingChat?._id);
         }
         else {
-            //  create chate
+            createChat({ formData: { other_profile_id: thisProfile?._id } }, {
+                onSuccess: (chatId) => {
+                    localStorage.setItem('lastChat', chatId!);
+                    router.push('/chats?id=' + chatId);
+                }
+            })
         }
+
     }
 
     return (
@@ -79,7 +89,7 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
             {isFriend && !isProfilePage && (
                 <div className='flex gap-4' >
                     <Button variant='secondary' className="" onClick={onCreateChat}>
-                        {true ? 'Loading' : 'Message'}
+                        {creatingChat ? 'Loading' : 'Message'}
                     </Button>
                     <Button className="bg-black hover:bg-black/80 text-white" onClick={() => router.push(`/user/${thisProfile?._id}`)}>
                         View Profile

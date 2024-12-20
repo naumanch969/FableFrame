@@ -1,4 +1,4 @@
-import { COMMENT_STATUSES, ENTITIES_NAMES, FRIEND_REQUESTS, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
+import { ENTITIES_NAMES, FRIEND_REQUESTS, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -18,6 +18,7 @@ const schema = defineSchema({
         preferences: v.optional(v.any()),
         notification_settings: v.optional(v.any()),
         location: v.optional(v.string()),
+        // profile_color
     })
         .index("by_user_id", ["user_id"])
         .index("by_email", ["email"])
@@ -83,12 +84,15 @@ const schema = defineSchema({
         content: v.string(),
         profile_id: v.id("profiles"),
         story_id: v.id("stories"),
-        status: v.union(...COMMENT_STATUSES.map(item => v.literal(item.key))),
-        parent_id: v.optional(v.string()),
+        parent_id: v.optional(v.id("profiles")),
         likes_count: v.number(),
         reports_count: v.number(),
         is_deleted: v.boolean(),
-    }),
+    })
+        .index("by_story_id", ["story_id"])
+        .index("by_profile_id", ["profile_id"])
+        .index("by_story_id_is_deleted", ["story_id", "is_deleted"])
+    ,
 
     hashtags: defineTable({
         hashtag: v.string(),
@@ -142,7 +146,6 @@ const schema = defineSchema({
         last_message: v.optional(v.string()),
         last_message_timestamp: v.optional(v.string()),
         participants: v.array(v.id("profiles")),
-        messages: v.array(v.id("messages")),
         // TODO: we can store last 5 messages
     })
         .index("by_last_message_timestamp", ["last_message_timestamp"]),
@@ -151,7 +154,7 @@ const schema = defineSchema({
         chat_id: v.id("chats"),
         receiver_id: v.id("profiles"),
         sender_id: v.id("profiles"),
-        read_by: v.optional(v.id("profiles")),
+        read_by: v.array(v.id("profiles")),
         text: v.optional(v.string()),
     })
         .index("by_chat_id", ["chat_id"])

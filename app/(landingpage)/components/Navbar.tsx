@@ -10,6 +10,7 @@ import Hint from "@/components/Hint";
 import ModeToggle from "@/components/ModeToggle";
 import NotificationMenu from "@/components/NotificationMenu";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
+import ChatMenu from "@/components/ChatMenu";
 
 export default function Navbar() {
 
@@ -58,7 +59,11 @@ export default function Navbar() {
                     <div className="flex gap-2">
                         <ModeToggle />
                         {
-                            Boolean(profile) && <NotificationMenu />
+                            Boolean(profile) &&
+                            <>
+                                <NotificationMenu />
+                                <ChatMenu />
+                            </>
                         }
                     </div>
                     {

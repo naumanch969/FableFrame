@@ -53,14 +53,7 @@ export const USER_ROLES = [
     { key: "user", label: "User" },
     { key: "admin", label: "Admin" }
 ];
-
-export const COMMENT_STATUSES = [
-    { key: "approved", label: "Approved" },
-    { key: "pending", label: "Pending" },
-    { key: "rejected", label: "Rejected" },
-    { key: "flagged", label: "Flagged" }
-];
-
+ 
 export const NOTIFICATION_TYPES = [
     { key: "comment", label: "Comment" },
     { key: "like", label: "Like" },

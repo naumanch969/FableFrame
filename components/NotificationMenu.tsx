@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React, { useState } from "react"
 import { Bell } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -14,20 +14,22 @@ import { useGetNotifications } from "@/features/notification/api/useGetNotificat
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
 import { Doc } from "@/convex/_generated/dataModel"
 import { useNotificationDrawer } from "@/hooks/use-notification-drawer"
+import { getRelativeTime } from "@/lib/utils"
 
 function NotificationMenu() {
 
+    const [openNotificationMenu, setOpenNotificationMenu] = React.useState(false)
     const { data: profile } = useCurrentProfile()
     const { data: notifications } = useGetNotifications(profile?._id!)
-    const [_open, setOpen] = useNotificationDrawer()
+    const [_openNotificationDrawer, setOpenNotificationDrawer] = useNotificationDrawer()
 
 
     const NotificationItem = ({ notification }: { notification: Doc<"notifications"> }) => {
 
-        const formattedTime = new Date(notification?._creationTime).toLocaleString();
+        const formattedTime = getRelativeTime(new Date(notification?._creationTime))
 
         return (
-            <DropdownMenuItem className="flex items-start gap-2 p-2">
+            <DropdownMenuItem onClick={() => setOpenNotificationMenu(false)} className="flex items-start gap-2 p-2">
                 <div className="flex flex-col">
                     <span className="text-xs text-gray-500">{formattedTime}</span>
                     <span className="text-sm text-gray-700">{notification?.content}</span>
@@ -36,7 +38,7 @@ function NotificationMenu() {
         );
     }
     return (
-        <DropdownMenu>
+        <DropdownMenu open={openNotificationMenu} onOpenChange={setOpenNotificationMenu} >
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
                     <Bell className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -52,7 +54,7 @@ function NotificationMenu() {
                 }
                 {
                     notifications?.length! > 4 &&
-                    <DropdownMenuItem onClick={() => setOpen(true)} className="cursor-pointer flex justify-center p-2 w-full ">
+                    <DropdownMenuItem onClick={() => { setOpenNotificationDrawer(true); setOpenNotificationMenu(false) }} className="cursor-pointer flex justify-center p-2 w-full ">
                         <span>Show More</span>
                     </DropdownMenuItem>
                 }

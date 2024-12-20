@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Doc } from '@/convex/_generated/dataModel'
 import UserCard from './UserCard'
 import Image from 'next/image'
 
 const Users = ({ data, isLoading }: { data: Doc<"profiles">[], isLoading: boolean }) => {
-
-    //////////////////////////////////////////////////// VARIABLES ////////////////////////////////////////////////
 
 
     return (

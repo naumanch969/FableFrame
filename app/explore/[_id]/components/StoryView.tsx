@@ -14,6 +14,7 @@ import { useCreateShareModal } from "@/hooks/use-create-share-modal";
 import { useLikeDislikeStory } from "@/features/like/api/use-like-dislike-story";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import { Card } from "@/components/ui/card";
+import CommentBox from "./CommentBox";
 
 const StoryView = () => {
 
@@ -181,13 +182,15 @@ const StoryView = () => {
 
                 </Card>
 
-                <Card className="flex justify-center w-full">
+                <Card className="flex justify-center w-fit overflow-hidden">
                     <Thumbnails
                         story={story}
                         currentPage={currentPage}
                         moveTo={moveTo}
                     />
                 </Card>
+
+                <CommentBox />
             </div>
         </div>
     );

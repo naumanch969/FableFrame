@@ -39,8 +39,11 @@ export const send_message = mutation({
             sender_id: profile?._id,
             receiver_id,
             text,
-            chat_id
+            chat_id,
+            read_by: [profile?._id],
         });
+
+        await ctx.db.patch(chat_id, { last_message: text, last_message_timestamp: new Date().toISOString() })
 
         return newMessage;
     },
@@ -59,7 +62,7 @@ export const mark_as_read = mutation({
         if (message.receiver_id !== user_id) throw new Error("User is not the receiver");
 
         await ctx.db.patch(message_id, {
-            read_by: user_id,
+            read_by: [user_id],
         });
 
         return message_id;

@@ -51,8 +51,6 @@ const CreateShareModal = () => {
             expires_at: new Date(Date.now() + 90).toISOString(),
         }
 
-        console.log('input', input)
-
         mutate({ formData: input }, {
             onSuccess(id) {
                 toast.success('Story shared successfully.')

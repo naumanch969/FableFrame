@@ -2,10 +2,8 @@ import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 
-export const useGetChat = (id: Id<"chats">) => {
-    if (id == undefined) return { data: null, isLoading: false }
-
-    const data = useQuery(api.chat.get_by_id, { chat_id: id })
+export const useGetCommentsByStory = (story_id: Id<"stories">) => {
+    const data = useQuery(api.comment.get_by_story, { story_id })
 
     const isLoading = data == undefined
 

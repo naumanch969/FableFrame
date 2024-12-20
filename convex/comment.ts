@@ -7,12 +7,38 @@ const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
     let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
     return profile
 }
+const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
+    return await ctx.db.get(profileId)
+}
+
+export const get_by_story = query({
+    args: {
+        story_id: v.id('stories'),
+    },
+    handler: async (ctx, { story_id }) => {
+
+        const comments = await ctx.db
+            .query('comments')
+            .withIndex('by_story_id_is_deleted', q => q.eq("story_id", story_id).eq('is_deleted', false))
+            .collect();
+
+        let response = []
+        for (const comment of comments) {
+            const profile = await populateProfile(ctx, comment?.profile_id)
+            if (profile)
+                response.push({ ...comment, profile })
+        }
+
+        return response;
+    },
+});
+
 
 export const create = mutation({
     args: {
         story_id: v.id('stories'),
         content: v.string(),
-        parent_id: v.optional(v.string()),
+        parent_id: v.optional(v.id("profiles")),
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
@@ -24,7 +50,6 @@ export const create = mutation({
             content: args.content,
             story_id: args.story_id,
             profile_id: profile?._id,
-            status: "pending", // Default status
             parent_id: args.parent_id,
             likes_count: 0,
             reports_count: 0,
@@ -84,25 +109,6 @@ export const remove = mutation({
     },
 });
 
-export const getByStory = query({
-    args: {
-        story_id: v.id('stories'),
-    },
-    handler: async (ctx, args) => {
-
-        const comments = await ctx.db
-            .query('comments')
-            .filter((q) =>
-                q.eq(q.field('story_id'), args.story_id)
-                // .eq('is_deleted', false)
-            )
-            .collect();
-
-        return comments;
-    },
-});
-
-
 
 export const like = mutation({
     args: {
@@ -142,41 +148,16 @@ export const report = mutation({
     },
 });
 
-export const updateStatus = mutation({
-    args: {
-        comment_id: v.id('comments'),
-        status: v.union(
-            v.literal("approved"),
-            v.literal("pending"),
-            v.literal("rejected"),
-            v.literal("flagged")
-        ),
-    },
-    handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
-
-        const profile = await populateProfileByUserId(ctx, userId)
-
-        if (profile?.role !== 'admin') throw new Error('Unauthorized');
-
-        await ctx.db.patch(args.comment_id, { status: args.status });
-
-        return args.comment_id;
-    },
-});
 
 export const getByUser = query({
     args: {
-        user_id: v.id('users'),
+        profile_id: v.id('profiles'),
     },
-    handler: async (ctx, args) => {
-
-        const profile = await populateProfileByUserId(ctx, args.user_id)
+    handler: async (ctx, { profile_id }) => {
 
         const comments = await ctx.db
             .query('comments')
-            .filter((q) => q.eq(q.field('profile_id'), profile?._id).eq(q.field('is_deleted'), false))
+            .withIndex('by_profile_id', q => q.eq('profile_id', profile_id))
             .collect();
 
         return comments;

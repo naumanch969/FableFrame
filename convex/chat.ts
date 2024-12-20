@@ -7,6 +7,10 @@ const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
     let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
     return profile
 }
+const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
+    return await ctx.db.get(profileId)
+}
+
 
 export const get = query({
     args: {},
@@ -21,20 +25,38 @@ export const get = query({
             .query("chats")
             .collect();
 
-        const userChats = chats.filter(chat =>
-            chat.participants.some(participant => participant === profile?._id)
-        );
+        const userChats = chats.filter(chat => chat.participants.some(participant => participant === profile?._id));
 
-        return userChats;
+        let response = []
+
+        for (const chat of userChats) {
+            let participant_profiles = [];
+            for (const participantId of chat?.participants) {
+                const participantProfile = await populateProfile(ctx, participantId)
+                if (participantProfile) participant_profiles.push(participantProfile)
+            }
+            if (participant_profiles.length > 0) response.push({ ...chat, participant_profiles })
+        }
+
+        return response;
     },
 });
 
 export const get_by_id = query({
     args: { chat_id: v.id("chats") },
     handler: async (ctx, { chat_id }) => {
+
         const chat = await ctx.db.get(chat_id);
         if (!chat) throw new Error("Chat not found");
-        return chat;
+
+        let participant_profiles = []
+
+        for (const participantId of chat.participants) {
+            const participantProfile = await populateProfile(ctx, participantId)
+            if (participantProfile) participant_profiles.push(participantProfile)
+        }
+
+        return { ...chat, participant_profiles }
     },
 });
 
@@ -53,7 +75,6 @@ export const create = mutation({
             last_message: "",
             last_message_timestamp: new Date().toISOString(),
             participants: [profile?._id, other_profile_id],
-            messages: [],
         });
 
         return newChat;
