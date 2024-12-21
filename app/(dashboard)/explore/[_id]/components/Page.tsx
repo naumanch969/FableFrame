@@ -50,7 +50,7 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
-        utterance.rate = speed;
+        utterance.rate = speed; // Set the speech rate correctly
 
         setSpeaking(true);
         window.speechSynthesis.speak(utterance);
@@ -88,13 +88,13 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
                             />
                             {showOptions && (
                                 <div
-                                    className="absolute top-0 left-full ml-4 bg-white p-2 shadow-md rounded-md flex flex-col gap-2 z-10"
+                                    className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-2 bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4 z-10 w-64"
                                     onMouseEnter={() => setShowOptions(true)} // Keep dropdown visible when hovering over it
                                     onMouseLeave={() => setShowOptions(false)} // Hide dropdown when mouse leaves
                                 >
-                                    {/*Voice Selection Dropdown
+                                    {/* Voice Selection */}
                                     <div>
-                                        <label htmlFor="voice-select" className="text-sm">Voice</label>
+                                        <label htmlFor="voice-select" className="text-sm font-semibold text-gray-700">Voice</label>
                                         <select
                                             id="voice-select"
                                             value={selectedVoice ? selectedVoice.name : ""}
@@ -102,19 +102,19 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
                                                 const selected = voices.find(voice => voice.name === e.target.value);
                                                 if (selected) setSelectedVoice(selected);
                                             }}
-                                            className="border p-1 mt-1 text-sm"
+                                            className="border rounded-md p-2 mt-1 w-full text-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                                         >
                                             {voices.map((voice) => (
                                                 <option key={voice.name} value={voice.name}>
-                                                    {voice.name}
+                                                    {voice.name} ({voice.lang})
                                                 </option>
                                             ))}
                                         </select>
                                     </div>
 
-                                    Speed Slider
+                                    {/* Speed Slider */}
                                     <div>
-                                        <label htmlFor="speed-slider" className="text-sm">Speed</label>
+                                        <label htmlFor="speed-slider" className="text-sm font-semibold text-gray-700">Speed</label>
                                         <input
                                             id="speed-slider"
                                             type="range"
@@ -123,10 +123,10 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
                                             step={0.1}
                                             value={speed}
                                             onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                                            className="w-full mt-1"
+                                            className="w-full mt-2 bg-gray-200 rounded-md"
                                         />
-                                        <div className="text-sm text-center">{speed.toFixed(1)}</div>
-                                    </div>*/}
+                                        <div className="text-sm text-center mt-1">{speed.toFixed(1)}</div>
+                                    </div>
                                 </div>
                             )}
                         </div>
