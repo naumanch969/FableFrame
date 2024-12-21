@@ -1,4 +1,4 @@
-import { ENTITIES_NAMES, FRIEND_REQUESTS, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, USER_ROLES } from "@/constants";
+import { ENTITIES_NAMES, FONT_TYPE, FRIEND_REQUESTS, GENDERS, LENGTH, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, PROFILE_VISIBILITY, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, THEMES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -159,7 +159,45 @@ const schema = defineSchema({
     })
         .index("by_chat_id", ["chat_id"])
         .index("by_sender_id", ["sender_id"])
-        .index("by_receiver_id", ["receiver_id"])
+        .index("by_receiver_id", ["receiver_id"]),
+
+    preferences: defineTable({
+        profile_id: v.id("profiles"),
+        theme: v.union(...THEMES.map(item => v.literal(item.key))),
+        language: v.string(), // e.g., 'en', 'es'
+        font_size: v.union(...LENGTH.map(item => v.literal(item.key))),
+        notifications: v.object({
+            likes: v.boolean(),
+            shares: v.boolean(),
+            new_features: v.boolean(),
+            story: v.boolean(),
+            friends: v.boolean(),
+            account: v.boolean(),
+        }),
+        story_preferences: v.object({
+            genres: v.array(v.union(...STORY_GENRES.map(item => v.literal(item.key)))),
+            age_category: v.array(v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key)))),
+            preferred_length: v.array(v.union(...LENGTH.map(item => v.literal(item.key)))),
+            content_filter: v.boolean(),
+        }),
+        accessibility: v.object({
+            text_to_speech: v.object({
+                voice: v.union(...GENDERS.map(item => v.literal(item.key))),
+                pitch: v.number(),
+                speed: v.number(),
+            }),
+            font_type: v.union(...FONT_TYPE.map(item => v.literal(item.key))),
+            auto_narration: v.boolean(),
+        }),
+
+        profile_visibility: v.union(...PROFILE_VISIBILITY.map(item => v.literal(item.key))),
+
+        genre_frequency: v.array(v.object({ genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))), frequency: v.number() })),
+        category_frequency: v.array(v.object({ category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))), frequency: v.number() })),
+
+    })
+        .index("by_profile_id", ["profile_id"])
+
 
 })
 

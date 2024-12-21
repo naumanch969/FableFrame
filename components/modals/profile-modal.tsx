@@ -66,7 +66,7 @@ const ProfileModal = () => {
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Share Story</DialogTitle>
+                    <DialogTitle>Your Profile</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={onSubmit} className='space-y-4'>
 

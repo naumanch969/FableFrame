@@ -24,11 +24,13 @@ import type * as http from "../http.js";
 import type * as like from "../like.js";
 import type * as message from "../message.js";
 import type * as notification from "../notification.js";
+import type * as preferences from "../preferences.js";
 import type * as profile from "../profile.js";
 import type * as report from "../report.js";
 import type * as share from "../share.js";
 import type * as story from "../story.js";
 import type * as user from "../user.js";
+import type * as utils from "../utils.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -50,11 +52,13 @@ declare const fullApi: ApiFromModules<{
   like: typeof like;
   message: typeof message;
   notification: typeof notification;
+  preferences: typeof preferences;
   profile: typeof profile;
   report: typeof report;
   share: typeof share;
   story: typeof story;
   user: typeof user;
+  utils: typeof utils;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

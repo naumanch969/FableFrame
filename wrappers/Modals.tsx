@@ -3,6 +3,7 @@
 import CreateChatModal from '@/components/modals/create-chat-modal'
 import CreateReportModal from '@/components/modals/create-report-modal'
 import CreateShareModal from '@/components/modals/create-share-modal'
+import PreferencesModal from '@/components/modals/preferences-modal'
 import ProfileModal from '@/components/modals/profile-modal'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 import React, { useEffect, useState } from 'react'
@@ -23,6 +24,7 @@ const Modals = () => {
             <CreateShareModal />
             <CreateChatModal />
             <ProfileModal />
+            <PreferencesModal />
         </>
     )
 }

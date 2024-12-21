@@ -53,7 +53,7 @@ export const USER_ROLES = [
     { key: "user", label: "User" },
     { key: "admin", label: "Admin" }
 ];
- 
+
 export const NOTIFICATION_TYPES = [
     { key: "comment", label: "Comment" },
     { key: "like", label: "Like" },
@@ -118,3 +118,68 @@ export const FRIEND_REQUESTS = [
     { key: "rejected", label: "Rejected" },
 ];
 
+export const PROFILE_VISIBILITY = [
+    { key: "public", label: "Public" },
+    { key: "private", label: "Private" },
+];
+
+export const FONT_TYPE = [
+    { key: "default", label: "Default" },
+    { key: "dyslexia", label: "Dyslexia" },
+];
+
+export const GENDERS = [
+    { key: "male", label: "Male" },
+    { key: "female", label: "Female" },
+];
+
+export const LENGTH = [
+    { key: "small", label: "Small" },
+    { key: "medium", label: "Medium" },
+    { key: "large", label: "Large" },
+];
+
+export const THEMES = [
+    { key: "light", label: "Light" },
+    { key: "dark", label: "Dark" },
+    { key: "system", label: "System" },
+];
+
+export const LANGUAGES = [
+    { key: "en", label: "English" },
+];
+
+
+
+export const INITIAL_PROFILE_PREFERENCES = {
+    profile_id: "",
+    theme: "system",
+    language: "en",
+    font_size: "medium",
+    notifications: {
+        likes: false,
+        shares: false,
+        new_features: false,
+        story: false,
+        friends: false,
+        account: false,
+    },
+    story_preferences: {
+        genres: [],
+        age_category: [],
+        preferred_length: [], // default length
+        content_filter: false,
+    },
+    accessibility: {
+        text_to_speech: {
+            voice: "female",
+            pitch: 1.0,
+            speed: 1.0,
+        },
+        font_type: "default",
+        auto_narration: false,
+    },
+    profile_visibility: "public",
+    genre_frequency: [],
+    category_frequency: [],
+};

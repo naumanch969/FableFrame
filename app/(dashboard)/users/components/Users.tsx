@@ -1,6 +1,7 @@
 import { Doc } from '@/convex/_generated/dataModel'
 import UserCard from './UserCard'
 import Image from 'next/image'
+import Empty from '@/components/Empty'
 
 const Users = ({ data, isLoading }: { data: Doc<"profiles">[], isLoading: boolean }) => {
 
@@ -17,10 +18,8 @@ const Users = ({ data, isLoading }: { data: Doc<"profiles">[], isLoading: boolea
                         :
                         data?.length == 0
                             ?
-                            <div className='col-span-4 w-full flex flex-col justify-center items-center grayscale '>
-                                <Image src={'/empty.png'} alt='Empty' width={384} height={384} className='grayscale ' />
-                                <span className='text-foreground text-center text-lg font-semibold ' >Nothing Found.</span>
-                                <span className='text-muted-foreground text-center text-md ' >It's our fault, not yours.</span>
+                            <div className='col-span-4'>
+                                <Empty />
                             </div>
                             :
                             data?.map((friend, index) => (

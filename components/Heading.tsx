@@ -27,7 +27,7 @@ const Heading: React.FC<HeadingProps> = ({ title, className = '', size = 'medium
   const textColor = colorClasses[color] || `text-${color}`;
 
   return (
-    <h2 className={`font-extrabold text-center mb-2 ${sizeClasses[size]} ${textColor} ${className}`}>
+    <h2 className={`font-extrabold text-center ${sizeClasses[size]} ${textColor} ${className}`}>
       {title}
     </h2>
   );

@@ -11,6 +11,7 @@ import { useGetMyAIStories } from '@/features/story/api/use-get-my-ai-stories';
 import { useGetMyManualStories } from '@/features/story/api/use-get-my-manual-stories';
 import { useGetDraftStories } from '@/features/story/api/use-get-draft-stories';
 import Loader from '@/components/Loader';
+import Stories from '@/components/Stories';
 
 const ProfilePage: React.FC = () => {
 
@@ -59,9 +60,9 @@ const ProfilePage: React.FC = () => {
                                 <Loader src='/loader_book.gif' title='Loading stories...' />
                             </div>
                             :
-                            stories?.map((story: any, index: number) => (
-                                <StoryItem story={story} key={index} />
-                            ))
+                            <div className="col-span-3">
+                                <Stories data={stories} />
+                            </div>
                     }
                 </div>
             </div>

@@ -1,8 +1,7 @@
 import { v } from 'convex/values';
-import { action, mutation, query } from './_generated/server';
+import { mutation, query } from './_generated/server';
 import { USER_ROLES } from '@/constants';
 import { auth } from './auth';
-import { api } from './_generated/api';
 
 export const get_current = query({
     args: {},
@@ -73,9 +72,10 @@ export const create = mutation({
     handler: async (ctx, args) => {
 
         const user = await ctx.db.get(args.user_id);
-        if (!user) {
-            throw new Error('User not found');
-        }
+        if (!user) throw new Error('User not found');
+
+        const profile = await ctx.db.query('profiles').withIndex('by_user_id', (q) => q.eq('user_id', args.user_id)).first();
+        if (profile) return profile?._id
 
         const new_profile = await ctx.db.insert('profiles', {
             user_id: args.user_id,

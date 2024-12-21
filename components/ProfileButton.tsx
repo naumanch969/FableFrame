@@ -5,12 +5,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from 'sonner'
+import { usePreferencesModal } from "@/hooks/use-preferences-modal";
 
 const ProfileButton: React.FC = () => {
 
     const { data } = useCurrentProfile();
     const { signOut } = useAuthActions()
 
+    const [_openPreferencesModal, setOpenPreferencesModal] = usePreferencesModal()
     const [openDropdown, setOpenDropdown] = useState(false)
 
     const onLogout = async () => {
@@ -45,9 +47,9 @@ const ProfileButton: React.FC = () => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)}>
-                    <Link href="/settings" className="w-full text-left py-1 px-1 ">
+                    <button onClick={() => setOpenPreferencesModal(true)} className="w-full text-left py-1 px-1 ">
                         Settings
-                    </Link>
+                    </button>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                     <button

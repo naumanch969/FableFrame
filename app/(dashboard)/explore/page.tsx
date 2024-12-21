@@ -4,6 +4,7 @@ import React from 'react'
 import UserStories from './_components/UserStories'
 import { useGetPublicStories } from '@/features/story/api/use-get-public-stories'
 import Loader from '@/components/Loader'
+import Stories from '@/components/Stories'
 
 const DashboardPage = () => {
 
@@ -19,8 +20,10 @@ const DashboardPage = () => {
             <Loader src='/loader_book.gif' title='Loading stories...' />
           </div>
           :
-          <UserStories />
+          <Stories data={data} />
       }
+      {/* <UserStories /> */}
+
 
     </div>
   )

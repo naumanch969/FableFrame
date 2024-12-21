@@ -1,12 +1,17 @@
 "use client"
+import { useCreatePreferences } from '@/features/preference/api/useCreatePreferences'
+import { useGetPreference } from '@/features/preference/api/useGetPreferences'
 import { useCreateProfile } from '@/features/profile/api/useCreateProfile'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 import { useCurrentUser } from '@/features/users/api/useCurrentUser'
 import React, { useEffect } from 'react'
 
 const ProfileSetup = () => {
+
     const { data: user } = useCurrentUser()
     const { data: profile } = useCurrentProfile()
+    const { data: preferences } = useGetPreference()
+    const { mutate: createPreferences } = useCreatePreferences()
     const { mutate } = useCreateProfile()
 
     useEffect(() => {
@@ -25,11 +30,20 @@ const ProfileSetup = () => {
                 location: "",
             }
             mutate({ formData: input }, {
-                onSuccess: (payload) => {
-                    console.log('payload', payload)
+                onSuccess: () => {
+
+                    if (!preferences) {
+                        createPreferences({ formData: {} })
+                    }
+
                 }
             })
         }
+
+        if (profile && !preferences) {
+            createPreferences({ formData: {} })
+        }
+
     }, [user])
     return (
         <></>
