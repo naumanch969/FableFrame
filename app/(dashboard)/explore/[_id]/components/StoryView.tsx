@@ -132,6 +132,7 @@ const StoryView = () => {
                         mobileScrollSupport={true}
                         onFlip={onFlip}
                         className="shadow-lg w-full bg-card rounded-lg overflow-hidden"
+                        disableFlipByClick={true}
                         ref={flipBookRef}
                     >
                         {/* Cover Page Duplicate (Right Pane) */}
