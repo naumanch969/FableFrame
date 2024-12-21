@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import { useAuthActions } from "@convex-dev/auth/react";
@@ -12,10 +11,13 @@ const ProfileButton: React.FC = () => {
     const { data } = useCurrentProfile();
     const { signOut } = useAuthActions()
 
+    const [openDropdown, setOpenDropdown] = useState(false)
+
     const onLogout = async () => {
         signOut()
             .then(() => {
-                toast.success("Logout successfully.")
+                toast.success("Logout successfully.", { position: "top-right" })
+                setOpenDropdown(false)
             })
             .catch(() => {
                 toast.error("Failed to logout.", { position: "top-right" })
@@ -24,7 +26,7 @@ const ProfileButton: React.FC = () => {
 
 
     return (
-        <DropdownMenu>
+        <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown} >
             <DropdownMenuTrigger asChild>
                 <div className="cursor-pointer rounded-md flex items-center gap-2 px-3 py-1">
                     <span className="hidden sm:block font-medium text-md capitalize ">
@@ -37,12 +39,12 @@ const ProfileButton: React.FC = () => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
                     <Link href="/profile" className="w-full text-left py-1 px-1 ">
                         View Profile
                     </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setOpenDropdown(false)}>
                     <Link href="/settings" className="w-full text-left py-1 px-1 ">
                         Settings
                     </Link>

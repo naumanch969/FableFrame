@@ -33,7 +33,7 @@ const CreateReportModal = () => {
         e.preventDefault()
 
         if (!reason || !type) {
-            toast.error('Please select a reason and type')
+            toast.error('Please select a reason and type', { position: 'top-right' })
             return
         }
 
@@ -50,11 +50,11 @@ const CreateReportModal = () => {
 
         mutate({ formData: input }, {
             onSuccess(id) {
-                toast.success('Report submitted successfully')
+                toast.success('Report submitted successfully', { position: 'top-right' })
                 onClose()
             },
             onError() {
-                toast.error('Failed to submit report')
+                toast.error('Failed to submit report', { position: 'top-right' })
             }
         })
     }

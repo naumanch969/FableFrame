@@ -37,3 +37,21 @@ export const getRelativeTime = (date: Date) => {
   if (!date) return ''
   return formatDistanceToNow(new Date(date), { addSuffix: true });
 };
+
+export const calculateAge = (dob: string) => {
+  const birthDate = new Date(dob);
+
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const hasHadBirthdayThisYear =
+    today.getMonth() > birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+
+  if (!hasHadBirthdayThisYear) {
+    age--;
+  }
+
+  return age;
+}

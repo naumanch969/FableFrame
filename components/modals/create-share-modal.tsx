@@ -37,7 +37,7 @@ const CreateShareModal = () => {
         e.preventDefault()
 
         if (!toId) {
-            toast.error('Please select a user to share with')
+            toast.error('Please select a user to share with', { position: 'top-right' })
             return false
         }
 
@@ -53,11 +53,11 @@ const CreateShareModal = () => {
 
         mutate({ formData: input }, {
             onSuccess(id) {
-                toast.success('Story shared successfully.')
+                toast.success('Story shared successfully.', { position: 'top-right' })
                 onClose()
             },
             onError() {
-                toast.error('Failed to submit report')
+                toast.error('Failed to submit report', { position: 'top-right' })
             }
         })
     }

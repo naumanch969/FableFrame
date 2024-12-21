@@ -98,38 +98,24 @@ export const create = mutation({
 
 export const update = mutation({
     args: {
-        user_id: v.id('users'),
+        profile_id: v.id('profiles'),
         username: v.optional(v.string()),
-        email: v.optional(v.string()),
-        role: v.optional(v.union(...USER_ROLES.map(item => v.literal(item.key)))),
         profile_picture_url: v.optional(v.string()),
         bio: v.optional(v.string()),
         date_of_birth: v.optional(v.string()),
-        is_verified: v.optional(v.boolean()),
         preferences: v.optional(v.any()),
         notification_settings: v.optional(v.any()),
         location: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
 
-        const user = await ctx.db.get(args.user_id);
-        if (!user) {
-            throw new Error('User not found');
-        }
-
-        const profile = await ctx.db
-            .query('profiles')
-            .withIndex('by_user_id', (q) => q.eq('user_id', args.user_id))
-            .first();
+        const profile = await ctx.db.get(args.profile_id)
 
         const updatedUser = await ctx.db.patch(profile?._id!, {
             username: args.username,
-            email: args.email,
-            role: args.role,
             profile_picture_url: args.profile_picture_url,
             bio: args.bio,
             date_of_birth: args.date_of_birth,
-            is_verified: args.is_verified,
             preferences: args.preferences,
             notification_settings: args.notification_settings,
             location: args.location,

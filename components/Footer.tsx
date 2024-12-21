@@ -19,13 +19,13 @@ const Footer = () => {
       <footer className="flex flex-col items-center py-8 mt-8 " >
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Section 1: About */}
-          <div className="space-y-8" >
+          <div className="space-y-4" >
             <Link href="/" className="flex items-center gap-2">
               <Image src='/logo_mini.svg' alt='Logo' height={32} width={32} />
-              <h2 className="font-bold text-2xl text-foreground">Constellation</h2>
+              <h2 className="font-bold text-2xl text-primary">StoryBot</h2>
               {/* <Image src='/logo.svg' alt='Logo' height={40} width={160} /> */}
             </Link>
-            <p className="mt-2 text-lg text-foreground">
+            <p className="mt-2 text-md text-muted-foreground">
               FableFrame is an AI-powered storytelling platform where users can generate, save, and share creative stories. Join us and turn your imagination into compelling narratives.
             </p>
           </div>
@@ -37,7 +37,7 @@ const Footer = () => {
               {
                 quickLinks.map((link, index) => (
                   <li key={index} >
-                    <Link href={link.path} className="text-foreground hover:underline">{link.name}</Link>
+                    <Link href={link.path} className="text-muted-foreground hover:underline">{link.name}</Link>
                   </li>
                 ))
               }
@@ -50,12 +50,12 @@ const Footer = () => {
               <h4 className="font-bold text-xl text-foreground">Contact Us</h4>
               <ul className="mt-2 space-y-2 text-sm">
                 <li className="flex items-center gap-2">
-                  <MailIcon className="w-6 h-6 text-foreground" />
-                  <Link href="mailto:support@fableframe.com" className="text-lg text-foreground hover:text-accent">support@fableframe.com</Link>
+                  <MailIcon className="w-6 h-6 text-muted-foreground" />
+                  <Link href="mailto:support@fableframe.com" className="text-lg text-muted-foreground hover:text-accent">support@fableframe.com</Link>
                 </li>
                 <li className="flex items-center gap-2">
-                  <PhoneIcon className="w-6 h-6 text-foreground" />
-                  <span className="text-lg text-foreground " >+1 (555) 123-4567</span>
+                  <PhoneIcon className="w-6 h-6 text-muted-foreground" />
+                  <span className="text-lg text-muted-foreground " >+1 (555) 123-4567</span>
                 </li>
               </ul>
             </div>

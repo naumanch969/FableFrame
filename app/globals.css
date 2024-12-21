@@ -7,61 +7,109 @@ body {
   pointer-events: visible !important;
 }
 
- 
+
 @layer base {
   :root {
-    --background: 220 100% 98%;     /*hsl(220 100% 98%)*/
-    --foreground: 240 20% 10%;      /*hsl(240 20% 10%)*/
-    --card: 220 100% 97%;     /*hsl(220 100% 97%)*/
-    --card-foreground: 240 20% 10%;     /*hsl(240 20% 10%)*/
-    --popover: 220 100% 97%;      /*hsl(220 100% 97%)*/
-    --popover-foreground: 240 20% 10%;      /*hsl(240 20% 10%)*/
-    --primary: 239, 33%, 48%;   /*hsl(239, 33%, 48%)*/
-    --primary-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
-    --secondary: 225 30% 95%;     /*hsl(225 30% 95%)*/
-    --secondary-foreground: 240 20% 10%;      /*hsl(240 20% 10%)*/
-    --muted: 225 20% 90%;     /*hsl(225 20% 90%)*/
-    --muted-foreground: 240 10% 40%;      /*hsl(240 10% 40%)*/
-    --accent: 225 20% 90%;      /*hsl(220 60% 50%)*/
-    --accent-foreground: 239, 33%, 48%;      /*hsl(0 0% 98%)*/
-    --destructive: 0 85% 65%;    /*hsl(0 85% 65%) */
-    --destructive-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
-    --border: 220 10% 85%;      /*hsl(220 10% 85%)*/
-    --input: 220 20% 95%;     /*hsl(220 20% 95%)*/
-    --ring: 240 10% 20%;      /*hsl(240 10% 20%)*/
-    --chart-1: 230 50% 60%;     /*hsl(230 50% 60%)*/
-    --chart-2: 300 40% 50%;     /*hsl(300 40% 50%)*/
-    --chart-3: 60 50% 55%;      /*hsl(60 50% 55%)*/
-    --chart-4: 43 65% 65%;      /*hsl(43 65% 65%)*/
-    --chart-5: 45 70% 60%;      /*hsl(45 70% 60%)*/
+    --background: 220 100% 98%;
+    /*hsl(220 100% 98%)*/
+    --foreground: 240 20% 10%;
+    /*hsl(240 20% 10%)*/
+    --card: 220 100% 97%;
+    /*hsl(220 100% 97%)*/
+    --card-foreground: 240 20% 10%;
+    /*hsl(240 20% 10%)*/
+    --popover: 220 100% 97%;
+    /*hsl(220 100% 97%)*/
+    --popover-foreground: 240 20% 10%;
+    /*hsl(240 20% 10%)*/
+    --primary: 239, 33%, 48%;
+    /*hsl(239, 33%, 48%)*/
+    --primary-foreground: 0 0% 98%;
+    /*hsl(0 0% 98%)*/
+    --secondary: 225 30% 95%;
+    /*hsl(225 30% 95%)*/
+    --secondary-foreground: 240 20% 10%;
+    /*hsl(240 20% 10%)*/
+    --muted: 225 20% 90%;
+    /*hsl(225 20% 90%)*/
+    --muted-foreground: 240 10% 40%;
+    /*hsl(240 10% 40%)*/
+    --accent: 225 20% 90%;
+    /*hsl(220 60% 50%)*/
+    --accent-foreground: 239, 33%, 48%;
+    /*hsl(0 0% 98%)*/
+    --destructive: 0 85% 65%;
+    /*hsl(0 85% 65%) */
+    --destructive-foreground: 0 0% 98%;
+    /*hsl(0 0% 98%)*/
+    --border: 220 10% 85%;
+    /*hsl(220 10% 85%)*/
+    --input: 220 20% 95%;
+    /*hsl(220 20% 95%)*/
+    --ring: 240 10% 20%;
+    /*hsl(240 10% 20%)*/
+    --chart-1: 230 50% 60%;
+    /*hsl(230 50% 60%)*/
+    --chart-2: 300 40% 50%;
+    /*hsl(300 40% 50%)*/
+    --chart-3: 60 50% 55%;
+    /*hsl(60 50% 55%)*/
+    --chart-4: 43 65% 65%;
+    /*hsl(43 65% 65%)*/
+    --chart-5: 45 70% 60%;
+    /*hsl(45 70% 60%)*/
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 10% 15%;      /*hsl(240 10% 15%)*/
-    --foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
-    --card: 240 10% 15%;      /*hsl(240 10% 15%)*/
-    --card-foreground: 220 15% 90%;     /*hsl(220 15% 90%)*/
-    --popover: 240 10% 15%;     /*hsl(240 10% 15%)*/
-    --popover-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
-    --primary: 239, 33%, 48%;   /*hsl(239, 33%, 48%)*/
-    --primary-foreground: 0 0% 98%;      /*hsl(240 10% 15%)*/
-    --secondary: 225 10% 25%;     /*hsl(225 10% 25%)*/
-    --secondary-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
-    --muted: 225 10% 20%;     /*hsl(225 10% 20%)*/
-    --muted-foreground: 220 20% 65%;      /*hsl(220 20% 65%)*/
-    --accent: 240 30% 70%;      /*hsl(240 30% 70%)*/
-    --accent-foreground: 240 10% 15%;     /*hsl(240 10% 15%)*/
-    --destructive: 0 70% 40%;     /*hsl(0 70% 40%)*/
-    --destructive-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
-    --border: 225 10% 20%;      /*hsl(225 10% 20%)*/
-    --input: 225 10% 20%;     /*hsl(225 10% 20%)*/
-    --ring: 240 30% 70%;      /*hsl(240 30% 70%)*/
-    --chart-1: 220 50% 60%;     /*hsl(220 50% 60%)*/
-    --chart-2: 270 50% 55%;     /*hsl(270 50% 55%)*/
-    --chart-3: 60 50% 55%;      /*hsl(60 50% 55%)*/
-    --chart-4: 43 65% 60%;      /*hsl(43 65% 60%)*/
-    --chart-5: 45 70% 55%;      /*hsl(45 70% 55%)*/
+    --background: 240 10% 15%;
+    /*hsl(240 10% 15%)*/
+    --foreground: 220 15% 90%;
+    /*hsl(220 15% 90%)*/
+    --card: 240 10% 15%;
+    /*hsl(240 10% 15%)*/
+    --card-foreground: 220 15% 90%;
+    /*hsl(220 15% 90%)*/
+    --popover: 240 10% 15%;
+    /*hsl(240 10% 15%)*/
+    --popover-foreground: 220 15% 90%;
+    /*hsl(220 15% 90%)*/
+    --primary: 239, 33%, 48%;
+    /*hsl(239, 33%, 48%)*/
+    --primary-foreground: 0 0% 98%;
+    /*hsl(240 10% 15%)*/
+    --secondary: 225 10% 25%;
+    /*hsl(225 10% 25%)*/
+    --secondary-foreground: 220 15% 90%;
+    /*hsl(220 15% 90%)*/
+    --muted: 225 10% 20%;
+    /*hsl(225 10% 20%)*/
+    --muted-foreground: 220 20% 65%;
+    /*hsl(220 20% 65%)*/
+    --accent: 240 30% 70%;
+    /*hsl(240 30% 70%)*/
+    --accent-foreground: 240 10% 15%;
+    /*hsl(240 10% 15%)*/
+    --destructive: 0 70% 40%;
+    /*hsl(0 70% 40%)*/
+    --destructive-foreground: 0 0% 98%;
+    /*hsl(0 0% 98%)*/
+    --border: 225 10% 20%;
+    /*hsl(225 10% 20%)*/
+    --input: 225 10% 20%;
+    /*hsl(225 10% 20%)*/
+    --ring: 240 30% 70%;
+    /*hsl(240 30% 70%)*/
+    --chart-1: 220 50% 60%;
+    /*hsl(220 50% 60%)*/
+    --chart-2: 270 50% 55%;
+    /*hsl(270 50% 55%)*/
+    --chart-3: 60 50% 55%;
+    /*hsl(60 50% 55%)*/
+    --chart-4: 43 65% 60%;
+    /*hsl(43 65% 60%)*/
+    --chart-5: 45 70% 55%;
+    /*hsl(45 70% 55%)*/
   }
 }
 
@@ -73,4 +121,52 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 4s ease-in-out;
+}
+
+@keyframes slide-from-up {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  20% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.animate-slide-from-up {
+  animation: slide-from-up 4s ease-in-out;
 }

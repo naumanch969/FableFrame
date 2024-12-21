@@ -31,18 +31,18 @@ const CreateChatModal = () => {
         e.preventDefault()
 
         if (!friendId) {
-            toast.error('Please select a friend.')
+            toast.error('Please select a friend.', { position: 'top-right' })
             return false
         }
 
         mutate({ formData: { other_profile_id: friendId as Id<"profiles"> } }, {
             onSuccess(id) {
-                toast.success('Chat created successfully.')
+                toast.success('Chat created successfully.', { position: 'top-right' })
                 router.push('/chats?id=' + id)
                 onClose()
             },
             onError() {
-                toast.error('Failed to submit report')
+                toast.error('Failed to submit report', { position: 'top-right' })
             }
         })
     }

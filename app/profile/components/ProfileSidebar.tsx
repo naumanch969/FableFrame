@@ -1,5 +1,6 @@
 import Hint from "@/components/Hint";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import { useGetDraftStories } from "@/features/story/api/use-get-draft-stories";
@@ -7,8 +8,9 @@ import { useGetLikedStories } from "@/features/story/api/use-get-liked-stories";
 import { useGetMyAIStories } from "@/features/story/api/use-get-my-ai-stories";
 import { useGetMyManualStories } from "@/features/story/api/use-get-my-manual-stories";
 import { useGetSharedStories } from "@/features/story/api/use-get-shared-stories";
-import { Bell, MapPin, UserRound } from "lucide-react";
-import React from "react";
+import { useProfileModal } from "@/hooks/use-profile-modal";
+import { calculateAge } from "@/lib/utils";
+import { Bell, MapPin, Pencil, UserRound } from "lucide-react";
 
 const ProfileSidebar: React.FC = () => {
 
@@ -19,9 +21,13 @@ const ProfileSidebar: React.FC = () => {
     const { data: myAIStories } = useGetMyAIStories()
     const { data: myManualStories } = useGetMyManualStories()
 
+    const [_open, setOpenProfileModal] = useProfileModal()
+
     return (
         <Card className="w-full max-w-xs p-4 shadow-md">
-            <CardHeader className="flex flex-col items-center">
+
+            <CardHeader className="flex flex-col items-center relative ">
+                <Button onClick={() => setOpenProfileModal(true)} variant='ghost' size='icon' className="absolute -top-1 -right-1 " ><Pencil /></Button>
                 <Avatar className="h-32 w-32">
                     <AvatarImage src={data?.profile_picture_url} alt={data?.username} />
                     <AvatarFallback className="text-4xl capitalize" >{data?.username?.charAt(0) || "U"}</AvatarFallback>
@@ -46,7 +52,7 @@ const ProfileSidebar: React.FC = () => {
                         <div className="flex justify-start items-center gap-2">
                             <UserRound className="w-6 h-6 text-foreground bg-primary/20 border border-primary p-1 rounded-md" />
                             <p className="text-sm text-gray-600">
-                                {data?.date_of_birth || "19"} years old
+                                {calculateAge(data?.date_of_birth!) || "19"} years old
                             </p>
                         </div>
                     </Hint>
