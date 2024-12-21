@@ -19,6 +19,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "bg-accent hover:bg-accent/90 hover:text-accent-foreground",
         link: "text-foreground underline-offset-4 hover:underline",
+        gradient: "text-white bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 hover:from-purple-500 hover:via-pink-600 hover:to-red-600 transition-all",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -26,6 +27,7 @@ const buttonVariants = cva(
         lg: "h-10 rounded-full px-8",
         xl: "h-12 rounded-full text-lg px-6",
         icon: "h-9 w-9",
+        cta: 'h-14 px-11 text-xl font-bold rounded-full',
       },
     },
     defaultVariants: {

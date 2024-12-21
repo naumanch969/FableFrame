@@ -1,14 +1,12 @@
 "use client"
 
 import React, { ReactNode } from 'react'
-import Footer from '../../components/Footer'
 
 const LandingLayout = ({ children }: { children: ReactNode }) => {
 
     return (
-        <div className='flex flex-col '>
+        <div className="">
             {children}
-            <Footer />
         </div>
     )
 }

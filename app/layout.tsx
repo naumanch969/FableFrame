@@ -8,7 +8,6 @@ import { ThemeProvider } from "@/wrappers/ThemeProvider";
 import { Toaster } from "sonner";
 import Modals from "@/wrappers/Modals";
 import ProfileSetup from "@/wrappers/ProfileSetup";
-import BGWrapper from "@/wrappers/BGWrapper";
 import Drawers from "@/wrappers/Drawers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,12 +36,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               <Drawers />
               <ProfileSetup />
 
-              <div className="max-w-screen-xl px-6 mx-auto">
-                <div className="min-h-screen">
-                  <Navbar />
-                  {children}
-                </div>
-              </div>
+              {children}
+
             </ThemeProvider>
           </ConvexClientProvider>
         </body>
