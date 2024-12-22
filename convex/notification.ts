@@ -55,7 +55,7 @@ export const update_notification = mutation({
 
         const notification = await ctx.db.get(args.notification_id);
         if (!notification) {
-            throw new Error('Notification not found');
+            return null;
         }
 
         await ctx.db.patch(args.notification_id, {
@@ -75,7 +75,7 @@ export const remove_notification = mutation({
 
         const notification = await ctx.db.get(args.notification_id);
         if (!notification) {
-            throw new Error('Notification not found');
+            return null;
         }
 
         await ctx.db.delete(args.notification_id);
@@ -92,7 +92,7 @@ export const mark_as_read = mutation({
 
         const notification = await ctx.db.get(args.notification_id);
         if (!notification) {
-            throw new Error('Notification not found');
+            return null;
         }
 
         await ctx.db.patch(args.notification_id, { is_read: true });

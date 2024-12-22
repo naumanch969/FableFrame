@@ -189,7 +189,7 @@ export const get_user_recommended_stories = query({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
+        if (!userId) return null;
 
         // Fetch the user's profile
         const profile = await ctx.db
@@ -198,7 +198,7 @@ export const get_user_recommended_stories = query({
             .unique();
 
         if (!profile) {
-            throw new Error("Profile not found for the given user_id");
+            return null;
         }
 
         // Fetch all liked story IDs for the user's profile
@@ -236,7 +236,7 @@ export const get_story_by_id = query({
     args: { id: v.id("stories") },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
+        if (!userId) return null;
 
         const story = await ctx.db.get(args.id)
 
@@ -258,7 +258,7 @@ export const get_liked_stories = query({
     handler: async (ctx) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
+        if (!userId) return null;
 
         // Fetch the user's profile
         const profile = await ctx.db
@@ -267,7 +267,7 @@ export const get_liked_stories = query({
             .unique();
 
         if (!profile) {
-            throw new Error("Profile not found for the given user_id");
+            return null;
         }
 
         // Fetch all liked story IDs for the user's profile
@@ -305,7 +305,7 @@ export const get_shared_stories = query({
     args: {},
     handler: async (ctx) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -342,7 +342,7 @@ export const get_my_manual_stories = query({
     args: {},
     handler: async (ctx) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -372,7 +372,7 @@ export const get_draft_stories = query({
     args: {},
     handler: async (ctx) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -402,7 +402,7 @@ export const get_my_ai_stories = query({
     args: {},
     handler: async (ctx) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -445,16 +445,16 @@ export const create_ai = mutation({
     handler: async (ctx, args) => {
         const { title, prompt, genre, image_style, age_category, type, is_public, status, ai_output, cover_image, chapters } = args;
 
-        if (!title) throw new Error("Title is required");
-        if (!genre) throw new Error("Genre is required");
-        if (!image_style) throw new Error("Image style is required");
-        if (!age_category) throw new Error("Age category is required");
-        if (!type) throw new Error("Type is required");
-        if (!is_public) throw new Error("Public flag is required");
-        if (!status) throw new Error("Status is required");
+        if (!title) return null;
+        if (!genre) return null;
+        if (!image_style) return null;
+        if (!age_category) return null;
+        if (!type) return null;
+        if (!is_public) return null;
+        if (!status) return null;
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         let profile: any = await populateProfileByUserId(ctx, userId)
 
@@ -465,6 +465,18 @@ export const create_ai = mutation({
         });
         const reading_time = Math.ceil(content.split(' ').length / 200);
 
+        let coverImageUrl = await ctx.storage.getUrl(cover_image)
+        if (!coverImageUrl) coverImageUrl = '/sample_cover_image.jpeg'
+
+        let updatedChapters = []
+        for (const chapter of chapters) {
+            let chapterImageUrl = chapter?.image?.url ? await ctx.storage.getUrl(chapter?.image?.url) : '/sample_cover_image.jpeg'
+            updatedChapters.push({
+                ...chapter,
+                image: { ...chapter?.image, url: chapterImageUrl }
+            })
+        }
+
         const storyId = await ctx.db.insert('stories', {
             title,
             profile_id: profile?._id,
@@ -472,7 +484,7 @@ export const create_ai = mutation({
             prompt,
             image_style,
             age_category,
-            cover_image,
+            cover_image: coverImageUrl,
             type,
             is_public,
             status,
@@ -481,7 +493,7 @@ export const create_ai = mutation({
             ratings_average: 0,
             reports_count: 0,
             ai_output: JSON.stringify(ai_output),
-            chapters,
+            chapters: updatedChapters,
         });
 
         // Create notification
@@ -529,17 +541,17 @@ export const create_manual = mutation({
             chapters,
         } = args;
 
-        if (!title) throw new Error("Title is required");
-        if (!content) throw new Error("Content is required");
-        if (!genre) throw new Error("Genre is required");
-        if (!image_style) throw new Error("Image style is required");
-        if (!age_category) throw new Error("Age category is required");
-        if (!type) throw new Error("Type is required");
-        if (!is_public) throw new Error("Public flag is required");
-        if (!status) throw new Error("Status is required");
+        if (!title) return null;
+        if (!content) return null;
+        if (!genre) return null;
+        if (!image_style) return null;
+        if (!age_category) return null;
+        if (!type) return null;
+        if (!is_public) return null;
+        if (!status) return null;
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         // Calculate reading time
         const reading_time = Math.ceil(content.split(" ").length / 200);
@@ -583,13 +595,13 @@ export const update = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
+        if (!userId) return null;
 
         const profile = await populateProfileByUserId(ctx, userId)
 
         const story = await ctx.db.get(args.id)
         if (!story || story.profile_id !== profile?._id)
-            throw new Error('Unauthorized')
+            return null;
 
         await ctx.db.patch(args.id, {
             title: args.title,
@@ -607,15 +619,15 @@ export const remove = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthenticated")
+        if (!userId) return null;
 
         const story = await ctx.db.get(args.id)
-        if (!story) throw new Error('Story not found')
+        if (!story) return null;
 
         const profile = await populateProfileByUserId(ctx, userId)
 
         if (story.profile_id !== profile?._id) {
-            throw new Error('Unauthorized')
+            return null;
         }
 
         await ctx.db.delete(args.id)

@@ -31,7 +31,7 @@ export const send_message = mutation({
     handler: async (ctx, { receiver_id, chat_id, text }) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -56,10 +56,10 @@ export const mark_as_read = mutation({
     },
     handler: async (ctx, { message_id, user_id }) => {
         const message = await ctx.db.get(message_id);
-        if (!message) throw new Error("Message not found");
+        if (!message) return null;
 
         // Only mark as read if the user is the receiver
-        if (message.receiver_id !== user_id) throw new Error("User is not the receiver");
+        if (message.receiver_id !== user_id) return null;
 
         await ctx.db.patch(message_id, {
             read_by: [user_id],
@@ -73,7 +73,7 @@ export const delete_message = mutation({
     args: { message_id: v.id("messages") },
     handler: async (ctx, { message_id }) => {
         const message = await ctx.db.get(message_id);
-        if (!message) throw new Error("Message not found");
+        if (!message) return null;
 
         await ctx.db.delete(message_id);
         return message_id

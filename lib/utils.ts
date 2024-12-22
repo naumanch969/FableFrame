@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx"
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNow } from 'date-fns';
+import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -55,3 +56,27 @@ export const calculateAge = (dob: string) => {
 
   return age;
 }
+
+export const uploadToConvex = async (url: any, imagePath: string) => {
+
+
+  const response = await fetch(imagePath);
+
+  if (!response.ok) return null;
+
+  const imageBlob = await response.blob();
+
+  const result = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'image/png', },
+    body: imageBlob,
+  });
+
+  if (!result.ok) return null;
+
+  const responsed = await result.json();
+
+  console.log('result', responsed)
+
+  return responsed.storageId;
+};

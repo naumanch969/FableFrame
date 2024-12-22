@@ -9,10 +9,10 @@ export const toggle_like_dislike_story = mutation({
     handler: async (ctx, { story_id }) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await ctx.db.query('profiles').filter(q => q.eq(q.field('user_id'), userId)).unique();
-        if (!profile) throw new Error('Profile not found for the given user_id');
+        if (!profile) return null;
 
         const profile_id = profile?._id;
 

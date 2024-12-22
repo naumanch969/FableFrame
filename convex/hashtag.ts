@@ -13,7 +13,7 @@ export const create = mutation({
             .unique();
 
         if (existingHashtag) {
-            throw new Error('Hashtag already exists');
+            return null;
         }
 
         const newHashtag = await ctx.db.insert('hashtags', {
@@ -38,7 +38,7 @@ export const remove = mutation({
     handler: async (ctx, args) => {
         const hashtag = await ctx.db.get(args.hashtag_id);
         if (!hashtag) {
-            throw new Error('Hashtag not found');
+            return null;
         }
 
         await ctx.db.delete(args.hashtag_id);

@@ -65,7 +65,7 @@ export const update_status = mutation({
 
         const report = await ctx.db.get(args.report_id);
         if (!report) {
-            throw new Error('Report not found');
+            return null;
         }
 
         await ctx.db.patch(args.report_id, { status: args.status });
@@ -82,7 +82,7 @@ export const remove = mutation({
 
         const report = await ctx.db.get(args.report_id);
         if (!report) {
-            throw new Error('Report not found');
+            return null;
         }
 
         await ctx.db.delete(args.report_id);

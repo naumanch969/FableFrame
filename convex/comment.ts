@@ -42,7 +42,7 @@ export const create = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         let profile: any = await populateProfileByUserId(ctx, userId)
 
@@ -68,13 +68,12 @@ export const update = mutation({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId)
 
         const comment = await ctx.db.get(args.comment_id);
-        if (!comment || comment.profile_id !== profile?._id)
-            throw new Error('Unauthorized to edit this comment');
+        if (!comment || comment.profile_id !== profile?._id) return null;
 
         await ctx.db.patch(args.comment_id, { content: args.content });
 
@@ -88,19 +87,19 @@ export const remove = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId)
 
         const comment = await ctx.db.get(args.comment_id);
-        if (!comment) throw new Error('Comment not found');
+        if (!comment) return null;
 
         if (comment.profile_id !== profile?._id) {
             const profile = await ctx.db
                 .query('profiles')
                 // .filter((q) => q.id(userId))
                 .unique();
-            if (profile?.role !== 'admin') throw new Error('Unauthorized');
+            if (profile?.role !== 'admin') return null;
         }
 
         await ctx.db.patch(args.comment_id, { is_deleted: true });
@@ -116,10 +115,10 @@ export const like = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const comment = await ctx.db.get(args.comment_id);
-        if (!comment) throw new Error('Comment not found');
+        if (!comment) return null;
 
         await ctx.db.patch(args.comment_id, {
             likes_count: comment.likes_count + 1,
@@ -135,10 +134,10 @@ export const report = mutation({
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const comment = await ctx.db.get(args.comment_id);
-        if (!comment) throw new Error('Comment not found');
+        if (!comment) return null;
 
         await ctx.db.patch(args.comment_id, {
             reports_count: comment.reports_count + 1,

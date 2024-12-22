@@ -15,10 +15,10 @@ export const get = query({
     args: {},
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
-        if (!profile) throw new Error("Profile not found");
+        if (!profile) return null;
 
         const friendsByProfileId = await ctx.db
             .query("friends")
@@ -57,7 +57,7 @@ export const add = mutation({
     handler: async (ctx, { friend_id }) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId)
 
@@ -77,7 +77,7 @@ export const remove = mutation({
     handler: async (ctx, { friend_id }) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId)
 

@@ -65,9 +65,7 @@ export const remove = mutation({
     handler: async (ctx, args) => {
 
         const user = await ctx.db.get(args.user_id);
-        if (!user) {
-            throw new Error('User not found');
-        }
+        if (!user) return null;
 
         await ctx.db.delete(args.user_id);
 

@@ -25,20 +25,20 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       <html lang="en">
         <body className={inter.className}>
           <ConvexClientProvider>
-            <ThemeProvider
+            {/* <ThemeProvider
               attribute="class"
               defaultTheme="light"
               enableSystem
               disableTransitionOnChange
-            >
-              <Toaster />
-              <Modals />
-              <Drawers />
-              <ProfileSetup />
+            > */}
+            <Toaster />
+            <Modals />
+            <Drawers />
+            <ProfileSetup />
 
-              {children}
+            {children}
 
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
           </ConvexClientProvider>
         </body>
       </html>

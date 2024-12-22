@@ -9,7 +9,7 @@ export const get_preferences = query({
     handler: async (ctx) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthonticated");
+        if (!userId) return null;
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -27,7 +27,7 @@ export const create_preferences = mutation({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthonticated");
+        if (!userId) return null;
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -77,7 +77,7 @@ export const update_preferences = mutation({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthonticated")
+        if (!userId) return null;
 
         const profile = await populateProfileByUserId(ctx, userId)
 
@@ -86,7 +86,7 @@ export const update_preferences = mutation({
             .withIndex('by_profile_id', (q) => q.eq('profile_id', profile?._id))
             .first();
 
-        if (!preferences) throw new Error("Preferences not found");
+        if (!preferences) return null;
 
         const preferences_id = await ctx.db.patch(preferences._id, args)
 
@@ -105,7 +105,7 @@ export const delete_preferences = mutation({
             .first();
 
         if (!preferences) {
-            throw new Error('Preferences not found.');
+            return null;
         }
 
         await ctx.db.delete(preferences._id)

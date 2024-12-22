@@ -72,7 +72,7 @@ export const create = mutation({
     handler: async (ctx, args) => {
 
         const user = await ctx.db.get(args.user_id);
-        if (!user) throw new Error('User not found');
+        if (!user) return null;
 
         const profile = await ctx.db.query('profiles').withIndex('by_user_id', (q) => q.eq('user_id', args.user_id)).first();
         if (profile) return profile?._id
@@ -133,7 +133,7 @@ export const remove = mutation({
 
         const user = await ctx.db.get(args.user_id);
         if (!user) {
-            throw new Error('User not found');
+            return null;
         }
 
         await ctx.db.delete(args.user_id);

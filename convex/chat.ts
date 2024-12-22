@@ -17,7 +17,7 @@ export const get = query({
     handler: async (ctx) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -47,7 +47,7 @@ export const get_by_id = query({
     handler: async (ctx, { chat_id }) => {
 
         const chat = await ctx.db.get(chat_id);
-        if (!chat) throw new Error("Chat not found");
+        if (!chat) return null;
 
         let participant_profiles = []
 
@@ -67,7 +67,7 @@ export const create = mutation({
     handler: async (ctx, { other_profile_id }) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error("Unauthenticated");
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
 
@@ -86,7 +86,7 @@ export const delete_chat = mutation({
     handler: async (ctx, { chat_id }) => {
 
         const userId = await auth.getUserId(ctx)
-        if (!userId) throw new Error("Unauthonticated")
+        if (!userId) return null;
 
         await ctx.db.delete(chat_id);
         return chat_id;

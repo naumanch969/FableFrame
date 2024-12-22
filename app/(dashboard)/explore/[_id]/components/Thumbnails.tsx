@@ -20,7 +20,7 @@ const Thumbnails = ({ currentPage, moveTo, story }: { currentPage: number, moveT
             >
                 <CoverPage.Mini
                     title={story?.title || ""}
-                    coverImage='/sample_cover_image.jpeg'
+                    coverImage={story?.cover_image || '/sample_cover_image.jpeg'}
                 />
             </div>
 
@@ -30,7 +30,7 @@ const Thumbnails = ({ currentPage, moveTo, story }: { currentPage: number, moveT
                     key={index}
                     onClick={() => handlePageClick(index + 1)}
                     className={`w-20 h-28 min-w-20 border cursor-pointer flex items-center justify-center text-sm hover:scale-105 transition-all rounded-lg overflow-hidden 
-    ${index + 1 === currentPage ? 'border-primary' : 'border-gray-300'}`}
+                        ${index + 1 === currentPage ? 'border-primary' : 'border-gray-300'}`}
                 // ref={(el) => {
                 //     if (index + 1 === currentPage && el) {
                 //         el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
@@ -39,7 +39,8 @@ const Thumbnails = ({ currentPage, moveTo, story }: { currentPage: number, moveT
                 >
                     <ContentPage.Mini
                         title={chapter?.title}
-                        content={chapter?.title}
+                        content={chapter?.text}
+                        image={chapter?.image?.url}
                         pageNumber={index + 1}
                     />
                 </div>
@@ -49,7 +50,7 @@ const Thumbnails = ({ currentPage, moveTo, story }: { currentPage: number, moveT
             <div
                 onClick={() => handlePageClick(totalPages)}
                 className={`w-20 h-28 min-w-20 border cursor-pointer flex items-center justify-center text-sm hover:scale-105 transition-all rounded-lg overflow-hidden 
-${currentPage === totalPages ? 'border-primary' : 'border-gray-300'}`}
+                    ${currentPage === totalPages ? 'border-primary' : 'border-gray-300'}`}
             >
                 <EndPage.Mini />
             </div>

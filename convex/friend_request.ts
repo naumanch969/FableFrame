@@ -17,7 +17,7 @@ export const get_send_requests = query({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         let profile: any = await populateProfileByUserId(ctx, userId)
 
@@ -46,7 +46,7 @@ export const get_received_requests = query({
     handler: async (ctx, args) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         let profile: any = await populateProfileByUserId(ctx, userId)
 
@@ -78,7 +78,7 @@ export const send_request = mutation({
     handler: async (ctx, { receiver_id }) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         let profile: any = await populateProfileByUserId(ctx, userId)
 
@@ -98,10 +98,10 @@ export const accept_request = mutation({
     },
     handler: async (ctx, { sender_id }) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
-        if (!profile) throw new Error('Profile not found');
+        if (!profile) return null;
 
         // Fetch the friend request
         const request = await ctx.db
@@ -114,7 +114,7 @@ export const accept_request = mutation({
             .unique();
 
         if (!request) {
-            throw new Error('Friend request not found or already processed.');
+            return null;
         }
 
         // Update request status to accepted
@@ -136,10 +136,10 @@ export const reject_request = mutation({
     },
     handler: async (ctx, { sender_id }) => {
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
-        if (!profile) throw new Error('Profile not found');
+        if (!profile) return null;
 
         // Fetch the friend request
         const request = await ctx.db
@@ -152,7 +152,7 @@ export const reject_request = mutation({
             .unique();
 
         if (!request) {
-            throw new Error('Friend request not found or already processed.');
+            return null;
         }
 
         // Update request status to rejected
@@ -169,10 +169,10 @@ export const delete_request = mutation({
     handler: async (ctx, { receiver_id }) => {
 
         const userId = await auth.getUserId(ctx);
-        if (!userId) throw new Error('Unauthenticated');
+        if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
-        if (!profile) throw new Error('Profile not found');
+        if (!profile) return null;
 
         // Fetch the friend request
         const request = await ctx.db
@@ -186,7 +186,7 @@ export const delete_request = mutation({
             .unique();
 
         if (!request) {
-            throw new Error('Friend request not found or already processed.');
+            return null;
         }
 
         const rid = await ctx.db.delete(request._id!)

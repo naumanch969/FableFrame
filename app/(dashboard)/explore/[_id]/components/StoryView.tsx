@@ -137,7 +137,7 @@ const StoryView = () => {
                     >
                         {/* Cover Page Duplicate (Right Pane) */}
                         <div className="page">
-                            <CoverPage title={story?.title || ""} coverImage="/sample_cover_image.jpeg" />
+                            <CoverPage title={story?.title || ""} coverImage={story?.cover_image || "/sample_cover_image.jpeg"} />
                         </div>
 
                         {/* Content Pages */}
@@ -145,6 +145,7 @@ const StoryView = () => {
                             <div key={index} className="page">
                                 <ContentPage
                                     content={chapter?.text}
+                                    image={chapter?.image?.url}
                                     pageNumber={index + 1}
                                     title={chapter?.title}
                                 />
@@ -161,6 +162,7 @@ const StoryView = () => {
                     {
                         currentPage > 0 &&
                         <button
+                            title='Previous'
                             onClick={handlePrev}
                             disabled={currentPage === 0}
                             className="absolute -left-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
@@ -173,6 +175,7 @@ const StoryView = () => {
                     {
                         currentPage < totalPages &&
                         <button
+                            title='Next'
                             onClick={handleNext}
                             disabled={currentPage >= totalPages + 1}
                             className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"

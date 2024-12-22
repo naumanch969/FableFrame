@@ -1,5 +1,27 @@
+import {
+    GENRE_ACTION,
+    GENRE_ADVENTURE,
+    GENRE_COMEDY,
+    GENRE_DRAMA,
+    GENRE_FANTASY,
+    GENRE_HISTORICAL,
+    GENRE_HORROR,
+    GENRE_MYSTERY,
+    GENRE_MYTHOLOGY,
+    GENRE_SCIFI,
+    GENRE_THRILLER,
+    GENRE_ROMANTIC,
+    AGE_CATEGORY_CHILDREN,
+    AGE_CATEGORY_TEEN,
+    AGE_CATEGORY_ADULT,
+    IMAGE_STYLE_3D,
+    IMAGE_STYLE_PAPER_CUT,
+    IMAGE_STYLE_PIXEL,
+    IMAGE_STYLE_WATER_COLOR,
+} from './images'
+
 export const CREATE_STORY_PROMPT = `
-    NEXT_PUBLIC_CREATE_STORY_PROMPT=Create a captivating story for {age_category} kids in the {genre} genre, with all images in the {image_style} style. The story title is "{title}". Ensure the story has at least 10 chapters. Each chapter must include:
+    NEXT_PUBLIC_CREATE_STORY_PROMPT=Create a captivating story for {age_category} kids in the {genre} genre, with all images in the {image_style} style. The story title is "{title}". Ensure the story has at least {chapters} chapters. Each chapter must include:
     - A unique and descriptive title.
     - A minimum of 200 words of engaging narrative text tailored to the target audience.
     - A detailed image text prompt describing the visual elements of the chapter.
@@ -8,18 +30,18 @@ export const CREATE_STORY_PROMPT = `
 `
 
 export const STORY_GENRES = [
-    { key: "general", label: "General" },
-    { key: "fantasy", label: "Fantasy" },
-    { key: "sci-fi", label: "Sci-Fi" },
-    { key: "mystery", label: "Mystery" },
-    { key: "romance", label: "Romance" },
-    { key: "horror", label: "Horror" },
-    { key: "thriller", label: "Thriller" },
-    { key: "adventure", label: "Adventure" },
-    { key: "historical", label: "Historical" },
-    { key: "non-fiction", label: "Non-fiction" },
-    { key: "drama", label: "Drama" },
-    { key: "comedy", label: "Comedy" }
+    { key: "general", label: "General", image: GENRE_ACTION },
+    { key: "fantasy", label: "Fantasy", image: GENRE_FANTASY },
+    { key: "sci-fi", label: "Sci-Fi", image: GENRE_SCIFI },
+    { key: "mystery", label: "Mystery", image: GENRE_MYSTERY },
+    { key: "romance", label: "Romance", image: GENRE_ROMANTIC },
+    { key: "horror", label: "Horror", image: GENRE_HORROR },
+    { key: "thriller", label: "Thriller", image: GENRE_THRILLER },
+    { key: "adventure", label: "Adventure", image: GENRE_ADVENTURE },
+    { key: "historical", label: "Historical", image: GENRE_HISTORICAL },
+    { key: "non-fiction", label: "Non-fiction", image: GENRE_MYTHOLOGY },
+    { key: "drama", label: "Drama", image: GENRE_DRAMA },
+    { key: "comedy", label: "Comedy", image: GENRE_COMEDY },
 ];
 
 export const STORY_STATUSES = [
@@ -30,18 +52,16 @@ export const STORY_STATUSES = [
 ];
 
 export const STORY_IMAGE_STYLES = [
-    { key: "3D-cartoon", label: "3D Cartoon" },
-    { key: "paper-cut", label: "Paper Cut" },
-    { key: "water-color", label: "Watercolor" },
-    { key: "pixel-style", label: "Pixel Style" }
+    { key: "3D-cartoon", label: "3D Cartoon", image: IMAGE_STYLE_3D },
+    { key: "paper-cut", label: "Paper Cut", image: IMAGE_STYLE_PAPER_CUT },
+    { key: "water-color", label: "Watercolor", image: IMAGE_STYLE_WATER_COLOR },
+    { key: "pixel-style", label: "Pixel Style", image: IMAGE_STYLE_PIXEL }
 ];
 
 export const STORY_AGE_CATEGORIES = [
-    { key: "children", label: "Children" },
-    { key: "teens", label: "Teens" },
-    { key: "young_adult", label: "Young Adult" },
-    { key: "adult", label: "Adult" },
-    { key: "mature", label: "Mature" }
+    { key: "children", label: "Children", image: AGE_CATEGORY_CHILDREN },
+    { key: "teens", label: "Teens", image: AGE_CATEGORY_TEEN },
+    { key: "adult", label: "Adult", image: AGE_CATEGORY_ADULT },
 ];
 
 export const STORY_TYPES = [

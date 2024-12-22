@@ -50,9 +50,7 @@ export const remove = mutation({
     handler: async (ctx, args) => {
 
         const share = await ctx.db.get(args.share_id);
-        if (!share) {
-            throw new Error('Share not found');
-        }
+        if (!share) return null;
 
         await ctx.db.delete(args.share_id);
 
