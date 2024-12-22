@@ -104,27 +104,51 @@ const PreferencesModal = () => {
                         <label htmlFor="language" className="block text-sm font-medium">Notifications</label>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-1">
-                                <Switch id="likes" checked={notifications.likes} onCheckedChange={(value) => setNotifications(p => ({ ...p, likes: value }))} />
+                            <Switch 
+                                id="likes" 
+                                checked={notifications?.likes || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, likes: value }))} 
+                            />
                                 <Label htmlFor="likes">Likes Notifications</Label>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Switch id="account" checked={notifications.account} onCheckedChange={(value) => setNotifications(p => ({ ...p, account: value }))} />
+                            <Switch 
+                                id="account" 
+                                checked={notifications?.account || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, account: value }))} 
+                            />
                                 <Label htmlFor="account">Account Notifications</Label>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Switch id="friends" checked={notifications.friends} onCheckedChange={(value) => setNotifications(p => ({ ...p, friends: value }))} />
+                            <Switch 
+                                id="friends" 
+                                checked={notifications?.friends || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, friends: value }))} 
+                            />
                                 <Label htmlFor="friends">Friends Notifications</Label>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Switch id="new_features" checked={notifications.new_features} onCheckedChange={(value) => setNotifications(p => ({ ...p, new_features: value }))} />
+                            <Switch 
+                                id="new_features" 
+                                checked={notifications?.new_features || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, new_features: value }))} 
+                            />
                                 <Label htmlFor="new_features">New Features Notifications</Label>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Switch id="shares" checked={notifications.shares} onCheckedChange={(value) => setNotifications(p => ({ ...p, shares: value }))} />
+                            <Switch 
+                                id="shares" 
+                                checked={notifications?.shares || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, shares: value }))} 
+                            />
                                 <Label htmlFor="shares">Shares Notifications</Label>
                             </div>
                             <div className="flex items-center gap-1">
-                                <Switch id="story" checked={notifications.story} onCheckedChange={(value) => setNotifications(p => ({ ...p, story: value }))} />
+                            <Switch 
+                                id="story" 
+                                checked={notifications?.story || false} 
+                                onCheckedChange={(value) => setNotifications((prev) => ({ ...prev, story: value }))} 
+                            />
                                 <Label htmlFor="story">Story Notifications</Label>
                             </div>
                         </div>
