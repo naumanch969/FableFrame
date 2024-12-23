@@ -317,8 +317,7 @@ export const get_shared_stories = query({
         let stories = [];
         for (const share of shares) {
             const story = await populateStory(ctx, share?.story_id)
-            if (story)
-                stories.push(story)
+            if (story) stories.push({...story, shared_at: share?._creationTime})
         }
 
         const response: any = []

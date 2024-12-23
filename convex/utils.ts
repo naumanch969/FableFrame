@@ -2,8 +2,6 @@ import { INITIAL_PROFILE_PREFERENCES, NOTIFICATION_TYPES } from "@/constants";
 import { Id } from "./_generated/dataModel";
 import { MutationCtx, QueryCtx } from "./_generated/server";
 
-
-
 export const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
     let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
     return profile
@@ -50,3 +48,19 @@ export const createInitialPreferences = async (ctx: MutationCtx, profile_id: Id<
 
     return preferencesId
 }
+
+export const getChat = async (
+    ctx: MutationCtx,
+    id1: Id<"profiles">,
+    id2: Id<"profiles">
+) => {
+
+    const participants1 = [id1, id2].sort();
+    const participants2 = [id2, id1].sort();
+
+    // Query the chats table for an existing chat between the two participants
+    let existingChat = await ctx.db.query("chats").filter((q) => q.eq(q.field("participants"), participants1)).first();
+    existingChat = await ctx.db.query("chats").filter((q) => q.eq(q.field("participants"), participants2)).first();
+
+    return existingChat;
+};

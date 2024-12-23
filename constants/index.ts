@@ -61,7 +61,7 @@ export const STORY_IMAGE_STYLES = [
 export const STORY_AGE_CATEGORIES = [
     { key: "children", label: "Children", image: AGE_CATEGORY_CHILDREN },
     { key: "teens", label: "Teens", image: AGE_CATEGORY_TEEN },
-    { key: "adult", label: "Adult", image: AGE_CATEGORY_ADULT },
+    { key: "young_adult", label: "Adult", image: AGE_CATEGORY_ADULT },
 ];
 
 export const STORY_TYPES = [

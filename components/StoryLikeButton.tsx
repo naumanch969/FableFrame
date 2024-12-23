@@ -19,7 +19,11 @@ const StoryLikeButton = ({ story }: { story: Story }) => {
 
     return (
         <Hint label='Like' >
-            <Button onClick={onLike} variant={isLiked ? "default" : "ghost"} size="icon" className="flex items-center justify-center">
+            <Button
+                onClick={onLike} variant={isLiked ? "default" : "ghost"}
+                size="icon"
+                className="bg-transparent flex items-center justify-center"
+            >
                 <Heart className="w-4 h-4" />
             </Button>
         </Hint>

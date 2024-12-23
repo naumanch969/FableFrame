@@ -42,7 +42,7 @@ export const ChatList = () => {
 
     //////////////////////////////////////////////// RENDER //////////////////////////////////////////////////////////
     return (
-        <div className="h-[820px] col-span-1 flex flex-col gap-2 relative ">
+        <div className="h-[90vh] col-span-1 flex flex-col gap-2 relative ">
 
             <Button onClick={() => setOpenChatModal(true)} variant='secondary' size='icon' className='bg-black text-primary-foreground absolute bottom-2 right-2 rounded-lg w-10 h-10 ' ><Plus /></Button>
 

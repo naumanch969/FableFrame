@@ -8,10 +8,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
     return (
         <div className="max-w-screen-xl px-6 mx-auto">
-            <div className="min-h-screen">
+            <div className="min-h-screen pb-12 ">
                 <Navbar />
                 {children}
-                <Footer />
             </div>
         </div>
     )

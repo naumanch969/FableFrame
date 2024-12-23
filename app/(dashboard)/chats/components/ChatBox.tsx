@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { Search, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useGetChat } from '@/features/chat/api/useGetChat';
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useSendMessage } from '@/features/messages/api/useSendMessage';
-import { getRelativeTime } from '@/lib/utils';
+import { getRelativeTime, groupByDate } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import { useGetMyChats } from '@/features/chat/api/useGetMyChats';
 import { useGetMessages } from '@/features/messages/api/useGetMessages';
 import { Card } from '@/components/ui/card';
 import { Profile } from '@/types';
+import Image from 'next/image'
 
 export const ChatBox = () => {
     ///////////////////////////////////////////////////// VARIABLES ////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ export const ChatBox = () => {
     ///////////////////////////////////////////////////// STATES ////////////////////////////////////////////////////
     const [messageInput, setMessageInput] = useState('');
     const [searchQuery, setSearchQuery] = useState('')
-    const [messages, setMessages] = useState(fetchedMessages)
+    const [messages, setMessages] = useState(groupByDate(fetchedMessages!))
 
     ///////////////////////////////////////////////////// USE EFFECTS ////////////////////////////////////////////////////
     useEffect(() => {
@@ -38,7 +38,7 @@ export const ChatBox = () => {
     }, [chat]);
 
     useEffect(() => {
-        setMessages(fetchedMessages)
+        setMessages(groupByDate(fetchedMessages!))
     }, [fetchedMessages]);
 
     ///////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////
@@ -71,10 +71,14 @@ export const ChatBox = () => {
     };
 
     const onSearch = () => {
-        setMessages(fetchedMessages?.filter(message =>
+        console.log('grouped messages', groupByDate(fetchedMessages!!))
+        const filtered = fetchedMessages?.filter(message =>
             message?.text?.toLowerCase()?.includes(searchQuery?.toLowerCase())
-        ))
+        )
+        setMessages(groupByDate(filtered!))
     };
+
+
 
     ///////////////////////////////////////////////////// COMPONENTS ////////////////////////////////////////////////////
     const MessageComponent = ({ message }: { message: Doc<"messages"> }) => {
@@ -90,6 +94,40 @@ export const ChatBox = () => {
                 </div>
                 <p className={`text-xs ${isMe ? 'text-end' : 'text-start'}`}>{time}</p>
             </div>
+        );
+    };
+    const SharedStory = ({ story }: { story: Doc<"stories"> }) => {
+
+        return (
+            <Card key={index} className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
+
+                <div
+                    onClick={() => setActive(story)}
+                    className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
+                >
+                    <Image
+                        width={100}
+                        height={100}
+                        src={story?.cover_image || "/sample_cover_image.jpeg"}
+                        alt={story.title}
+                        className="h-full w-full rounded-lg object-cover object-top"
+                    />
+                    <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
+                        <div className='w-full flex justify-end items-start flex-col h-full relative' >
+                            <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
+                                <p className='text-white/90 font-bold text-xl  ' >Open</p>
+                            </div>
+                            <p className="text-neutral-300 text-center md:text-left text-base">
+                                <span className="">{story?.chapters?.length} chapters</span>
+                                <span className="font-bold px-1">.</span>
+                                <span className="">{story?.reading_time} mins read</span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </Card>
         );
     };
 
@@ -113,7 +151,7 @@ export const ChatBox = () => {
                             </Card>
                         )
                         : (
-                            <div className="space-y-2 col-span-3 w-full h-[820px]">
+                            <div className="space-y-2 col-span-3 w-full h-[90vh]">
                                 <Card className="bg-background p-2 flex items-center justify-between">
                                     <div className="flex items-center gap-2 ">
                                         <Avatar className='w-10 h-10 bg-black text-white ' >
@@ -141,12 +179,19 @@ export const ChatBox = () => {
                                 <Card style={{ height: 'calc(100% - 68px)' }} className="bg-card p-1 relative flex justify-between flex-col ">
 
                                     <div ref={scrollRef} className="h-full pb-[56px] flex flex-col gap-2 overflow-y-auto px-1 py-4 ">
-                                        {messages?.map((message, index) => (
-                                            <MessageComponent
-                                                key={index}
-                                                message={message}
-                                            />
-                                        ))}
+                                        {
+                                            Object?.entries(messages)?.map(([date, msgs]) => (
+                                                <div key={date} className="flex flex-col gap-2">
+                                                    <p className="text-xs text-muted-foreground text-center">{date}</p>
+                                                    {
+                                                        // @ts-ignore
+                                                        msgs?.map((message, index) => (
+                                                            <MessageComponent key={index} message={message} />
+                                                        ))
+                                                    }
+                                                </div>
+                                            ))
+                                        }
                                     </div>
 
                                     <div className="rounded-lg overflow-hidden h-[50px] absolute left-0 bottom-1 w-full p-1">

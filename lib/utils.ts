@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNow } from 'date-fns';
 import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
+import { Message } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -80,3 +81,24 @@ export const uploadToConvex = async (url: any, imagePath: string) => {
 
   return responsed.storageId;
 };
+
+export const groupByDate = (messages: Message[]) => {
+
+  if (!messages) return {};
+
+  return messages.reduce((acc, message) => {
+
+    const date = new Date(message._creationTime).toISOString().split("T")[0];
+
+    // @ts-ignore
+    if (!acc[date]) {
+      // @ts-ignore
+      acc[date] = [];
+    }
+
+    // @ts-ignore
+    acc[date].push(message);
+
+    return acc;
+  }, {});
+}

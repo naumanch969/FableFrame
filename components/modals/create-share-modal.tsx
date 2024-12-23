@@ -13,9 +13,12 @@ import { useCreateShareModal } from '@/hooks/use-create-share-modal'
 import { Id } from '@/convex/_generated/dataModel'
 import { useGetProfiles } from '@/features/profile/api/useGetProfiles'
 import Required from '../Required'
+import { Profile } from '@/types'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 const CreateShareModal = () => {
 
+    ////////////////////////////////////////////////// VARIABLES ///////////////////////////////////////////////
     const { data: profile } = useCurrentProfile()
     const { data: profiles } = useGetProfiles()
     const { mutate, isPending } = useCreateShare()
@@ -23,27 +26,23 @@ const CreateShareModal = () => {
     const [story, setStory] = useSelectedStory()
     const [open, setOpen] = useCreateShareModal()
 
-    const [toId, setToId] = useState<Id<"profiles"> | "">("")
+    ////////////////////////////////////////////////// STATES ///////////////////////////////////////////////
+    const [toIds, setToIds] = useState<Id<"profiles">[]>([])
     const [message, setMessage] = useState<string>("")
     const [restriction, setRestriction] = useState<typeof SHARE_RESTRICTIONS[number]['key']>("full-access")
 
-    useEffect(() => {
-        if (message) {
-            // Here you can set 'type' based on 'reason' if needed in future
-        }
-    }, [message])
-
+    ////////////////////////////////////////////////// FUNCTIONS ///////////////////////////////////////////////
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (!toId) {
+        if (toIds?.length == 0) {
             toast.error('Please select a user to share with', { position: 'top-right' })
             return false
         }
 
         const input = {
             from_id: profile?._id!,
-            to_id: toId!,
+            to_id: toIds!,
             story_id: story?._id!,
             shared_at: new Date().toISOString(),
             restriction,
@@ -57,7 +56,7 @@ const CreateShareModal = () => {
                 onClose()
             },
             onError() {
-                toast.error('Failed to submit report', { position: 'top-right' })
+                toast.error('Failed to share the story.', { position: 'top-right' })
             }
         })
     }
@@ -67,34 +66,51 @@ const CreateShareModal = () => {
         setStory(null)
     }
 
+    ////////////////////////////////////////////////// COMPONENTS ///////////////////////////////////////////////
+    const ProfileItem = ({ profile }: { profile: Profile }) => {
+
+        const isExist = toIds.includes(profile?._id!)
+
+        const onAdd = () => {
+            if (isExist) {
+                setToIds(pre => pre.filter(id => id != profile?._id))
+            }
+            else {
+                setToIds([...toIds, profile?._id!])
+            }
+        }
+
+        return (
+            <div
+                onClick={onAdd}
+                className={`${isExist ? 'bg-primary text-primary-foreground' : 'bg-white'} mb-2 col-span-1 rounded-lg flex flex-col justify-center gap-1 cursor-pointer items-center gap-1 p-2 hover:bg-primary hover:text-white `}
+            >
+                <Avatar>
+                    <AvatarImage src={profile?.profile_picture_url} />
+                    <AvatarFallback className='text-neutral-700 capitalize' >{profile?.username?.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <h5 className="text-xs font-medium truncate w-full text-center ">
+                    {profile?.username}
+                </h5>
+            </div>
+        );
+    };
+
+    ////////////////////////////////////////////////// RENDER ///////////////////////////////////////////////////
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent>
+            <DialogContent className='max-h-[90vh] overflow-y-auto ' >
                 <DialogHeader>
                     <DialogTitle>Share Story</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={onSubmit} className='space-y-4'>
+                <form onSubmit={onSubmit} className='space-y-4 w-full '>
 
-                    {/* ToId */}
-                    <div className='flex flex-col gap-2' >
-                        <label htmlFor="reason" className="block text-sm font-medium">To <Required /></label>
-                        <Select
-                            value={toId}
-                            onValueChange={(e: Id<"profiles">) => setToId(e)}
-                            disabled={isPending}
-                            required={true}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a profile" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {profiles?.filter(p => p?._id != profile?._id)?.map((p) => (
-                                    <SelectItem key={p?._id} value={p?._id}>
-                                        {p?.username} ({p?.email})
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <div className='flex gap-2 overflow-x-auto w-[28rem] ' >
+                        {
+                            profiles?.map((profile, index) => (
+                                <ProfileItem key={index} profile={profile} />
+                            ))
+                        }
                     </div>
 
                     {/* Reason Select */}
@@ -110,7 +126,7 @@ const CreateShareModal = () => {
                     </div>
 
                     {/* Reason Select */}
-                    <div className='flex flex-col gap-2' >
+                    {/* <div className='flex flex-col gap-2' >
                         <label htmlFor="reason" className="block text-sm font-medium">Restriction</label>
                         <Select
                             value={restriction}
@@ -120,7 +136,7 @@ const CreateShareModal = () => {
                             <SelectTrigger>
                                 <SelectValue placeholder="Select a type" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className='z-50' >
                                 {SHARE_RESTRICTIONS.map((restriction) => (
                                     <SelectItem key={restriction.key} value={restriction.key}>
                                         {restriction.label}
@@ -128,7 +144,7 @@ const CreateShareModal = () => {
                                 ))}
                             </SelectContent>
                         </Select>
-                    </div>
+                    </div> */}
 
 
                     {/* Submit Button */}

@@ -13,19 +13,17 @@ const Chat = () => {
 
 
     return (
-        <div className="flex flex-col">
-            <div className="h-[calc(110vh-186px)] space-y-4 overflow-hidden sm:h-[calc(110vh-174px)]">
+        <div className="flex flex-col ">
 
-                <div className="flex justify-between items-center w-full">
-                    <h1 className="text-3xl font-bold text-dark-slate-blue " >
-                        Chats
-                    </h1>
-                </div>
+            <div className="flex justify-between items-center w-full">
+                <h1 className="text-3xl font-bold text-dark-slate-blue " >
+                    Chats
+                </h1>
+            </div>
 
-                <div className="grid grid-cols-4 gap-4 w-full h-[820px]">
-                    <ChatList />
-                    <ChatBox />
-                </div>
+            <div className="grid grid-cols-4 gap-4 w-full">
+                <ChatList />
+                <ChatBox />
             </div>
         </div>
     );

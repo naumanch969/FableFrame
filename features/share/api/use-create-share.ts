@@ -7,7 +7,7 @@ import { SHARE_RESTRICTIONS } from "@/constants";
 type RequestType = {
     formData: {
         from_id: Id<"profiles">,
-        to_id: Id<"profiles">,
+        to_id: Id<"profiles">[],
         story_id: Id<"stories">,
         shared_at: string,
         restriction: typeof SHARE_RESTRICTIONS[number]['key'];

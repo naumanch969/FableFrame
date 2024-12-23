@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { mutation, query, QueryCtx } from "./_generated/server";
 import { Id } from "./_generated/dataModel";
 import { auth } from "./auth";
+import { getChat } from "./utils";
 
 const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
     let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
@@ -70,6 +71,9 @@ export const create = mutation({
         if (!userId) return null; // Unauthenticated
 
         const profile = await populateProfileByUserId(ctx, userId);
+
+        const chat = getChat(ctx, profile?._id, other_profile_id)
+        console.log('chat', chat)
 
         const newChat = await ctx.db.insert("chats", {
             last_message: "",
