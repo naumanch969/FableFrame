@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Share, Flag, Heart, Share2, Haze, Ellipsis } from 'lucide-react';
 import Hint from './Hint';
-import { useLikeDislikeStory } from '@/features/like/api/use-like-dislike-story';
+import { useLikeDislikeStory } from '@/features/like/api/useLikeDislikeStory';
 import { user } from '@nextui-org/react';
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';

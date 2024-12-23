@@ -2,7 +2,7 @@
 
 import React from 'react'
 import UserStories from './_components/UserStories'
-import { useGetPublicStories } from '@/features/story/api/use-get-public-stories'
+import { useGetPublicStories } from '@/features/story/api/useGetPublicStories'
 import Loader from '@/components/Loader'
 import Stories from '@/components/Stories'
 

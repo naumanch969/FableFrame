@@ -156,6 +156,7 @@ const schema = defineSchema({
         sender_id: v.id("profiles"),
         read_by: v.array(v.id("profiles")),
         text: v.optional(v.string()),
+        story_id: v.optional(v.id("stories"))
     })
         .index("by_chat_id", ["chat_id"])
         .index("by_sender_id", ["sender_id"])

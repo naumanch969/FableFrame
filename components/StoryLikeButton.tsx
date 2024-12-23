@@ -3,7 +3,7 @@ import Hint from './Hint'
 import { Button } from './ui/button'
 import { Heart } from 'lucide-react'
 import { Story } from '@/types'
-import { useLikeDislikeStory } from '@/features/like/api/use-like-dislike-story'
+import { useLikeDislikeStory } from '@/features/like/api/useLikeDislikeStory'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 
 const StoryLikeButton = ({ story }: { story: Story }) => {

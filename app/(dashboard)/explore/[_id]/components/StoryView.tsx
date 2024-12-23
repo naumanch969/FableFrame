@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Heart, Share2 } from "lucide-react";
-import { useGetStory } from "@/features/story/api/use-get-story";
+import { useGetStory } from "@/features/story/api/useGetStory";
 import { useStoryId } from "@/hooks/use-story-id";
 import { Id } from "@/convex/_generated/dataModel";
 import Loader from "@/components/Loader";
@@ -11,7 +11,7 @@ import HTMLFlipBook from "react-pageflip";
 import Hint from "@/components/Hint";
 import { useSelectedStory } from "@/hooks/use-selected-story";
 import { useCreateShareModal } from "@/hooks/use-create-share-modal";
-import { useLikeDislikeStory } from "@/features/like/api/use-like-dislike-story";
+import { useLikeDislikeStory } from "@/features/like/api/useLikeDislikeStory";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import { Card } from "@/components/ui/card";
 import CommentBox from "./CommentBox";

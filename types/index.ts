@@ -10,3 +10,4 @@ export type Comment = Doc<"comments"> & { profile: Profile }
 export type Story = Doc<"stories"> & { author: Profile, shares: Id<"stories">[], likes: ProfileId[], reports: ProfileId[] }
 export type SharedStory = Doc<"stories"> & { author: Profile, shares: Id<"stories">[], likes: ProfileId[], reports: ProfileId[], shared_at: number }
 export type Message = Doc<"messages">
+export type StoryReport = Doc<"story_reports"> & { story: Story, profile: Profile }

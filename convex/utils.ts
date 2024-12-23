@@ -60,7 +60,8 @@ export const getChat = async (
 
     // Query the chats table for an existing chat between the two participants
     let existingChat = await ctx.db.query("chats").filter((q) => q.eq(q.field("participants"), participants1)).first();
-    existingChat = await ctx.db.query("chats").filter((q) => q.eq(q.field("participants"), participants2)).first();
+    if (!existingChat)
+        existingChat = await ctx.db.query("chats").filter((q) => q.eq(q.field("participants"), participants2)).first();
 
     return existingChat;
 };

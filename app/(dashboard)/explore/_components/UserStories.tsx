@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import StoryItem from '@/components/StoryItem'
 import CustomLoader from '@/app/(dashboard)/create-story/_components/CustomLoader'
-import { useGetPublicStories } from '@/features/story/api/use-get-public-stories'
+import { useGetPublicStories } from '@/features/story/api/useGetPublicStories'
 
 const UserStories = () => {
 

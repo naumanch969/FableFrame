@@ -317,13 +317,40 @@ export const get_shared_stories = query({
         let stories = [];
         for (const share of shares) {
             const story = await populateStory(ctx, share?.story_id)
-            if (story) stories.push({...story, shared_at: share?._creationTime})
+            if (story) stories.push({ ...story, shared_at: share?._creationTime })
         }
 
         const response: any = []
 
         for (const story of stories) {
             const populated_story = await populateAllStoryFields(ctx, story!)
+            response.push({
+                ...story,
+                author: populated_story?.author,
+                likes: populated_story?.likes?.map(like => like?.profile_id),
+                reports: populated_story?.reports?.map(report => report?.profile_id),
+                shares: populated_story?.shares?.map(share => share?._id),
+            })
+        }
+
+        return response
+    }
+});
+
+export const get = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) return null; // Unauthenticated
+
+        const manualStories = await ctx.db
+            .query("stories")
+            .collect();
+
+        const response: any = []
+
+        for (const story of manualStories) {
+            const populated_story = await populateAllStoryFields(ctx, story)
             response.push({
                 ...story,
                 author: populated_story?.author,

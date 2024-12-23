@@ -26,6 +26,18 @@ export const create = mutation({
     },
 });
 
+export const get = query({
+    args: {},
+    handler: async (ctx, args) => {
+
+        const reports = await ctx.db
+            .query('story_reports')
+            .collect();
+
+        return reports;
+    },
+});
+
 export const get_by_story = query({
     args: {
         story_id: v.id('stories'),

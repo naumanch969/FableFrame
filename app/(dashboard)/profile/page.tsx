@@ -5,11 +5,11 @@ import ProfileSidebar from './components/ProfileSidebar';
 import ProfileMenubar from './components/ProfileMenubar';
 
 import StoryItem from '@/components/StoryItem';
-import { useGetLikedStories } from '@/features/story/api/use-get-liked-stories';
-import { useGetSharedStories } from '@/features/story/api/use-get-shared-stories';
-import { useGetMyAIStories } from '@/features/story/api/use-get-my-ai-stories';
-import { useGetMyManualStories } from '@/features/story/api/use-get-my-manual-stories';
-import { useGetDraftStories } from '@/features/story/api/use-get-draft-stories';
+import { useGetLikedStories } from '@/features/story/api/useGetLikedStories';
+import { useGetSharedStories } from '@/features/story/api/useGetSharedStories';
+import { useGetMyAIStories } from '@/features/story/api/useGetMyAIStories';
+import { useGetMyManualStories } from '@/features/story/api/useGetMyManualStories';
+import { useGetDraftStories } from '@/features/story/api/useGetDraftStories';
 import Loader from '@/components/Loader';
 import Stories from '@/components/Stories';
 

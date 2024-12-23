@@ -3,15 +3,15 @@
 import React from 'react';
 import StoryView from './components/StoryView';
 import RecommendedStories from './components/RecommendedStories';
-import { useGetPublicStories } from '@/features/story/api/use-get-public-stories';
+import { useGetPublicStories } from '@/features/story/api/useGetPublicStories';
 import Footer from '@/components/Footer';
-import { useGetGenreStories } from '@/features/story/api/use-get-genre-stories';
-import { useGetStory } from '@/features/story/api/use-get-story';
+import { useGetGenreStories } from '@/features/story/api/useGetGenreStories';
+import { useGetStory } from '@/features/story/api/useGetStory';
 import { useStoryId } from '@/hooks/use-story-id';
 import { Id } from '@/convex/_generated/dataModel';
-import { useGetAgeCategoryStories } from '@/features/story/api/use-get-age-category-stories';
-import { useGetPopularStories } from '@/features/story/api/use-get-popular-stories';
-import { useGetUserRecommendedStories } from '@/features/story/api/use-get-user-recommended-stories';
+import { useGetAgeCategoryStories } from '@/features/story/api/useGetAgeCategoryStories';
+import { useGetPopularStories } from '@/features/story/api/useGetPopularStories';
+import { useGetUserRecommendedStories } from '@/features/story/api/useGetUserRecommendedStories';
 
 const ViewStory = () => {
 

@@ -26,8 +26,20 @@ export const
             let newShare;
             for (const toId of args.to_id) {
 
-                const chat = getChat(ctx, profile?._id, toId)
+                const chat = await getChat(ctx, profile?._id, toId)
+
                 console.log('chat', chat)
+
+                if (chat)
+                    await ctx.db.insert('messages', {
+                        sender_id: profile?._id,
+                        receiver_id: toId,
+                        text: "",
+                        read_by: [profile?._id],
+                        chat_id: chat?._id,
+                        story_id: args.story_id
+                    })
+
                 newShare = await ctx.db.insert('shares', {
                     from_id: args.from_id,
                     to_id: toId,
