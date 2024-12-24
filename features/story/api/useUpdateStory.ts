@@ -2,8 +2,15 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import { STORY_STATUSES, STORY_GENRES } from "@/constants";
 
-type RequestType = { id: Id<"stories">, name: string }
+type RequestType = {
+    id: Id<"stories">,
+    title: string,
+    content: string,
+    genre: typeof STORY_GENRES[number]['key'];
+    status: typeof STORY_STATUSES[number]['key'];
+}
 type ResponseType = Id<"stories"> | null
 
 type Options = {
@@ -21,7 +28,7 @@ export const useUpdateStory = () => {
     const [state, setState] = useState<"success" | "error" | "settled" | "pending" | null>(null)
 
     const mutation = useMutation(api.story.update)
- 
+
     const isPending = useMemo(() => state == 'pending', [state])
     const isSuccess = useMemo(() => state == 'success', [state])
     const isError = useMemo(() => state == 'error', [state])
