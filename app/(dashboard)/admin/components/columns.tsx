@@ -203,7 +203,7 @@ export const storyColumns: ColumnDef<Story>[] = [
     },
 ];
 
-export const reportsColumns: ColumnDef<StoryReport>[] = [
+export const reportsColumns: ColumnDef<any>[] = [
     {
         id: "select",
         header: ({ table }) => (
