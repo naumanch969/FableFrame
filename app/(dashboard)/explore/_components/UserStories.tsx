@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import StoryItem from '@/components/StoryItem'
 import CustomLoader from '@/app/(dashboard)/create-story/_components/CustomLoader'
 import { useGetPublicStories } from '@/features/story/api/useGetPublicStories'
+import { Story } from '@/types'
 
 const UserStories = () => {
 
@@ -21,7 +22,7 @@ const UserStories = () => {
                         ?
                         <div className="text-center">No stories found for this user.</div>
                         :
-                        stories?.map((story, index) => (
+                        stories?.map((story: Story, index: number) => (
                             <StoryItem story={story} key={index} />
                         ))
                 }
