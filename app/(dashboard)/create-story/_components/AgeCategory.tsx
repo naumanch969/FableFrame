@@ -16,7 +16,7 @@ const AgeGroup = ({ userSelection }: { userSelection: any }) => {
     }, [selectedOption])
 
     return (
-        <div className='' >
+        <div className='col-span-1' >
 
             <label htmlFor="" className="font-bold text-xl text-foreground">3. Age Group</label>
             <div className="grid grid-cols-3 gap-5 mt-3">

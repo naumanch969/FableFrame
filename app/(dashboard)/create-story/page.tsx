@@ -35,7 +35,7 @@ const CreateStory = () => {
 
   //////////////////////////////////// STATES //////////////////////////////////////////
   const [formData, setFormData] = useState(initialState);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState('')
 
   //////////////////////////////////// FUNCTIONS //////////////////////////////////////////
   const onChange = ({ name, value }: { name: string, value: string }) => {
@@ -55,7 +55,7 @@ const CreateStory = () => {
   const onGenerate = async () => {
     if (!validateForm()) return;
 
-    setLoading(true)
+    setLoading('Your story is being generated. Please wait...')
     try {
 
       console.log('formdata', formData)
@@ -64,10 +64,12 @@ const CreateStory = () => {
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
       const ai_output = JSON.parse(result?.response?.text() || "{}");
+      setLoading('Story generated successfully. Generating cover image...')
 
-      console.log('ai_output', ai_output)
+      console.log('ai_output', Boolean(ai_output))
 
       const coverImageStorageId = await generateImage(ai_output?.coverImage?.prompt || 'Create a story cover image with title as ' + formData?.title);
+      setLoading('Cover image generated. Chapters generating...')
 
       let chapters = []
 
@@ -85,7 +87,8 @@ const CreateStory = () => {
         })
       }
 
-      console.log('chapters', chapters)
+      setLoading('Chapters generated. Saving story for you...')
+      console.log('chapters', Boolean(chapters))
 
       await mutate({
         formData: {
@@ -113,61 +116,61 @@ const CreateStory = () => {
     } catch (error) {
       console.log(error)
       toast.error("Failed to generate story", { position: 'top-right' })
+      setLoading('')
     }
-    setLoading(false)
   }
 
   const constructPrompt = ({ age_category, genre, image_style, title, prompt }: any) => {
     return CREATE_STORY_PROMPT
       .replace("{age_category}", age_category)
       .replace("{genre}", genre)
-      .replace("{chapters}", '5')
+      .replace("{chapters}", process.env.NEXT_PUBLIC_DEFAULT_STORY_CHAPTERS_LIMIT! || '5')
       .replace("{image_style}", image_style)
       .replace("{title}", `${title} ${prompt ? `and start writing a story about it. ${prompt}` : ''}`);
   };
 
-
   const generateImage = async (prompt: string) => {
     try {
 
-      const { data } = await axios.post('/api/generate-image', { prompt })
+      const { data } = await axios.post('/api/generate-image', { prompt }, { responseType: 'blob' });
+      if (!data) throw new Error('Failed to generate image');
 
-      var generatedUrl: string | null = null;
+      let generatedUrl: string | null = null;
       await generateUploadUrl({}, {
         throwError: true,
         onSuccess(d: any) {
           generatedUrl = d;
           return d;
-        }
+        },
       });
 
-      if (!generatedUrl) throw new Error("Url not found");
+      if (!generatedUrl) throw new Error('Upload URL not found');
 
-      const storageId = await uploadToConvex(generatedUrl, data?.image_url)
+      const storageId = await uploadToConvex(generatedUrl, data);
 
-      return storageId
+      return storageId;
+    } catch (err) {
+      console.error('Error generating or uploading image:', err);
     }
-    catch (err) {
-      console.error("Error generating image:", err);
-    }
-  }
+  };
+
 
   const resetState = () => {
     setFormData(initialState)
-    setLoading(false)
+    setLoading('')
   }
 
   //////////////////////////////////// RENDER //////////////////////////////////////////
   return (
     <>
-      <CustomLoader open={loading} onClose={() => setLoading(false)} />
+      <CustomLoader loading={loading} onClose={() => setLoading('')} />
 
       <div className="p-10">
         <Heading title="Create Your Story" color='primary' size='large' />
         <p className="text-lg text-primary text-center">
           Unlock your creativity with AI: Craft stories like never before! Let our AI bring your imagination to life, one story at a time.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 ">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-10 mt-10 ">
           <StorySubjectInput userSelection={onChange} />
           <AgeGroup userSelection={onChange} />
           <Genre userSelection={onChange} />
@@ -177,7 +180,7 @@ const CreateStory = () => {
           <Button
             onClick={onGenerate}
             size="xl"
-            disabled={loading}
+            disabled={Boolean(loading)}
           >
             {'Generate Story'}
           </Button>

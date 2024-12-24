@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 
 const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
     return (
-        <div className='flex flex-col gap-3' >
+        <div className='space-y-3 col-span-1' >
             <label htmlFor="" className="font-bold text-xl text-foreground">1. Title of the story</label>
             <Input
                 placeholder='Enter the subject of your story'

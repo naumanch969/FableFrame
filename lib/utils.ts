@@ -58,14 +58,19 @@ export const calculateAge = (dob: string) => {
   return age;
 }
 
-export const uploadToConvex = async (url: any, imagePath: string) => {
+export const uploadToConvex = async (url: any, imagePath: Blob) => {
 
+  var imageBlob;
+  if (typeof imagePath == "string") {
+    const response = await fetch(imagePath);
 
-  const response = await fetch(imagePath);
+    if (!response.ok) return null;
 
-  if (!response.ok) return null;
-
-  const imageBlob = await response.blob();
+    imageBlob = await response.blob();
+  }
+  else {
+    imageBlob = imagePath;
+  }
 
   const result = await fetch(url, {
     method: 'POST',
