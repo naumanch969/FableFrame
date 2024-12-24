@@ -11,11 +11,11 @@ const GradientText = ({ children, className = "", gradient = "from-purple-400 vi
     return (
         bg
             ?
-            <div className={`bg-[${bg}] inline-block px-2 py-1 rounded-full opacity-100 `}>
+            <span className={`bg-[${bg}] inline-block px-2 py-1 rounded-full opacity-100 `}>
                 <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradient} ${className}`}>
                     {children}
                 </span>
-            </div>
+            </span>
             :
             <span className={`text-transparent bg-clip-text bg-gradient-to-r ${gradient} ${className}`}>
                 {children}

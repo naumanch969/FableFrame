@@ -17,6 +17,7 @@ import { CREATE_STORY_PROMPT } from '@/constants'
 import Heading from '@/components/Heading'
 import axios from 'axios'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
+import GradientText from '@/components/GradientText'
 
 
 const CreateStory = () => {
@@ -165,11 +166,15 @@ const CreateStory = () => {
     <>
       <CustomLoader loading={loading} onClose={() => setLoading('')} />
 
-      <div className="p-10">
-        <Heading title="Create Your Story" color='primary' size='large' />
-        <p className="text-lg text-primary text-center">
-          Unlock your creativity with AI: Craft stories like never before! Let our AI bring your imagination to life, one story at a time.
+      <div className="py-8">
+
+        <h1 className="text-2xl md:text-5xl font-bold text-neutral-700 dark:text-white">
+          Create your story
+        </h1>
+        <p className="max-w-2xl text-base md:text-xl mt-4 text-neutral-700 dark:text-neutral-200">
+          Unlock your creativity with AI: Craft stories like never before! Let our AI bring your <>imagination</> to life, one story at a time.
         </p>
+
         <div className="flex flex-col md:grid md:grid-cols-2 gap-10 mt-10 ">
           <StorySubjectInput userSelection={onChange} />
           <AgeGroup userSelection={onChange} />
@@ -177,15 +182,12 @@ const CreateStory = () => {
           <ImageStyle userSelection={onChange} />
         </div>
         <div className="flex flex-col justify-end items-end w-full my-10">
-          <Button
-            onClick={onGenerate}
-            size="xl"
-            disabled={Boolean(loading)}
-          >
+          <Button onClick={onGenerate} variant='gradient' size="cta" disabled={Boolean(loading)}  >
             {'Generate Story'}
           </Button>
           <span className="text-gray-500 text-xs mt-1 " >1 Credit will use</span>
         </div>
+
       </div>
     </>
   )

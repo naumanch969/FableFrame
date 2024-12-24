@@ -13,6 +13,8 @@ import Empty from "./Empty";
 import ActiveStoryModal from './ActiveStoryModal'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 import Link from 'next/link'
+import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select'
+import { STORY_AGE_CATEGORIES, STORY_GENRES } from '@/constants'
 
 const Stories = ({ data }: { data: Story[] }) => {
 
@@ -22,46 +24,39 @@ const Stories = ({ data }: { data: Story[] }) => {
 
     ///////////////////////////////////////////////////////// STATES //////////////////////////////////////////////////////////
     const [stories, setStories] = useState(data);
-    const [active, setActive] = useState<Story | null>(null);
     const [searchQuery, setSearchQuery] = useState('')
-
-    useEffect(() => {
-        function onKeyDown(event: KeyboardEvent) {
-            if (event.key === "Escape") {
-                setActive(null);
-            }
-        }
-
-        if (active && typeof active === "object") {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
-    }, [active]);
-
-    useOutsideClick(ref, () => setActive(null));
+    const [genre, setGenre] = useState('')
+    const [ageCategory, setAgeCategory] = useState('')
 
     ///////////////////////////////////////////////////////// USE EFFECTS //////////////////////////////////////////////////////////
     useEffect(() => {
-        onSearch()
-    }, [data, searchQuery])
+        onSearch();
+    }, [data, searchQuery, genre, ageCategory]);
+
     ///////////////////////////////////////////////////////// FUNCTIONS //////////////////////////////////////////////////////////
     const onSearch = () => {
-        if (searchQuery) {
-            const filtered = data?.filter(story =>
-                story?.title?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
-                story?.author?.username?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
-                story?.genre?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
-                story?.age_category?.toLowerCase()?.includes(searchQuery?.toLowerCase())
-            )
-            setStories(filtered)
+        if (data) {
+            const filtered = data.filter(story => {
+                const matchesSearchQuery = searchQuery
+                    ? story?.title?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+                    story?.author?.username?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+                    story?.genre?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+                    story?.age_category?.toLowerCase()?.includes(searchQuery?.toLowerCase())
+                    : true;
+
+                const matchesGenre = genre != 'all' ? story?.genre?.toLowerCase() === genre?.toLowerCase() : true;
+                const matchesAgeCategory = ageCategory != 'all'
+                    ? story?.age_category?.toLowerCase() === ageCategory?.toLowerCase()
+                    : true;
+
+                return matchesSearchQuery && matchesGenre && matchesAgeCategory;
+            });
+            setStories(filtered);
         } else {
-            setStories(data)
+            setStories([]);
         }
-    }
+    };
+
 
     ///////////////////////////////////////////////////////// RENDER //////////////////////////////////////////////////////////
     return (
@@ -87,10 +82,32 @@ const Stories = ({ data }: { data: Story[] }) => {
                                 <Search />
                             </button>
                         </form>
-
-                        {/* <div className="flex justify-end items-center gap-1">
-                            <Button variant='ghost' size='icon' ><Grid /></Button>
-                        </div> */}
+                        <Select value={genre} onValueChange={setGenre} >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter by genre" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={"all"}>All</SelectItem>
+                                {STORY_GENRES.map((genres) => (
+                                    <SelectItem key={genres.key} value={genres.key}>
+                                        {genres.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <Select value={ageCategory} onValueChange={setAgeCategory} >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter by age" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={"all"}>All</SelectItem>
+                                {STORY_AGE_CATEGORIES.map((category) => (
+                                    <SelectItem key={category.key} value={category.key}>
+                                        {category.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 </div>
 
@@ -111,7 +128,6 @@ const Stories = ({ data }: { data: Story[] }) => {
                                     <ActiveStoryModal story={story} >
                                         <motion.div
                                             layoutId={`card-${story.title}-${id}`}
-                                            onClick={() => setActive(story)}
                                             className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
                                         >
                                             <Image

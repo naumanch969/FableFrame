@@ -136,7 +136,7 @@ export const EndCard = () => {
     );
 };
 
-export const Chapter = ({ chapter }: { chapter: { title: string, text: string, image: string }; }) => {
+export const Chapter = ({ chapter }: { chapter: { title: string, text: string, image: { url: string, style: string, prompt: string } }; }) => {
 
     return (
         <motion.div className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 flex flex-col items-start justify-start relative z-10">
@@ -149,7 +149,7 @@ export const Chapter = ({ chapter }: { chapter: { title: string, text: string, i
                         priority
                         width={200}
                         height={200}
-                        src={'/sample_cover_image.jpeg'}
+                        src={chapter?.image?.url || '/sample_cover_image.jpeg'}
                         alt={chapter?.title}
                         className="w-full h-80 lg:h-64 rounded-2xl object-cover object-top"
                     />

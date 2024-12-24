@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from 'sonner'
 import { usePreferencesModal } from "@/hooks/use-preferences-modal";
+import { Separator } from '@/components/ui/separator'
 
 const ProfileButton: React.FC = () => {
 
@@ -41,6 +42,12 @@ const ProfileButton: React.FC = () => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
+                    <Link href="/profile" className="w-full text-left py-1 px-1 ">
+                        Admin Panel
+                    </Link>
+                </DropdownMenuItem>
+                <Separator />
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
                     <Link href="/profile" className="w-full text-left py-1 px-1 ">
                         View Profile

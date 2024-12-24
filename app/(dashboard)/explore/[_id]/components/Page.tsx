@@ -1,3 +1,4 @@
+"use client"
 import { ReactNode, useState, useEffect } from "react";
 
 export const Page = ({ children, pageNumber, isThumbnail = false }: { children: ReactNode; pageNumber?: number, isThumbnail?: boolean }) => {

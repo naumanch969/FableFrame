@@ -21,7 +21,7 @@ import {
 } from './images'
 
 export const CREATE_STORY_PROMPT = `
-    NEXT_PUBLIC_CREATE_STORY_PROMPT=Create a captivating story for {age_category} kids in the {genre} genre, with all images in the {image_style} style. The story title is "{title}". Ensure the story has at least {chapters} chapters. Each chapter must include:
+    Create a captivating story for {age_category} in the {genre} genre, with all images in the {image_style} style. The story title is "{title}". Ensure the story has at least {chapters} chapters. Each chapter must include:
     - A unique and descriptive title.
     - A minimum of 200 words of engaging narrative text tailored to the target audience.
     - A detailed image text prompt describing the visual elements of the chapter.

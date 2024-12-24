@@ -1,5 +1,8 @@
 "use client"
 
+import React, { useState } from "react";
+import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/aceternity/navbar-menu";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,7 +30,7 @@ export default function Navbar() {
     ]
 
     return (
-        <nav className="py-6 flex justify-center">
+        <nav className="sticky bg-white rounded-full px-8 py-3 top-2 border inset-x-0 max-w-7xl mx-auto z-50">
 
             <div className="w-full flex items-center justify-between ">
                 {/* Left: Logo */}
@@ -44,11 +47,9 @@ export default function Navbar() {
                     <div className="hidden md:flex gap-8 text-primary-foreground">
                         {
                             menus.map((menu, index) => (
-                                <Link
-                                    href={menu.path}
-                                    key={index}
-                                    className="text-lg text-foreground font-medium hover:underline "
-                                >{menu.name}</Link>
+
+                                <HoveredLink key={index} href={menu.path}>{menu.name}</HoveredLink>
+
                             ))
                         }
                     </div>
@@ -72,5 +73,23 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
+    );
+}
+
+
+
+function Navbar2({ className }: { className?: string }) {
+    const [active, setActive] = useState<string | null>(null);
+    return (
+        <div
+            className={cn("fixed top-10 inset-x-0 max-w-7xl mx-auto z-50", className)}
+        >
+
+            <HoveredLink href="/web-dev">Web Development</HoveredLink>
+            <HoveredLink href="/interface-design">Interface Design</HoveredLink>
+            <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
+            <HoveredLink href="/branding">Branding</HoveredLink>
+
+        </div>
     );
 }
