@@ -13,7 +13,7 @@ const AuthScreen = () => {
     return (
         <div style={{ height: 'calc(100vh - 8rem)' }} className='flex flex-col justify-center items-center gap-6' >
 
-            <div className="flex justify-start items-center gap-4">
+            {/* <div className="flex justify-start items-center gap-4">
                 <div className="w-16 h-16 relative ">
                     <Image
                         src='/logo.svg'
@@ -23,7 +23,7 @@ const AuthScreen = () => {
                     />
                 </div>
                 <h2 className="font-bold text-3xl text-primary">StoryBot</h2>
-            </div>
+            </div> */}
             <div className="md:h-auto md:w-[420px] ">
                 {
                     state == 'signIn'
