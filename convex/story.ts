@@ -497,6 +497,7 @@ export const create_ai = mutation({
         let updatedChapters = []
         for (const chapter of chapters) {
             let chapterImageUrl = chapter?.image?.url ? await ctx.storage.getUrl(chapter?.image?.url) : '/sample_cover_image.jpeg'
+            if (!chapterImageUrl) chapterImageUrl = '/sample_cover_image.jpeg'
             updatedChapters.push({
                 ...chapter,
                 image: { ...chapter?.image, url: chapterImageUrl }

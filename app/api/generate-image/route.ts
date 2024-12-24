@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   let filePath;
   for (const [index, item] of Object.entries(output)) {
     filePath = `/storage/output_${index}_${dateString}_${limitedPrompt}.png`
-    await writeFile(`public/${filePath}`, item);
+    await writeFile(`public${filePath}`, item);
   }
 
   return NextResponse.json({ image_url: filePath });
