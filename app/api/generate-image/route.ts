@@ -3,7 +3,7 @@ import Replicate from "replicate";
 import { writeFile } from "fs/promises";
 
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
+export async function POST(req: NextRequest)  {
   try {
 
     const data = await req.json()
