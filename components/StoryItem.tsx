@@ -14,14 +14,10 @@ import { useCreateReportModal } from '@/hooks/use-create-report-modal';
 import { useSelectedStory } from '@/hooks/use-selected-story';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { useCreateShareModal } from '@/hooks/use-create-share-modal';
+import { Story } from '@/types'
 
 interface Props {
-    story: Doc<"stories"> & {
-        author: Doc<"profiles">,
-        likes: (Id<"profiles">)[],
-        shares: (Id<"shares">)[],
-        reports: (Id<"profiles">)[],
-    }
+    story: Story
 }
 const StoryItem = ({ story }: Props) => {
 

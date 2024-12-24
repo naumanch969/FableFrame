@@ -22,7 +22,7 @@ const UserStories = () => {
                         ?
                         <div className="text-center">No stories found for this user.</div>
                         :
-                        stories?.map((story: Story, index: number) => (
+                        stories?.map((story: any, index: number) => (
                             <StoryItem story={story} key={index} />
                         ))
                 }
