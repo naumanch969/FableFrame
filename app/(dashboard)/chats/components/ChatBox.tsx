@@ -99,10 +99,9 @@ export const ChatBox = () => {
     const SharedStory = ({ story }: { story: Doc<"stories"> }) => {
 
         return (
-            <Card key={index} className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
+            <Card className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
 
                 <div
-                    onClick={() => setActive(story)}
                     className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
                 >
                     <Image
