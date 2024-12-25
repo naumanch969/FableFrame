@@ -2,7 +2,7 @@
 
 import Footer from "@/components/Footer"
 import Hero from "./components/Hero"
-import Navbar from "./components/Navbar"
+import Navbar from "@/components/Navbar"
 import { HeroHighlight } from "@/components/aceternity/hero-highlight"
 import Features from "./components/Features"
 import HowItWorks from "./components/HowItWorks"

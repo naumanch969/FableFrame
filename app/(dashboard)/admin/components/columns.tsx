@@ -5,7 +5,8 @@ import { MoreHorizontal } from "lucide-react"
 import { ArrowUpDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useSelectedStory } from '@/hooks/use-selected-story'
+import { useUpdateStoryModal } from '@/hooks/use-update-story-modal'
 
 import {
     DropdownMenu,
@@ -16,31 +17,32 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Profile, Story, StoryReport } from "@/types"
+import ActiveStoryModal from '@/components/ActiveStoryModal'
 
 
 export const userColumns: ColumnDef<Profile>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
+    // {
+    //     id: "select",
+    //     header: ({ table }) => (
+    //         <Checkbox
+    //             checked={
+    //                 table.getIsAllPageRowsSelected() ||
+    //                 (table.getIsSomePageRowsSelected() && "indeterminate")
+    //             }
+    //             onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //             aria-label="Select all"
+    //         />
+    //     ),
+    //     cell: ({ row }) => (
+    //         <Checkbox
+    //             checked={row.getIsSelected()}
+    //             onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //             aria-label="Select row"
+    //         />
+    //     ),
+    //     enableSorting: false,
+    //     enableHiding: false,
+    // },
     {
         accessorKey: "username",
         header: "Username",
@@ -105,33 +107,36 @@ export const userColumns: ColumnDef<Profile>[] = [
         },
     },
 ];
-
 export const storyColumns: ColumnDef<Story>[] = [
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
+        id: "sr_number",
+        header: () => <span className="w-[10rem]">Sr.</span>,
+        cell: ({ row, table }) => (
+            <span className="text-start max-w-[10rem] truncate block">
+                {table.getRowModel().rows.findIndex((r) => r.id === row.id) + 1}
+            </span>
         ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
     },
     {
         accessorKey: "title",
-        header: "Title",
+        header: () => <span className="w-[20rem]">Title</span>,
+        cell: ({ row }) => (
+            <ActiveStoryModal story={row.original}>
+                <span className="hover:underline cursor-pointer text-start max-w-[20rem] truncate block">
+                    {row.getValue("title") || "N/A"}
+                </span>
+            </ActiveStoryModal>
+        ),
+    },
+    {
+        id: "author.username",
+        accessorKey: "author.username",
+        header: () => <span className="w-[20rem]">Author</span>,
+        cell: ({ row }) => (
+            <span className="hover:underline cursor-pointer text-start max-w-[10rem] truncate block">
+                {row.getValue("author.username") || "N/A"}
+            </span>
+        ),
     },
     {
         accessorKey: "genre",
@@ -139,7 +144,15 @@ export const storyColumns: ColumnDef<Story>[] = [
     },
     {
         accessorKey: "age_category",
-        header: "Age Category",
+        header: "Category",
+    },
+    {
+        accessorKey: "chapters",
+        header: "Chapters",
+        cell: ({ row }) => (
+            // @ts-ignore
+            <div>{row.getValue("chapters")?.length || "N/A"}</div>
+        ),
     },
     {
         accessorKey: "status",
@@ -147,17 +160,11 @@ export const storyColumns: ColumnDef<Story>[] = [
     },
     {
         accessorKey: "views_count",
-        header: () => <div className="text-right">Views</div>,
-        cell: ({ row }) => (
-            <div className="text-right">{row.getValue("views_count")}</div>
-        ),
+        header: "Views",
     },
     {
         accessorKey: "reports_count",
-        header: () => <div className="text-right">Reports</div>,
-        cell: ({ row }) => (
-            <div className="text-right">{row.getValue("reports_count")}</div>
-        ),
+        header: "Reports",
     },
     {
         accessorKey: "reading_time",
@@ -176,7 +183,10 @@ export const storyColumns: ColumnDef<Story>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
+
             const story = row.original;
+            const [_selected, setSelected] = useSelectedStory()
+            const [_open, setOpen] = useUpdateStoryModal()
 
             return (
                 <DropdownMenu>
@@ -194,8 +204,12 @@ export const storyColumns: ColumnDef<Story>[] = [
                             Copy Title
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Story</DropdownMenuItem>
-                        <DropdownMenuItem>Edit Story</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <ActiveStoryModal story={story}>
+                                View Story
+                            </ActiveStoryModal>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setSelected(story); setOpen(true) }} >Edit Story</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -203,59 +217,40 @@ export const storyColumns: ColumnDef<Story>[] = [
     },
 ];
 
-export const reportsColumns: ColumnDef<any>[] = [
+
+
+export const reportsColumns: ColumnDef<StoryReport>[] = [
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
+        id: "sr_number",
+        header: "#",
+        cell: ({ row }) => row.index + 1,
         enableSorting: false,
-        enableHiding: false,
+        size: 50, // Set a fixed width for the serial number column
     },
     {
+        id: "story.title",
         accessorKey: "story.title",
         header: "Story Title",
+        cell: ({ row }) => (
+            <ActiveStoryModal story={row.original.story}>
+                <span className="hover:underline cursor-pointer text-start ">{row.getValue("story.title") || "N/A"}</span>
+            </ActiveStoryModal>
+        ),
+        size: 300, // Make the column slightly larger
     },
     {
         accessorKey: "profile.username",
         header: "Reported By",
     },
     {
-        accessorKey: "type",
-        header: "Report Type",
-    },
-    {
         accessorKey: "reason",
         header: "Reason",
-        cell: ({ row }) => (
-            <div>{row.getValue("reason") || "N/A"}</div>
-        ),
+        cell: ({ row }) => <div>{row.getValue("reason") || "N/A"}</div>,
     },
     {
-        accessorKey: "status",
-        header: "Status",
-    },
-    {
-        accessorKey: "created_at",
-        header: "Created At",
-        cell: ({ row }) => {
-            const date = new Date(row.getValue("created_at"));
-            return <div>{date.toLocaleDateString()}</div>;
-        },
+        accessorKey: "type",
+        header: "Type",
+        cell: ({ row }) => <div>{row.getValue("type") || "N/A"}</div>,
     },
     {
         id: "actions",
@@ -286,3 +281,4 @@ export const reportsColumns: ColumnDef<any>[] = [
         },
     },
 ];
+

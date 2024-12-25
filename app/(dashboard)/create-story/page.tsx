@@ -6,18 +6,13 @@ import Genre from './_components/Genre'
 import AgeGroup from './_components/AgeCategory'
 import ImageStyle from './_components/ImageStyle'
 import CustomLoader from './_components/CustomLoader'
-import { alertAndReturnFalse, blobToBase64, stringToBase64, uploadToConvex } from '@/lib/utils'
+import { alertAndReturnFalse, uploadToConvex, generateImage } from '@/lib/utils'
 import { useCreateStory } from '@/features/story/api/useCreateStory'
 import { chatSession } from '@/config/gemini'
-import { getDownloadURL, ref, uploadString } from 'firebase/storage'
-import { storage } from '@/config/firebase'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { CREATE_STORY_PROMPT } from '@/constants'
-import Heading from '@/components/Heading'
-import axios from 'axios'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
-import GradientText from '@/components/GradientText'
 
 
 const CreateStory = () => {
@@ -69,14 +64,16 @@ const CreateStory = () => {
 
       console.log('ai_output', Boolean(ai_output))
 
-      const coverImageStorageId = await generateImage(ai_output?.coverImage?.prompt || 'Create a story cover image with title as ' + formData?.title);
+      const coverImageStorageId = await generateImage(generateUploadUrl, ai_output?.coverImage?.prompt || 'Create a story cover image with title as ' + formData?.title);
       setLoading('Cover image generated. Chapters generating...')
 
       let chapters = []
 
+      let index = 1;
       for (const chapter of ai_output?.chapters) {
+        setLoading(`Generating chapter ${index}...`)
         const chapterImagePrompt = chapter?.image?.prompt || 'Create a chapter cover image with title as ' + chapter?.title
-        const chapterImageStorageId = await generateImage(chapterImagePrompt + ` - ImageStyle: ${chapter?.image?.style}`);
+        const chapterImageStorageId = await generateImage(generateUploadUrl, chapterImagePrompt + ` - ImageStyle: ${chapter?.image?.style}`);
 
         chapters.push({
           ...chapter,
@@ -86,6 +83,8 @@ const CreateStory = () => {
             url: chapterImageStorageId
           }
         })
+
+        index++;
       }
 
       setLoading('Chapters generated. Saving story for you...')
@@ -128,31 +127,6 @@ const CreateStory = () => {
       .replace("{chapters}", process.env.NEXT_PUBLIC_DEFAULT_STORY_CHAPTERS_LIMIT! || '5')
       .replace("{image_style}", image_style)
       .replace("{title}", `${title} ${prompt ? `and start writing a story about it. ${prompt}` : ''}`);
-  };
-
-  const generateImage = async (prompt: string) => {
-    try {
-
-      const { data } = await axios.post('/api/generate-image', { prompt }, { responseType: 'blob' });
-      if (!data) throw new Error('Failed to generate image');
-
-      let generatedUrl: string | null = null;
-      await generateUploadUrl({}, {
-        throwError: true,
-        onSuccess(d: any) {
-          generatedUrl = d;
-          return d;
-        },
-      });
-
-      if (!generatedUrl) throw new Error('Upload URL not found');
-
-      const storageId = await uploadToConvex(generatedUrl, data);
-
-      return storageId;
-    } catch (err) {
-      console.error('Error generating or uploading image:', err);
-    }
   };
 
 

@@ -81,7 +81,7 @@ const StoryView = () => {
     if (isLoading) {
         return (
             <div className="min-h-[90vh] flex justify-center items-center">
-                <Loader src="/loader_book.gif" title="Loading story for you..." />
+                <Loader src="/loader.gif" title="Loading story for you..." />
             </div>
         );
     }

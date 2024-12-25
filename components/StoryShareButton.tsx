@@ -18,7 +18,7 @@ const StoryShareButton = ({ story }: { story: Story }) => {
 
     return (
         <Hint label='Share' >
-            <Button onClick={onShare} variant="ghost" size="icon" className="relative flex items-center justify-center">
+            <Button onClick={onShare} variant="ghost" size="icon" className="bg-transparent relative flex items-center justify-center ">
                 {
                     story?.shares?.length > 0 &&
                     <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">

@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { REPORT_REASONS, STORY_REPORT_STATUSES } from '@/constants';
+import { populateStory, populateProfile } from './utils'
 
 export const create = mutation({
     args: {
@@ -34,7 +35,18 @@ export const get = query({
             .query('story_reports')
             .collect();
 
-        return reports;
+        let response = []
+        for (const report of reports) {
+            const story = await populateStory(ctx, report?.story_id)
+            const profile = await populateProfile(ctx, report?.profile_id)
+            response.push({
+                ...report,
+                story,
+                profile
+            })
+        }
+
+        return response;
     },
 });
 

@@ -29,7 +29,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/aceternity/input"
 import { Button } from "@/components/ui/button"
 
 interface DataTableProps<TData, TValue> {
@@ -73,14 +73,14 @@ export function DataTable<TData, TValue>({
     return (
         <div className="">
             {/* Search */}
-            <div className="flex items-center py-4">
+            <div className="flex items-center">
                 <Input
                     placeholder={searchPlaceholder || "Filter..."}
                     value={(table.getColumn(searchField)?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
                         table.getColumn(searchField)?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className='w-96'
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -112,13 +112,13 @@ export function DataTable<TData, TValue>({
                 </DropdownMenu>
             </div>
             {/* Show Selected Rows */}
-            <div className="flex-1 text-sm text-muted-foreground">
+            <div className="flex-1 text-sm text-muted-foreground my-1 ">
                 {table.getFilteredSelectedRowModel().rows.length} of{" "}
                 {table.getFilteredRowModel().rows.length} row(s) selected.
             </div>
             {/* Table */}
-            <div className="rounded-md border">
-                <Table>
+            <div className="rounded-md border  ">
+                <Table className="overflow-x-auto" >
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>

@@ -6,10 +6,12 @@ import { STORY_STATUSES, STORY_GENRES } from "@/constants";
 
 type RequestType = {
     id: Id<"stories">,
-    title: string,
-    content: string,
-    genre: typeof STORY_GENRES[number]['key'];
-    status: typeof STORY_STATUSES[number]['key'];
+    title?: string,
+    content?: string,
+    genre?: typeof STORY_GENRES[number]['key'];
+    status?: typeof STORY_STATUSES[number]['key'];
+    chapters?: any[]
+    cover_image?: string
 }
 type ResponseType = Id<"stories"> | null
 

@@ -1,9 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
-import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/aceternity/navbar-menu";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProfileButton from "@/components/ProfileButton";
@@ -14,11 +11,14 @@ import ModeToggle from "@/components/ModeToggle";
 import NotificationMenu from "@/components/NotificationMenu";
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import ChatMenu from "@/components/ChatMenu";
+import Logo from "./Logo";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
 
     const { data: user } = useCurrentUser()
     const { data: profile } = useCurrentProfile()
+    const pathname = usePathname()
     const isSignedIn = Boolean(user)
 
     const menus = [
@@ -30,26 +30,24 @@ export default function Navbar() {
     ]
 
     return (
-        <nav className="sticky bg-white rounded-full px-8 py-3 top-2 border inset-x-0 max-w-7xl mx-auto z-50">
+        <nav className="sticky bg-white rounded-full px-3 py-3 top-2 border inset-x-0 max-w-7xl mx-auto z-50">
 
             <div className="w-full flex items-center justify-between ">
                 {/* Left: Logo */}
-                <div className="">
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image src='/logo_mini.svg' alt='Logo' height={32} width={32} />
-                        <h2 className="font-bold text-2xl text-primary">StoryBot</h2>
-                        {/* <Image src='/logo.svg' alt='Logo' height={40} width={160} /> */}
-                    </Link>
-                </div>
+                <Logo />
 
                 {
                     isSignedIn &&
-                    <div className="hidden md:flex gap-8 text-primary-foreground">
+                    <div className="hidden md:flex gap-6 text-primary-foreground">
                         {
                             menus.map((menu, index) => (
-
-                                <HoveredLink key={index} href={menu.path}>{menu.name}</HoveredLink>
-
+                                <Link
+                                    key={index}
+                                    href={menu.path}
+                                    className={`${pathname == menu.path ? 'scale-110 font-medium text-primary ' : 'scale-100'} hover:scale-110 font-medium text-neutral-700 dark:text-neutral-200 transition-all`}
+                                >
+                                    {menu.name}
+                                </Link>
                             ))
                         }
                     </div>
@@ -73,23 +71,5 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
-    );
-}
-
-
-
-function Navbar2({ className }: { className?: string }) {
-    const [active, setActive] = useState<string | null>(null);
-    return (
-        <div
-            className={cn("fixed top-10 inset-x-0 max-w-7xl mx-auto z-50", className)}
-        >
-
-            <HoveredLink href="/web-dev">Web Development</HoveredLink>
-            <HoveredLink href="/interface-design">Interface Design</HoveredLink>
-            <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-            <HoveredLink href="/branding">Branding</HoveredLink>
-
-        </div>
     );
 }

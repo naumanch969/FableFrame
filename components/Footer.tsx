@@ -1,8 +1,8 @@
 "use client"
 import HydrationWrapper from "@/wrappers/HydrationWrapper";
 import { FacebookIcon, TwitterIcon, InstagramIcon, MailIcon, PhoneIcon } from "lucide-react"; // Replace with icons of your choice
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "./Logo";
 
 const Footer = () => {
 
@@ -20,11 +20,7 @@ const Footer = () => {
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Section 1: About */}
           <div className="space-y-4" >
-            <Link href="/" className="flex items-center gap-2">
-              <Image src='/logo_mini.svg' alt='Logo' height={32} width={32} />
-              <h2 className="font-bold text-2xl text-primary">StoryBot</h2>
-              {/* <Image src='/logo.svg' alt='Logo' height={40} width={160} /> */}
-            </Link>
+            <Logo />
             <p className="mt-2 text-md text-muted-foreground">
               FableFrame is an AI-powered storytelling platform where users can generate, save, and share creative stories. Join us and turn your imagination into compelling narratives.
             </p>

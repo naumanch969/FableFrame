@@ -43,11 +43,11 @@ const ProfileButton: React.FC = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
-                    <Link href="/profile" className="w-full text-left py-1 px-1 ">
+                    <Link href="/admin/users" className="w-full text-left py-1 px-1 ">
                         Admin Panel
                     </Link>
                 </DropdownMenuItem>
-                <Separator />
+                <Separator className='my-1' />
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
                     <Link href="/profile" className="w-full text-left py-1 px-1 ">
                         View Profile

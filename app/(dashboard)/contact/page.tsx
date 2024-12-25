@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateContact } from "@/features/contact/api/useCreateContact";
 import { toast } from "sonner";
+import { CONTACT_IMAGE } from "@/constants/images";
 
 const Contact = () => {
 
@@ -82,7 +83,7 @@ const Contact = () => {
         {/* Left side: Image */}
         <div className="md:w-1/2 mb-6 md:mb-0">
           <img
-            src="/login.png"
+            src={CONTACT_IMAGE}
             alt="Contact"
             className="w-full h-[500px] object-cover rounded-lg"
           />

@@ -11,6 +11,7 @@ const StoryReports = () => {
   return (
     <div className="container mx-auto">
       <DataTable
+        // @ts-ignore
         columns={reportsColumns}
         data={data! || []}
         searchPlaceholder='Search reports'

@@ -107,3 +107,28 @@ export const groupByDate = (messages: Message[]) => {
     return acc;
   }, {});
 }
+
+export const generateImage = async (generateUploadUrl: any, prompt: string) => {
+  try {
+
+    const { data } = await axios.post('/api/generate-image', { prompt }, { responseType: 'blob' });
+    if (!data) throw new Error('Failed to generate image');
+
+    let generatedUrl: string | null = null;
+    await generateUploadUrl({}, {
+      throwError: true,
+      onSuccess(d: any) {
+        generatedUrl = d;
+        return d;
+      },
+    });
+
+    if (!generatedUrl) throw new Error('Upload URL not found');
+
+    const storageId = await uploadToConvex(generatedUrl, data);
+
+    return storageId;
+  } catch (err) {
+    console.error('Error generating or uploading image:', err);
+  }
+};

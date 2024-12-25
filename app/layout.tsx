@@ -9,8 +9,8 @@ import ProfileSetup from "@/wrappers/ProfileSetup";
 import Drawers from "@/wrappers/Drawers";
 
 export const metadata: Metadata = {
-  title: "StoryBot",
-  description: "",
+  title: "Fable Frame",
+  description: "Frame your imagination",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
@@ -33,6 +33,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               <ProfileSetup />
 
               {children}
+
 
             </ThemeProvider>
           </ConvexClientProvider>

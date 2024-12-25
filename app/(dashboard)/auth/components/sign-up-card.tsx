@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Input } from '@/components/aceternity/input'
 import { Separator } from '@/components/ui/separator'
 import { FaGithub } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
@@ -80,6 +80,7 @@ const SignUpCard = ({ setState }: Props) => {
       <CardContent className='flex flex-col gap-5 px-0 pb-0' >
         <form onSubmit={onPasswordSignUp} className="flex flex-col gap-4">
           <Input
+            id='name'
             disabled={pending}
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -88,6 +89,7 @@ const SignUpCard = ({ setState }: Props) => {
             required={true}
           />
           <Input
+            id='email'
             disabled={pending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -96,6 +98,7 @@ const SignUpCard = ({ setState }: Props) => {
             required={true}
           />
           <Input
+            id='password'
             disabled={pending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -104,6 +107,7 @@ const SignUpCard = ({ setState }: Props) => {
             required={true}
           />
           <Input
+            id='confirmPassword'
             disabled={pending}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -112,6 +116,7 @@ const SignUpCard = ({ setState }: Props) => {
             required={true}
           />
           <Button
+            variant='gradient'
             type='submit'
             className='w-full'
             size='lg'

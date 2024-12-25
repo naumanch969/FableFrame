@@ -9,6 +9,9 @@ export const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">
 export const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
     return await ctx.db.get(profileId)
 }
+export const populateStory = async (ctx: QueryCtx, storyId: Id<"stories">) => {
+    return await ctx.db.get(storyId)
+}
 
 export const createNotification = async (ctx: MutationCtx, data: {
     content: string,

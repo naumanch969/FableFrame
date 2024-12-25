@@ -489,7 +489,7 @@ export const create_ai = mutation({
             content += chapter?.text;
             content += chapter?.title;
         });
-        const reading_time = Math.ceil(content.split(' ').length / 200);
+        const reading_time = Math.ceil(content.split(' ').length / 150);
 
         let coverImageUrl = await ctx.storage.getUrl(cover_image)
         if (!coverImageUrl) coverImageUrl = '/sample_cover_image.jpeg'
@@ -615,30 +615,63 @@ export const create_manual = mutation({
 export const update = mutation({
     args: {
         id: v.id("stories"),
-        title: v.string(),
-        content: v.string(),
-        genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))),
-        status: v.union(...STORY_STATUSES.map(item => v.literal(item.key))),
+        title: v.optional(v.string()),
+        content: v.optional(v.string()),
+        genre: v.optional(v.union(...STORY_GENRES.map(item => v.literal(item.key)))),
+        status: v.optional(v.union(...STORY_STATUSES.map(item => v.literal(item.key)))),
+        cover_image: v.optional(v.string()),
+        chapters: v.optional(v.array(v.any())),
     },
     handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return null;
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error("User not authenticated");
+        }
 
-        const profile = await populateProfileByUserId(ctx, userId)
+        const profile = await populateProfileByUserId(ctx, userId);
+        if (!profile) {
+            throw new Error("User profile not found");
+        }
 
-        const story = await ctx.db.get(args.id)
-        if (!story || story.profile_id !== profile?._id)
-            return null;
+        const story = await ctx.db.get(args.id);
+        if (!story) {
+            throw new Error("Story not found");
+        }
 
-        await ctx.db.patch(args.id, {
-            title: args.title,
-            genre: args.genre,
-            status: args.status,
-        })
+        if (story.profile_id !== profile._id && profile?.role == 'user') {
+            throw new Error("Unauthorized to update this story");
+        }
 
-        return args.id
-    }
-})
+
+
+        const updateData: Partial<typeof args> = {};
+        if (args.title) updateData.title = args.title;
+        if (args.content) updateData.content = args.content;
+        if (args.genre) updateData.genre = args.genre;
+        if (args.status) updateData.status = args.status;
+        if (args.cover_image) {
+            let coverImageUrl = await ctx.storage.getUrl(args.cover_image)
+            if (!coverImageUrl) coverImageUrl = '/sample_cover_image.jpeg'
+            updateData.cover_image = coverImageUrl;
+        }
+        if (args.chapters) {
+            let updatedChapters = []
+            for (const chapter of args.chapters) {
+                let chapterImageUrl = chapter?.image?.url ? await ctx.storage.getUrl(chapter?.image?.url) : '/sample_cover_image.jpeg'
+                if (!chapterImageUrl) chapterImageUrl = '/sample_cover_image.jpeg'
+                updatedChapters.push({
+                    ...chapter,
+                    image: { ...chapter?.image, url: chapterImageUrl }
+                })
+            }
+            updateData.chapters = updatedChapters;
+        }
+
+        await ctx.db.patch(args.id, updateData);
+
+        return args.id;
+    },
+});
 
 export const remove = mutation({
     args: {

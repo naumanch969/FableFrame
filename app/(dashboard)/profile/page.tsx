@@ -46,24 +46,18 @@ const ProfilePage: React.FC = () => {
             </div>
             <div className="col-span-3 w-full space-y-4 ">
                 <ProfileMenubar activeItem={activeItem} setActiveItem={setActiveItem} />
-                <div className="grid grid-cols-3 w-full gap-4 ">
-                    {
-                        (
+                <div className="flex w-full gap-4 ">
+                    <Stories
+                        data={stories}
+                        isLoading={
                             (activeItem == "your" && myManualStoriesLoading)
                             || (activeItem == "ai" && myAIStoriesLoading)
                             || (activeItem == "draft" && draftStoriesLoading)
                             || (activeItem == "liked" && likedStoriesLoading)
                             || (activeItem == "shared" && sharedStoriesLoading)
-                        )
-                            ?
-                            <div className='col-span-3 min-h-[70vh] w-full flex justify-center items-center' >
-                                <Loader src='/loader_book.gif' title='Loading stories...' />
-                            </div>
-                            :
-                            <div className="col-span-3">
-                                <Stories data={stories} />
-                            </div>
-                    }
+                        }
+                        showTitle={false}
+                    />
                 </div>
             </div>
         </div>

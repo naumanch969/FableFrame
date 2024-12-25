@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Input as ShadcnInput } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import React, { useState } from 'react'
 import { FaGithub } from 'react-icons/fa'
@@ -9,6 +9,8 @@ import { useAuthActions } from '@convex-dev/auth/react'
 import { TriangleAlert } from 'lucide-react'
 import { toast } from 'sonner'
 import { SignInFlow } from '@/types'
+import { useRouter } from 'next/navigation'
+import { Input } from '@/components/aceternity/input'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -17,6 +19,7 @@ interface Props {
 const SignInCard = ({ setState }: Props) => {
 
   const { signIn } = useAuthActions()
+  const router = useRouter()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,7 +31,10 @@ const SignInCard = ({ setState }: Props) => {
 
     setPending(true)
     signIn("password", { email, password, flow: "signIn" })
-      .then(() => toast.success("Login successfully.", { position: 'top-right' }))
+      .then(() => {
+        router.push('/explore')
+        toast.success("Login successfully.", { position: 'top-right' })
+      })
       .catch(() => setError("Invalid email or password"))
       .finally(() => setPending(false))
   }
@@ -57,6 +63,7 @@ const SignInCard = ({ setState }: Props) => {
       <CardContent className='flex flex-col gap-5 px-0 pb-0' >
         <form onSubmit={onPasswordSignIn} className="flex flex-col gap-4">
           <Input
+            id="email"
             disabled={pending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -65,6 +72,7 @@ const SignInCard = ({ setState }: Props) => {
             required={true}
           />
           <Input
+            id="password"
             disabled={pending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -76,6 +84,7 @@ const SignInCard = ({ setState }: Props) => {
             type='submit'
             className='w-full'
             size='lg'
+            variant='gradient'
             disabled={pending}
           >Continue</Button>
         </form>

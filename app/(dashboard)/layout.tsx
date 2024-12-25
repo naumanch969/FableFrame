@@ -1,7 +1,7 @@
 "use client"
 
 import React, { ReactNode } from 'react'
-import Navbar from '../(landingpage)/components/Navbar'
+import Navbar from '@/components/Navbar'
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
