@@ -77,7 +77,7 @@ const CommentBox: React.FC = () => {
         )
         : comments && comments.length > 0 ? (
           <div className="space-y-3">
-            {comments.map((comment: Comment, index) => (
+            {comments.map((comment: Comment, index: number) => (
               <CommentItem comment={comment} key={index} />
             ))}
           </div>

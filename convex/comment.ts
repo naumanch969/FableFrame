@@ -43,11 +43,11 @@ export const get_by_story = query({
             .withIndex('by_story_id_is_deleted', q => q.eq("story_id", story_id).eq('is_deleted', false))
             .collect();
 
-        let response = []
+        let response: any = []
         for (const comment of comments) {
             const profile = await populateProfile(ctx, comment?.profile_id)
-            if (profile)
-                response.push({ ...comment, profile })
+            const story = await populateStory(ctx, comment?.story_id)
+            response.push({ ...comment, profile, story })
         }
 
         return response;
