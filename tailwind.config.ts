@@ -62,7 +62,7 @@ export default {
 				input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
 			},
 			backgroundImage: {
-				'theme-gradient': 'linear-gradient(to right, #9b4dca, #ec4899, #f87171)',
+				'theme-gradient': 'linear-gradient(45deg, #9b4dca, #ec4899, #f87171)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

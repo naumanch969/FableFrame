@@ -13,6 +13,7 @@ import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile";
 import ChatMenu from "@/components/ChatMenu";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
+import GradientText from "./GradientText";
 
 export default function Navbar() {
 
@@ -38,16 +39,28 @@ export default function Navbar() {
 
                 {
                     isSignedIn &&
-                    <div className="hidden md:flex gap-6 text-primary-foreground">
+                    <div className="hidden md:flex items-end gap-6 text-primary-foreground">
                         {
                             menus.map((menu, index) => (
-                                <Link
-                                    key={index}
-                                    href={menu.path}
-                                    className={`${pathname == menu.path ? 'scale-110 font-medium text-primary ' : 'scale-100'} hover:scale-110 font-medium text-neutral-700 dark:text-neutral-200 transition-all`}
-                                >
-                                    {menu.name}
-                                </Link>
+                                pathname == menu.path
+                                    ?
+                                    <GradientText>
+                                        <Link
+                                            key={index}
+                                            href={menu.path}
+                                            className={`scale-110 hover:scale-110 font-medium text-xl`}
+                                        >
+                                            {menu.name}
+                                        </Link>
+                                    </GradientText>
+                                    :
+                                    <Link
+                                        key={index}
+                                        href={menu.path}
+                                        className={`hover:scale-110 font-medium text-neutral-700 dark:text-neutral-200 transition-all`}
+                                    >
+                                        {menu.name}
+                                    </Link>
                             ))
                         }
                     </div>

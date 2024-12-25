@@ -18,9 +18,9 @@ const UserSidebar = ({ activeMenuItem, setActiveMenuItem }: { activeMenuItem: an
                     <button
                         key={item.value}
                         className={`text-startyy py-2 px-4 ${activeMenuItem.toLowerCase() === item?.value?.toLowerCase()
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-cool-gray'
-                            } hover:bg-primary hover:text-white transition-all duration-200 focus:outline-none`}
+                            ? 'bg-theme-gradient text-primary-foreground hover:bg-primary '
+                            : 'text-cool-gray hover:bg-muted hover:text-muted-foreground'
+                            } transition-all duration-200 focus:outline-none`}
                         onClick={() => setActiveMenuItem(item?.value?.toLowerCase())}
                     >
                         {item.label}

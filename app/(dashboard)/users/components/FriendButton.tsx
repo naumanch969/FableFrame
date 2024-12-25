@@ -120,7 +120,7 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
             )}
             {!isFriend && !isFriendRequestSent && !isFriendRequestReceived && (
                 <div className="flex justify-between gap-2 mt-1">
-                    <Button disabled={addingFriend} onClick={handleSendFriendRequest}>
+                    <Button variant='gradient' disabled={addingFriend} onClick={handleSendFriendRequest}>
                         {addingFriend ? 'Loading' : 'Add Friend'}
                     </Button>
                     {
