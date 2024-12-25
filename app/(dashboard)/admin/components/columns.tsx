@@ -16,8 +16,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Profile, Story, StoryReport } from "@/types"
+import { Profile, Story, StoryReport, Contact, Comment } from "@/types"
 import ActiveStoryModal from '@/components/ActiveStoryModal'
+import { useAlertModal } from "@/hooks/use-alert-modal"
 
 
 export const userColumns: ColumnDef<Profile>[] = [
@@ -96,7 +97,7 @@ export const userColumns: ColumnDef<Profile>[] = [
                         <DropdownMenuItem
                             onClick={() => navigator.clipboard.writeText(profile.user_id)}
                         >
-                            Copy user ID
+                            Copy User ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>View profile</DropdownMenuItem>
@@ -185,8 +186,9 @@ export const storyColumns: ColumnDef<Story>[] = [
         cell: ({ row }) => {
 
             const story = row.original;
-            const [_selected, setSelected] = useSelectedStory()
-            const [_open, setOpen] = useUpdateStoryModal()
+            const [_selected, setSelectedStory] = useSelectedStory()
+            const [_openUpdateModal, setOpenUpdateModal] = useUpdateStoryModal()
+            const [_openAlertModal, setOpenAlertModal] = useAlertModal()
 
             return (
                 <DropdownMenu>
@@ -198,10 +200,8 @@ export const storyColumns: ColumnDef<Story>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(story.title)}
-                        >
-                            Copy Title
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(story._id)}>
+                            Copy Story ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
@@ -209,7 +209,12 @@ export const storyColumns: ColumnDef<Story>[] = [
                                 View Story
                             </ActiveStoryModal>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => { setSelected(story); setOpen(true) }} >Edit Story</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setSelectedStory(story); setOpenUpdateModal(true) }} >
+                            Edit Story
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setSelectedStory(story); setOpenAlertModal('delete-story') }} >
+                            Hide Story
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -282,3 +287,108 @@ export const reportsColumns: ColumnDef<StoryReport>[] = [
     },
 ];
 
+export const contactColumns: ColumnDef<Contact>[] = [
+    {
+        id: "sr_number",
+        header: "#",
+        cell: ({ row }) => row.index + 1,
+        enableSorting: false,
+        size: 50, // Set a fixed width for the serial number column
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
+        cell: ({ row }) => (
+            <span className="text-sm font-medium">{row.getValue("name") || "N/A"}</span>
+        ),
+    },
+    {
+        accessorKey: "email",
+        header: "Email",
+        cell: ({ row }) => (
+            <a
+                href={`mailto:${row.getValue("email")}`}
+                className="text-blue-500 underline"
+            >
+                {row.getValue("email") || "N/A"}
+            </a>
+        ),
+    },
+    {
+        accessorKey: "message",
+        header: "Message",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("message") || "N/A"}</span>
+        ),
+    },
+    {
+        accessorKey: "created_at",
+        header: "Created At",
+        cell: ({ row }) => (
+            <span className="text-sm">{new Date(row.getValue("created_at")).toLocaleString()}</span>
+        ),
+    },
+];
+
+export const commentColumns: ColumnDef<Comment>[] = [
+    {
+        id: "sr_number",
+        header: "#",
+        cell: ({ row }) => row.index + 1,
+        enableSorting: false,
+        size: 50, // Set a fixed width for the serial number column
+    },
+    {
+        id: 'profile.username',
+        accessorKey: "profile.username",
+        header: "Username",
+        cell: ({ row }) => (
+            <span className="text-sm font-medium">{row.getValue("profile.username") || "N/A"}</span>
+        ),
+    },
+    {
+        id: 'story.title',
+        accessorKey: "story.title",
+        header: "Story Title",
+        cell: ({ row }) => (
+            <span className="text-sm text-blue-500 underline cursor-pointer">
+                {row.getValue("story.title") || "N/A"}
+            </span>
+        ),
+    },
+    {
+        accessorKey: "content",
+        header: "Comment",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("content") || "N/A"}</span>
+        ),
+    },
+    {
+        accessorKey: "likes_count",
+        header: "Likes",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("likes_count") || 0}</span>
+        ),
+    },
+    {
+        accessorKey: "reports_count",
+        header: "Reports",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("reports_count") || 0}</span>
+        ),
+    },
+    {
+        accessorKey: "is_deleted",
+        header: "Deleted",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("is_deleted") ? "Yes" : "No"}</span>
+        ),
+    },
+    {
+        accessorKey: "parent_id",
+        header: "Parent Comment",
+        cell: ({ row }) => (
+            <span className="text-sm">{row.getValue("parent_id") ? "Yes" : "No"}</span>
+        ),
+    },
+];

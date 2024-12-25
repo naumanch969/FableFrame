@@ -67,6 +67,10 @@ export function DataTable<TData, TValue>({
             columnFilters,
             columnVisibility,
             rowSelection,
+            pagination: {
+                pageIndex: 0,
+                pageSize: 20, // Default to 10 rows per page
+            },
         },
     })
 

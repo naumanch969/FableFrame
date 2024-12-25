@@ -10,6 +10,9 @@ const AdminSidebar = () => {
         { label: 'users', value: 'Users' },
         { label: 'stories', value: 'Stories' },
         { label: 'reports', value: 'Reports' },
+        { label: 'comments', value: 'Comments' },
+        { label: 'contacts', value: 'Contacts' },
+        { label: 'feedback', value: 'Feedback' },
     ];
 
     return (

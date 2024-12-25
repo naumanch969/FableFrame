@@ -2,6 +2,7 @@ import { v } from 'convex/values';
 import { mutation, query, QueryCtx } from './_generated/server';
 import { auth } from './auth';
 import { Id } from './_generated/dataModel';
+import { populateStory } from './utils';
 
 const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
     let profile: any = await ctx.db.query("profiles").withIndex("by_user_id", (q) => q.eq("user_id", userId)).first();
@@ -10,6 +11,26 @@ const populateProfileByUserId = async (ctx: QueryCtx, userId: Id<"users">) => {
 const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
     return await ctx.db.get(profileId)
 }
+
+export const get = query({
+    args: {},
+    handler: async (ctx, { }) => {
+
+        const comments = await ctx.db
+            .query('comments')
+            .collect();
+
+        let response: any = []
+        for (const comment of comments) {
+            const profile = await populateProfile(ctx, comment?.profile_id)
+            const story = await populateStory(ctx, comment?.story_id)
+            if (profile)
+                response.push({ ...comment, profile, story })
+        }
+
+        return response;
+    },
+});
 
 export const get_by_story = query({
     args: {

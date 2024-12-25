@@ -62,7 +62,7 @@ export const CoverCard = ({ story }: { story: Story }) => {
             <div className="flex flex-col justify-between items-start p-4 w-full">
 
                 <div className="">
-                    <motion.h3 className="font-medium text-neutral-800 dark:text-neutral-200 text-xl" >
+                    <motion.h3 className="font-semibold text-neutral-800 dark:text-neutral-200 text-2xl" >
                         {story?.title}
                     </motion.h3>
                     <motion.p className="text-neutral-600 dark:text-neutral-400 text-sm">
