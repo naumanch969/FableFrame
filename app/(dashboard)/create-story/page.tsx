@@ -142,7 +142,7 @@ const CreateStory = () => {
 
       <div className="py-8">
 
-        <h1 className="text-2xl md:text-5xl font-bold text-neutral-700 dark:text-white">
+        <h1 className="text-2xl md:text-5xl font-bold text-neutral-700 dark:text-surface-foreground">
           Create your story
         </h1>
         <p className="max-w-2xl text-base md:text-xl mt-4 text-neutral-700 dark:text-neutral-200">

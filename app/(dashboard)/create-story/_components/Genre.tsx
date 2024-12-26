@@ -30,7 +30,7 @@ const Genre = ({ userSelection }: { userSelection: any }) => {
                                     : 'grayscale'
                             } flex gap-4 p-1 relative cursor-pointer`}
                         >
-                            <h2 className="absolute bottom-5 text-white text-center w-full text-lg">{option.label}</h2>
+                            <h2 className="absolute bottom-5 text-surface-foreground text-center w-full text-lg">{option.label}</h2>
                             <Image
                                 src={option.image}
                                 alt={option.label}

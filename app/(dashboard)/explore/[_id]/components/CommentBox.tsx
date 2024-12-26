@@ -37,7 +37,7 @@ const CommentBox: React.FC = () => {
     return (
       <div className={`rounded-lg flex justify-between items-start gap-1 p-2 hover:bg-muted text-muted-foreground `}>
         <div className="flex justify-between items-start gap-2 w-full">
-          <Avatar className='w-10 h-10 bg-black text-white ' >
+          <Avatar className='w-10 h-10 bg-black text-surface-foreground ' >
             <AvatarImage src={comment?.profile?.profile_picture_url} />
             <AvatarFallback className='capitalize bg-inherit' >{comment?.profile?.username?.charAt(0)}</AvatarFallback>
           </Avatar>

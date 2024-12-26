@@ -28,7 +28,7 @@ const ChatItem = ({ chat }: { chat: Chat }) => {
     return (
         <div
             onClick={() => onChatClick(chat)}
-            className={`${currentChat?._id == chat?._id ? 'bg-primary text-primary-foreground' : 'bg-white'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-white `}
+            className={`${currentChat?._id == chat?._id ? 'bg-primary text-primary-foreground' : 'bg-surface'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
         >
             <div className="flex justify-between items-center gap-2">
                 <Avatar>
@@ -39,7 +39,7 @@ const ChatItem = ({ chat }: { chat: Chat }) => {
                     <h5 className="text-md font-medium truncate ">
                         {otherUser?.username}
                         {unreadCount > 0 && (
-                            <span className="rounded-full bg-blue-500 px-2 py-1 text-xs text-white">
+                            <span className="rounded-full bg-blue-500 px-2 py-1 text-xs text-surface-foreground">
                                 {unreadCount}
                             </span>
                         )}

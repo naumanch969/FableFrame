@@ -82,7 +82,7 @@ const UpdateStoryImagesModal = () => {
 
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
-                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-neutral-700 dark:text-white sm:text-2xl">
+                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-neutral-700 dark:text-surface-foreground sm:text-2xl">
                         Update images for story
                     </DialogTitle>
                     <p className="mb-10 text-neutral-800 ">
@@ -92,7 +92,7 @@ const UpdateStoryImagesModal = () => {
                         <div className="w-1/2 px-3">
                             <button
                                 onClick={() => setOpen(false)}
-                                className="block w-full rounded border border-stroke bg-gray p-3 text-center font-medium text-black transition hover:bg-gray/75 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
+                                className="block w-full rounded border border-stroke bg-gray p-3 text-center font-medium text-black transition hover:bg-gray/75 dark:border-strokedark dark:bg-meta-4 dark:text-surface-foreground dark:hover:border-meta-1 dark:hover:bg-meta-1"
                             >
                                 Cancel
                             </button>
@@ -100,7 +100,7 @@ const UpdateStoryImagesModal = () => {
                         <div className="w-1/2 px-3">
                             <button
                                 onClick={onGenerate}
-                                className="block w-full rounded border border-theme-gradient bg-theme-gradient disabled:bg-theme-gradient/80 p-3 text-center font-medium text-white transition hover:bg-opacity-90"
+                                className="block w-full rounded border border-theme-gradient bg-theme-gradient disabled:bg-theme-gradient/80 p-3 text-center font-medium text-surface-foreground transition hover:bg-opacity-90"
                             >
                                 Update
                             </button>

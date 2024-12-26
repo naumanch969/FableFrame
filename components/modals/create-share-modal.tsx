@@ -80,7 +80,7 @@ const CreateShareModal = () => {
         return (
             <div
                 onClick={onAdd}
-                className={`${isExist ? 'bg-primary text-primary-foreground' : 'bg-white'} mb-2 col-span-1 rounded-lg flex flex-col justify-center gap-1 cursor-pointer items-center gap-1 p-2 hover:bg-primary hover:text-white `}
+                className={`${isExist ? 'bg-primary text-primary-foreground' : 'bg-surface'} mb-2 col-span-1 rounded-lg flex flex-col justify-center gap-1 cursor-pointer items-center gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
             >
                 <Avatar>
                     <AvatarImage src={profile?.profile_picture_url} />

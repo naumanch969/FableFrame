@@ -15,7 +15,7 @@ const CustomLoader = ({ loading, onClose }: { loading: string, onClose: () => vo
       onClose={onClose}
       showCloseButton={false}
     >
-      <div className="w-full flex flex-col justify-center items-center gap-10 p-4 bg-white rounded-3xl ">
+      <div className="w-full flex flex-col justify-center items-center gap-10 p-4 bg-surface rounded-3xl ">
         <p className='text-muted-foreground font-medium text-lg text-center w-full' >{loading}</p>
         <Image
           src='/loader.gif'

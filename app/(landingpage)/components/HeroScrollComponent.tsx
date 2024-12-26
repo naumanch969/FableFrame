@@ -32,7 +32,7 @@ const HeroScrollComponent: FC = () => {
                 <h2 className="text-6xl leading-[1.4] text-primary font-extrabold">
                     <span className="">Craft Magical Stories for</span>
                     <br />
-                    <span className="relative inline-block overflow-hidden bg-white px-8 py-1 rounded-full ">
+                    <span className="relative inline-block overflow-hidden bg-surface px-8 py-1 rounded-full ">
                         <span
                             key={words[currentWordIndex]}
                             className={`${currentWordIndex == (words.length - 1) ? 'animate-slide-from-up' : 'animate-slide-down'} block text-[64px] bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent`}

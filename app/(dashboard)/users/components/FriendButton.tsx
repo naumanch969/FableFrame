@@ -91,7 +91,7 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
                     <Button variant='secondary' className="" onClick={onCreateChat}>
                         {creatingChat ? 'Loading' : 'Message'}
                     </Button>
-                    <Button className="bg-black hover:bg-black/80 text-white" onClick={() => router.push(`/user/${thisProfile?._id}`)}>
+                    <Button className="bg-black hover:bg-black/80 text-surface-foreground" onClick={() => router.push(`/user/${thisProfile?._id}`)}>
                         View Profile
                     </Button>
                 </div>
@@ -126,7 +126,7 @@ const FriendButton = ({ profile: thisProfile }: { profile: Profile }) => {
                     {
                         !isProfilePage &&
                         <Button
-                            className="bg-black hover:bg-black/80 text-white"
+                            className="bg-black hover:bg-black/80 text-surface-foreground"
                             onClick={() => router.push(`/profile/${thisProfile?._id}`)}
                         >
                             View Profile

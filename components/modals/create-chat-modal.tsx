@@ -64,7 +64,7 @@ const CreateChatModal = () => {
         return (
             <div
                 onClick={() => setFriendId(profile?._id)}
-                className={`${profile?._id == friendId ? 'bg-primary text-primary-foreground' : 'bg-white'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-white `}
+                className={`${profile?._id == friendId ? 'bg-primary text-primary-foreground' : 'bg-surface'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
             >
                 <div className="flex justify-between items-center gap-2">
                     <Avatar>

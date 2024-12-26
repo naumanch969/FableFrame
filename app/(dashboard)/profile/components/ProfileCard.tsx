@@ -73,7 +73,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             <div className="flex justify-end">
                 <button
                     onClick={onEdit}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md shadow-md"
+                    className="bg-blue-600 text-surface-foreground px-4 py-2 rounded-md shadow-md"
                 >
                     Edit Profile
                 </button>

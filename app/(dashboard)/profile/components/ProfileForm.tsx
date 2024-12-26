@@ -114,13 +114,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             <div className="flex justify-end space-x-4">
                 <button
                     onClick={onCancel}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                    className="bg-gray-500 text-surface-foreground px-4 py-2 rounded-md"
                 >
                     Cancel
                 </button>
                 <button
                     onClick={handleSubmit}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md"
+                    className="bg-blue-600 text-surface-foreground px-4 py-2 rounded-md"
                 >
                     Save Changes
                 </button>

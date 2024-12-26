@@ -17,7 +17,7 @@ const AlertModal = ({ title, description, onSubmit, open, onClose, loading = fal
             <Dialog open={open} onOpenChange={onClose}>
                 <DialogContent>
 
-                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-neutral-700 dark:text-white sm:text-2xl">
+                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-neutral-700 dark:text-surface-foreground sm:text-2xl">
                         {title}
                     </DialogTitle>
 
@@ -30,7 +30,7 @@ const AlertModal = ({ title, description, onSubmit, open, onClose, loading = fal
                             <button
                                 onClick={onClose}
                                 disabled={loading}
-                                className="block w-full rounded border border-stroke bg-gray p-3 text-center font-medium text-black transition hover:bg-gray/75 dark:border-strokedark dark:bg-meta-4 dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
+                                className="block w-full rounded border border-stroke bg-gray p-3 text-center font-medium text-black transition hover:bg-gray/75 dark:border-strokedark dark:bg-meta-4 dark:text-surface-foreground dark:hover:border-meta-1 dark:hover:bg-meta-1"
                             >
                                 Cancel
                             </button>
@@ -39,7 +39,7 @@ const AlertModal = ({ title, description, onSubmit, open, onClose, loading = fal
                             <button
                                 onClick={onSubmit}
                                 disabled={loading}
-                                className="block w-full rounded border border-destructive bg-destructive disabled:bg-destructive/80 p-3 text-center font-medium text-white transition hover:bg-opacity-90"
+                                className="block w-full rounded border border-destructive bg-destructive disabled:bg-destructive/80 p-3 text-center font-medium text-surface-foreground transition hover:bg-opacity-90"
                             >
                                 {loading ? 'Proceeding...' : 'Proceed'}
                             </button>

@@ -54,7 +54,7 @@ const WriteStory: React.FC = () => {
       {isChaptersEnabled && (
         <button
           onClick={addNewCompartment}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="mt-4 px-4 py-2 bg-blue-600 text-surface-foreground rounded-lg hover:bg-blue-700"
         >
           Add New Section
         </button>
@@ -62,13 +62,13 @@ const WriteStory: React.FC = () => {
       <div className="mt-8 flex space-x-4">
         <button
           onClick={handleSaveDraft}
-          className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+          className="px-6 py-2 bg-gray-600 text-surface-foreground rounded-lg hover:bg-gray-700"
         >
           Save as Draft
         </button>
         <button
           onClick={handlePublish}
-          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+          className="px-6 py-2 bg-green-600 text-surface-foreground rounded-lg hover:bg-green-700"
         >
           Publish
         </button>

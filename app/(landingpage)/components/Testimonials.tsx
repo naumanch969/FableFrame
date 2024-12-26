@@ -8,7 +8,7 @@ const Testimonials = () => {
         <div className="w-full bg-background dark:bg-neutral-950 font-sans md:px-10 py-20 pb-72 " >
 
             <div className="max-w-7xl mx-auto py-20 md:px-8">
-                <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-white">
+                <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-surface-foreground">
                     What Our Users Are Saying
                 </h2>
                 <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-700 dark:text-neutral-200">

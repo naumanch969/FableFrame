@@ -108,7 +108,7 @@ export const CoverCard = ({ story }: { story: Story }) => {
                         exit={{ opacity: 0 }}
                         href={'/explore/' + story?._id}
                         target="_blank"
-                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-surface-foreground"
                     >
                         Explore
                     </motion.a>

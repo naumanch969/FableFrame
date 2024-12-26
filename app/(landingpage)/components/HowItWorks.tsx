@@ -149,7 +149,7 @@ const HowItWorks = () => {
             <Timeline
                 titleComponent={
                     <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-                        <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-white">
+                        <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-surface-foreground">
                             How It Works
                         </h2>
                         <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-700 dark:text-neutral-200">

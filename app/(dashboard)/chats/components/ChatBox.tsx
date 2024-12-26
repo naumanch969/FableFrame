@@ -89,7 +89,7 @@ export const ChatBox = () => {
 
         return (
             <div className={`w-fit ${isMe ? 'ml-auto max-w-[70%]' : 'max-w-[70%]'}`}>
-                <div className={`mb-1 rounded-2xl px-5 py-3 bg-muted ${isMe ? 'rounded-br-none bg-primary text-white' : 'rounded-tl-none'} `}>
+                <div className={`mb-1 rounded-2xl px-5 py-3 bg-muted ${isMe ? 'rounded-br-none bg-primary text-surface-foreground' : 'rounded-tl-none'} `}>
                     <p>{msg}</p>
                 </div>
                 <p className={`text-xs ${isMe ? 'text-end' : 'text-start'}`}>{time}</p>
@@ -114,7 +114,7 @@ export const ChatBox = () => {
                     <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
                         <div className='w-full flex justify-end items-start flex-col h-full relative' >
                             <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
-                                <p className='text-white/90 font-bold text-xl  ' >Open</p>
+                                <p className='text-surface-foreground/90 font-bold text-xl  ' >Open</p>
                             </div>
                             <p className="text-neutral-300 text-center md:text-left text-base">
                                 <span className="">{story?.chapters?.length} chapters</span>
@@ -153,7 +153,7 @@ export const ChatBox = () => {
                             <div className="space-y-2 col-span-3 w-full h-[90vh]">
                                 <Card className="bg-background p-2 flex items-center justify-between">
                                     <div className="flex items-center gap-2 ">
-                                        <Avatar className='w-10 h-10 bg-black text-white ' >
+                                        <Avatar className='w-10 h-10 bg-black text-surface-foreground ' >
                                             <AvatarImage src={otherUser?.profile_picture_url} />
                                             <AvatarFallback className='capitalize bg-inherit' >{otherUser?.username?.charAt(0)}</AvatarFallback>
                                         </Avatar>

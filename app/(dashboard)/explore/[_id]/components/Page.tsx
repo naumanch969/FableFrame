@@ -89,7 +89,7 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
                             />
                             {showOptions && (
                                 <div
-                                    className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-2 bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4 z-10 w-64"
+                                    className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-2 bg-surface p-4 rounded-lg shadow-lg flex flex-col gap-4 z-10 w-64"
                                     onMouseEnter={() => setShowOptions(true)} // Keep dropdown visible when hovering over it
                                     onMouseLeave={() => setShowOptions(false)} // Hide dropdown when mouse leaves
                                 >

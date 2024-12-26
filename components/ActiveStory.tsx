@@ -41,7 +41,7 @@ export const ActiveStory = ({ story, ref, id }: { story: Story | null, ref: any,
                     <motion.div
                         layoutId={`card-${story?.title}-${id}`}
                         ref={ref}
-                        className="w-full max-w-3xl h-full md:h-fit md:max-h-[90%] pb-6 flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+                        className="w-full max-w-3xl h-full md:h-fit md:max-h-[90%] pb-6 flex flex-col bg-surface dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
                     >
                         <Carousel items={cards} />
                     </motion.div>
@@ -124,7 +124,7 @@ export const CoverCard = ({ story, id }: { story: Story, id: any }) => {
                         exit={{ opacity: 0 }}
                         href={'/explore/' + story?._id}
                         target="_blank"
-                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-surface-foreground"
                     >
                         Explore
                     </motion.a>

@@ -31,7 +31,7 @@ export default function Navbar() {
     ]
 
     return (
-        <nav className="sticky bg-white rounded-full px-3 py-3 top-2 border inset-x-0 max-w-7xl mx-auto z-50">
+        <nav className="sticky bg-surface dark:bg-black rounded-full px-3 py-3 top-2 border inset-x-0 max-w-7xl mx-auto z-50">
 
             <div className="w-full flex items-center justify-between ">
                 {/* Left: Logo */}

@@ -83,10 +83,10 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
                             </button>
                         </form>
                         <Select value={genre} onValueChange={setGenre} >
-                            <SelectTrigger className='bg-white py-2.5 '>
+                            <SelectTrigger className='bg-surface py-2.5 '>
                                 <SelectValue placeholder="Filter by genre" />
                             </SelectTrigger>
-                            <SelectContent className='bg-white '>
+                            <SelectContent className='bg-surface '>
                                 <SelectItem value={"all"}>Filter by genre</SelectItem>
                                 {STORY_GENRES.map((genres) => (
                                     <SelectItem key={genres.key} value={genres.key}>
@@ -96,10 +96,10 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
                             </SelectContent>
                         </Select>
                         <Select value={ageCategory} onValueChange={setAgeCategory}   >
-                            <SelectTrigger className='bg-white py-2.5 ' >
+                            <SelectTrigger className='bg-surface py-2.5 ' >
                                 <SelectValue placeholder="Filter by age" />
                             </SelectTrigger>
-                            <SelectContent className='bg-white '>
+                            <SelectContent className='bg-surface '>
                                 <SelectItem value={"all"}>Filter by age</SelectItem>
                                 {STORY_AGE_CATEGORIES.map((category) => (
                                     <SelectItem key={category.key} value={category.key}>
@@ -145,7 +145,7 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
                                                 <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
                                                     <div className='w-full flex justify-end items-start flex-col h-full relative' >
                                                         <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
-                                                            <p className='text-white/90 font-bold text-xl  ' >Open</p>
+                                                            <p className='text-surface-foreground/90 font-bold text-xl  ' >Open</p>
                                                         </div>
                                                         <motion.p className="text-neutral-300 text-center md:text-left text-base">
                                                             <span className="">{story?.chapters?.length} chapters</span>
