@@ -188,8 +188,8 @@ export function PlaceholdersAndVanishInput({
   return (
     <form
       className={cn(
-        "w-full relative max-w-xl mx-auto bg-surface dark:bg-zinc-800 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
-        value && "bg-gray-50",
+        "w-full relative max-w-xl mx-auto bg-surface h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+        value && "bg-surface",
         isTextarea && "h-auto rounded-3xl"
       )}
       onSubmit={handleSubmit}
@@ -218,7 +218,7 @@ export function PlaceholdersAndVanishInput({
             value={value}
             rows={rows}
             className={cn(
-              "w-full text-sm sm:text-base z-50 border-none dark:text-surface-foreground bg-transparent text-black h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
+              "w-full text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
               animating && "text-transparent dark:text-transparent",
               isTextarea && "pt-2" // Add padding-top for textarea alignment
             )}
@@ -238,7 +238,7 @@ export function PlaceholdersAndVanishInput({
             value={value}
             type="text"
             className={cn(
-              "w-full relative text-sm sm:text-base z-50 border-none dark:text-surface-foreground bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
+              "w-full relative text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20",
               animating && "text-transparent dark:text-transparent"
             )}
           />
@@ -250,7 +250,7 @@ export function PlaceholdersAndVanishInput({
           title='Submit'
           disabled={!value}
           type="submit"
-          className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-gray-100 bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
+          className="absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-full disabled:bg-muted bg-surface transition duration-200 flex items-center justify-center"
         >
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"

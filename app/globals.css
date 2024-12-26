@@ -57,7 +57,7 @@ body {
     --destructive: 0 70% 40%;     /*hsl(0 70% 40%)*/
     --destructive-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
     --surface: 0 0% 10%;     /*hsl(0 0% 10%) */
-    --surface-foreground: 0 0% 70%;   /*hsl(0 0% 70%)*/
+    --surface-foreground: 0 0% 70%;   /*hsl(0 0% 99%)*/
     --border: 225 10% 20%;      /*hsl(225 10% 20%)*/
     --input: 225 10% 20%;     /*hsl(225 10% 20%)*/
     --ring: 240 30% 70%;      /*hsl(240 30% 70%)*/

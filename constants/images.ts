@@ -19,6 +19,7 @@ export const IMAGE_STYLE_3D = '/image_style/3D.png'
 export const IMAGE_STYLE_PAPER_CUT = '/image_style/paperCut.png'
 export const IMAGE_STYLE_PIXEL = '/image_style/pixel.png'
 export const IMAGE_STYLE_WATER_COLOR = '/image_style/watercolor.png'
+export const IMAGE_STYLE_DIGITAL_ART = '/image_style/digital-art.png'
 
 // export const LOGIN_BACKGROUND = '/login.png'
 export const LOGIN_1 = '/login/login1.webp'

@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from '@/components/ui/select'
 import { STORY_AGE_CATEGORIES, STORY_GENRES } from '@/constants'
 import StoryItem from "./StoryItem";
+import { Input } from '@/components/aceternity/input'
 
 const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string, data: Story[], isLoading: boolean, showTitle?: boolean }) => {
 
@@ -65,12 +66,12 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
 
                 {/* Search */}
                 <div className="flex justify-between items-end gap-2">
-                    <h2 className="text-xl md:text-3xl font-bold text-neutral-700 dark:text-neutral-200 font-sans">
+                    <h2 className="text-xl md:text-3xl font-bold text-surface-foreground font-sans">
                         {showTitle && (title || `Story pickups for ${searchQuery ? searchQuery : 'you'}`)}
                     </h2>
                     <div className="flex justify-end items-center gap-2">
                         <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
-                            <input
+                            <Input
                                 type="text"
                                 className="w-96 rounded-xl border border-stroke py-2.5 pl-5 pr-10 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2"
                                 placeholder="Search stories by title, genre, age-category"
@@ -128,20 +129,27 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
                                 ))
                                 :
                                 stories?.slice()?.reverse()?.map((story, index) => (
-                                    <Card key={index} className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
+                                    <Card key={index} className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-surface rounded-xl" >
 
                                         <ActiveStoryModal story={story} >
                                             <motion.div
                                                 layoutId={`card-${story.title}-${id}`}
                                                 className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
                                             >
-                                                <Image
+                                                <img
                                                     width={100}
                                                     height={100}
                                                     src={story?.cover_image || "/sample_cover_image.jpeg"}
                                                     alt={story.title}
                                                     className="h-full w-full rounded-lg object-cover object-top"
                                                 />
+                                                {/* <Image
+                                                    width={100}
+                                                    height={100}
+                                                    src={story?.cover_image || "/sample_cover_image.jpeg"}
+                                                    alt={story.title}
+                                                    className="h-full w-full rounded-lg object-cover object-top"
+                                                /> */}
                                                 <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
                                                     <div className='w-full flex justify-end items-start flex-col h-full relative' >
                                                         <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
@@ -161,7 +169,7 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
                                         <div className='flex justify-between items-center' >
                                             <Link
                                                 href={`/explore/${story?._id}`}
-                                                className="cursor-pointer hover:underline font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
+                                                className="cursor-pointer hover:underline font-medium text-surface-foreground text-center md:text-left text-base"
                                             >
                                                 {story.title}
                                             </Link>

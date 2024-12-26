@@ -4,6 +4,7 @@ import React from 'react'
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from '@/components/ui/input'
 import { PlaceholdersAndVanishInput } from '@/components/aceternity/placeholders-and-vanish-input'
+import { Slider } from "@/components/ui/slider"
 
 
 const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
@@ -15,7 +16,7 @@ const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
         "Create a title for your story, like 'The Final Battle'",
         "Think of a title for your story, such as 'The Forgotten Castle'",
     ];
-    
+
     const promptPlaceholders = [
         "Describe the setting or theme of your story. Example: 'A young princess discovers a hidden power that could save her kingdom.'",
         "Provide a prompt to inspire your story. For example, 'Two strangers meet on a stormy night, but their pasts are intertwined in ways they can't yet understand.'",
@@ -23,13 +24,13 @@ const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
         "Give a brief description or scenario for your story. Example: 'A detective investigates a mysterious disappearance that leads him to a dark conspiracy.'",
         "Provide a creative prompt to guide the story. For instance, 'A magical artifact is found in the middle of a forest, and its true purpose is yet to be revealed.'",
     ];
-    
+
 
 
     return (
         <div className='space-y-3 col-span-1' >
             <div className="flex flex-col gap-3">
-                <label htmlFor="" className="font-bold text-xl text-primary">1. Title of the story</label>
+                <label htmlFor="" className="font-bold text-xl text-surface-foreground">1. Title of the story</label>
                 {/* <Input
                 placeholder='Enter the subject of your story'
                 className='md:max-w-lg resize-y text-md font-medium p-3 bg-background text-gray-700 h-12 '
@@ -47,7 +48,7 @@ const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
                 />
             </div>
             <div className="flex flex-col gap-3">
-                <label htmlFor="" className="font-bold text-xl text-primary mt-3 ">2. Prompt</label>
+                <label htmlFor="" className="font-bold text-xl text-surface-foreground mt-3 ">2. Prompt</label>
                 <PlaceholdersAndVanishInput
                     placeholders={promptPlaceholders}
                     onChange={(e) => userSelection({

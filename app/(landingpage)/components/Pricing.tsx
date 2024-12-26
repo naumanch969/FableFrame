@@ -19,7 +19,7 @@ const Pricing = () => {
             duration: 0.8,
             ease: 'easeInOut',
           }}
-          className="mt-20 text-neutral-700 py-4 text-center text-4xl font-medium tracking-tight md:text-7xl"
+          className="mt-20 text-surface-foreground py-4 text-center text-4xl font-medium tracking-tight md:text-7xl"
         >
           Plans That
           <br /> Fit You Best

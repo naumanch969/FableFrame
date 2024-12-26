@@ -157,7 +157,7 @@ export const ChatBox = () => {
                                             <AvatarImage src={otherUser?.profile_picture_url} />
                                             <AvatarFallback className='capitalize bg-inherit' >{otherUser?.username?.charAt(0)}</AvatarFallback>
                                         </Avatar>
-                                        <h5 className="w-max font-medium capitalize text-neutral-700 ">
+                                        <h5 className="w-max font-medium capitalize text-surface-foreground ">
                                             {otherUser?.username}
                                         </h5>
                                     </div>

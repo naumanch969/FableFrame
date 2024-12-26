@@ -5,26 +5,28 @@ import StorySubjectInput from './_components/StorySubjectInput'
 import Genre from './_components/Genre'
 import AgeGroup from './_components/AgeCategory'
 import ImageStyle from './_components/ImageStyle'
+import Chapters from './_components/Chapters'
 import CustomLoader from './_components/CustomLoader'
-import { alertAndReturnFalse, uploadToConvex, generateImage } from '@/lib/utils'
+import { alertAndReturnFalse, generateImage } from '@/lib/utils'
 import { useCreateStory } from '@/features/story/api/useCreateStory'
 import { chatSession } from '@/config/gemini'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { CREATE_STORY_PROMPT } from '@/constants'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
-
+import Hint from '@/components/Hint'
 
 const CreateStory = () => {
 
   //////////////////////////////////// VARIABLES //////////////////////////////////////////
-  const { mutate, data } = useCreateStory()
+  const { mutate } = useCreateStory()
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
   const router = useRouter()
   const initialState = {
     prompt: "",
     title: "",
     genre: "",
+    chapters: 5,
     ageCategory: "",
     imageStyle: "",
   }
@@ -48,7 +50,7 @@ const CreateStory = () => {
     return true;
   };
 
-  const onGenerate = async () => {
+  const onGenerate = async (status: 'draft' | 'published') => {
     if (!validateForm()) return;
 
     setLoading('Your story is being generated. Please wait...')
@@ -56,7 +58,16 @@ const CreateStory = () => {
 
       console.log('formdata', formData)
 
-      const FINAL_PROMPT = constructPrompt({ age_category: formData.ageCategory, genre: formData.genre, image_style: formData?.imageStyle, title: formData?.title, prompt });
+      const FINAL_PROMPT = constructPrompt({
+        age_category: formData.ageCategory,
+        genre: formData.genre
+        image_style: formData?.imageStyle,
+        title: formData?.title,
+        prompt,
+        chapters: formData?.chapters
+      });
+
+      console.log('FINAL', FINAL_PROMPT)
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
       const ai_output = JSON.parse(result?.response?.text() || "{}");
@@ -98,7 +109,7 @@ const CreateStory = () => {
           age_category: formData.ageCategory,
           type: 'ai_generated',
           is_public: true,
-          status: 'draft',
+          status,
           ai_output,
           cover_image: coverImageStorageId,
           chapters,
@@ -120,11 +131,11 @@ const CreateStory = () => {
     }
   }
 
-  const constructPrompt = ({ age_category, genre, image_style, title, prompt }: any) => {
+  const constructPrompt = ({ age_category, genre, image_style, title, prompt, chapters }: any) => {
     return CREATE_STORY_PROMPT
       .replace("{age_category}", age_category)
       .replace("{genre}", genre)
-      .replace("{chapters}", process.env.NEXT_PUBLIC_DEFAULT_STORY_CHAPTERS_LIMIT! || '5')
+      .replace("{chapters}", chapters)
       .replace("{image_style}", image_style)
       .replace("{title}", `${title} ${prompt ? `and start writing a story about it. ${prompt}` : ''}`);
   };
@@ -142,10 +153,10 @@ const CreateStory = () => {
 
       <div className="py-8">
 
-        <h1 className="text-2xl md:text-5xl font-bold text-neutral-700 dark:text-surface-foreground">
+        <h1 className="text-2xl md:text-5xl font-bold text-surface-foreground dark:text-surface-foreground">
           Create your story
         </h1>
-        <p className="max-w-2xl text-base md:text-xl mt-4 text-neutral-700 dark:text-neutral-200">
+        <p className="max-w-2xl text-base md:text-xl mt-4 text-surface-foreground dark:text-neutral-200">
           Unlock your creativity with AI: Craft stories like never before! Let our AI bring your <>imagination</> to life, one story at a time.
         </p>
 
@@ -154,11 +165,21 @@ const CreateStory = () => {
           <AgeGroup userSelection={onChange} />
           <Genre userSelection={onChange} />
           <ImageStyle userSelection={onChange} />
+          <Chapters userSelection={onChange} value={formData?.chapters} />
         </div>
         <div className="flex flex-col justify-end items-end w-full my-10">
-          <Button onClick={onGenerate} variant='gradient' size="cta" disabled={Boolean(loading)}  >
-            {'Generate Story'}
-          </Button>
+          <div className='flex gap-2' >
+            <Hint label="Generate a draft of your story.">
+              <Button onClick={() => onGenerate('draft')} variant='secondary' size="cta" disabled={Boolean(loading)}  >
+                Generate Story and Draft
+              </Button>
+            </Hint>
+            <Hint label="Generate and save your story.">
+              <Button onClick={() => onGenerate('published')} variant='gradient' size="cta" disabled={Boolean(loading)}  >
+                Generate Story and Save
+              </Button>
+            </Hint>
+          </div>
           <span className="text-gray-500 text-xs mt-1 " >1 Credit will use</span>
         </div>
 

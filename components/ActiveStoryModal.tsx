@@ -27,7 +27,7 @@ const ActiveStoryModal = ({ story, children }: { story: Story | null, children: 
 
     return (
         <Modal>
-            <ModalTrigger className='' >
+            <ModalTrigger className='text-surface-foreground' >
                 {children}
             </ModalTrigger>
             <ModalBody>
@@ -46,7 +46,7 @@ export default ActiveStoryModal;
 export const CoverCard = ({ story }: { story: Story }) => {
 
     return (
-        <motion.div layoutId={undefined} className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"  >
+        <motion.div layoutId={undefined} className="rounded-3xl bg-surface h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"  >
 
             <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 
@@ -62,7 +62,7 @@ export const CoverCard = ({ story }: { story: Story }) => {
             <div className="flex flex-col justify-between items-start p-4 w-full">
 
                 <div className="">
-                    <motion.h3 className="font-semibold text-neutral-800 dark:text-neutral-200 text-2xl" >
+                    <motion.h3 className="font-semibold text-surface-foreground dark:text-neutral-200 text-2xl" >
                         {story?.title}
                     </motion.h3>
                     <motion.p className="text-neutral-600 dark:text-neutral-400 text-sm">
@@ -128,7 +128,7 @@ export const EndCard = () => {
                 <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 
                 <div className="relative z-40 p-8 flex justify-center items-center ">
-                    <h2 className="text-4xl font-bold text-neutral-700">The End</h2>
+                    <h2 className="text-4xl font-bold text-surface-foreground">The End</h2>
                 </div>
 
             </motion.div>
@@ -154,10 +154,10 @@ export const Chapter = ({ chapter }: { chapter: { title: string, text: string, i
                         className="w-full h-80 lg:h-64 rounded-2xl object-cover object-top"
                     />
                 </motion.div>
-                <motion.p className="text-neutral-700 text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-3">
+                <motion.p className="text-surface-foreground text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-3">
                     {chapter?.title}
                 </motion.p>
-                <motion.p className="text-neutral-700 text-base font-light text-left mt-2">
+                <motion.p className="text-surface-foreground text-base font-light text-left mt-2">
                     {chapter?.text} {chapter?.text} {chapter?.text}
                 </motion.p>
             </div>

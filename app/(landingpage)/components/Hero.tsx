@@ -38,7 +38,7 @@ export function Heading() {
             initial={{ opacity: 0, y: 20, }}
             animate={{ opacity: 1, y: [20, -5, 0], }}
             transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1], }}
-            className="text-4xl font-semibold text-neutral-700 dark:text-surface-foreground px-4 md:text-4xl lg:text-5xl max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
+            className="text-4xl font-semibold text-surface-foreground dark:text-surface-foreground px-4 md:text-4xl lg:text-5xl max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
         >
             Unleash the power of <br />
             <span className="text-4xl md:text-[6rem] font-bold mt-2 leading-none">

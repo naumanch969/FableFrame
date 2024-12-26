@@ -2,6 +2,7 @@ import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { REPORT_REASONS, STORY_REPORT_STATUSES } from '@/constants';
 import { populateStory, populateProfile } from './utils'
+import { auth } from './auth';
 
 export const create = mutation({
     args: {
@@ -14,7 +15,13 @@ export const create = mutation({
     },
     handler: async (ctx, args) => {
 
-        const newReport = await ctx.db.insert('story_reports', {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) return null;
+
+        const proflie = await populateProfile(ctx, args.profile_id);
+        if (!proflie) return null;
+
+        const new_report = await ctx.db.insert('story_reports', {
             story_id: args.story_id,
             profile_id: args.profile_id,
             reason: args.reason,
@@ -23,7 +30,16 @@ export const create = mutation({
             created_at: args.created_at
         });
 
-        return newReport;
+        const existing_reports = await ctx.db
+            .query('story_reports')
+            .withIndex('by_story_id', (q) => q.eq('story_id', args.story_id))
+            .collect()
+
+        if (existing_reports.length >= 5) {
+            await ctx.db.patch(args.story_id, { status: 'blocked' })
+        }
+
+        return new_report;
     },
 });
 

@@ -69,7 +69,7 @@ const CreateChatModal = () => {
                 <div className="flex justify-between items-center gap-2">
                     <Avatar>
                         <AvatarImage src={profile?.profile_picture_url} />
-                        <AvatarFallback className='text-neutral-700 capitalize' >{profile?.username?.charAt(0)}</AvatarFallback>
+                        <AvatarFallback className='text-surface-foreground capitalize' >{profile?.username?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div className="flex w-fit flex-col ">
                         <h5 className="text-md font-medium truncate ">

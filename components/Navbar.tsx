@@ -44,9 +44,8 @@ export default function Navbar() {
                             menus.map((menu, index) => (
                                 pathname == menu.path
                                     ?
-                                    <GradientText>
+                                    <GradientText key={index} >
                                         <Link
-                                            key={index}
                                             href={menu.path}
                                             className={`scale-110 hover:scale-110 font-medium text-xl`}
                                         >
@@ -57,7 +56,7 @@ export default function Navbar() {
                                     <Link
                                         key={index}
                                         href={menu.path}
-                                        className={`hover:scale-110 font-medium text-neutral-700 dark:text-neutral-200 transition-all`}
+                                        className={`hover:scale-110 font-medium text-surface-foreground transition-all`}
                                     >
                                         {menu.name}
                                     </Link>

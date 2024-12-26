@@ -8,10 +8,10 @@ const HowItWorks = () => {
             title: "Sign Up",
             content: (
                 <div>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
                         Sign Up and Create Your Profile
                     </p>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
                         Get started by creating an account. Save your stories and track your progress.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -37,10 +37,10 @@ const HowItWorks = () => {
             title: "Preferences",
             content: (
                 <div>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
                         Choose Your Preferences
                     </p>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
                         Select the genre, characters, and setting to guide the AI in crafting your story.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -66,10 +66,10 @@ const HowItWorks = () => {
             title: "AI",
             content: (
                 <div>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
                         Let the AI Create Your Story
                     </p>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
                         Our AI uses your preferences to generate a personalized story in minutes!
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -95,7 +95,7 @@ const HowItWorks = () => {
             title: "Customize",
             content: (
                 <div>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
                         Edit your story to add a personal touch. Change characters, scenes, and more!
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -121,7 +121,7 @@ const HowItWorks = () => {
             title: "Share or Save",
             content: (
                 <div>
-                    <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
+                    <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
                         Once satisfied, you can share your story or keep it saved in your profile for later.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
@@ -149,10 +149,10 @@ const HowItWorks = () => {
             <Timeline
                 titleComponent={
                     <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-                        <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-surface-foreground">
+                        <h2 className="text-2xl md:text-7xl font-bold text-surface-foreground dark:text-surface-foreground">
                             How It Works
                         </h2>
-                        <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-700 dark:text-neutral-200">
+                        <p className="max-w-2xl text-base md:text-xl mt-8 text-surface-foreground dark:text-neutral-200">
                             Creating your personalized story is easy and fun. Just follow these steps!
                         </p>
                     </div>

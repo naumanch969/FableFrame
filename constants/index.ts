@@ -18,6 +18,7 @@ import {
     IMAGE_STYLE_PAPER_CUT,
     IMAGE_STYLE_PIXEL,
     IMAGE_STYLE_WATER_COLOR,
+    IMAGE_STYLE_DIGITAL_ART,
 } from './images'
 
 export const CREATE_STORY_PROMPT = `
@@ -45,17 +46,19 @@ export const STORY_GENRES = [
 ];
 
 export const STORY_STATUSES = [
-    { key: "published", label: "Published" },
-    { key: "draft", label: "Draft" },
-    { key: "deleted", label: "Deleted" },
-    { key: "archived", label: "Archived" }
+    { key: "published", label: "Published" },   // Published and visible
+    { key: "draft", label: "Draft" },   // Before publishing
+    { key: "hidden", label: "Hidden" },   // Hidden by admin
+    { key: "deleted", label: "Deleted" },   // Hidden by admin
+    { key: "blocked", label: "Blocked" }    // if reported >=5 times
 ];
 
 export const STORY_IMAGE_STYLES = [
     { key: "3D-cartoon", label: "3D Cartoon", image: IMAGE_STYLE_3D },
     { key: "paper-cut", label: "Paper Cut", image: IMAGE_STYLE_PAPER_CUT },
     { key: "water-color", label: "Watercolor", image: IMAGE_STYLE_WATER_COLOR },
-    { key: "pixel-style", label: "Pixel Style", image: IMAGE_STYLE_PIXEL }
+    { key: "pixel-style", label: "Pixel Style", image: IMAGE_STYLE_PIXEL },
+    { key: "digital-art", label: "Digital Art", image: IMAGE_STYLE_DIGITAL_ART },
 ];
 
 export const STORY_AGE_CATEGORIES = [

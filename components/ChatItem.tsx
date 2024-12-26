@@ -33,7 +33,7 @@ const ChatItem = ({ chat }: { chat: Chat }) => {
             <div className="flex justify-between items-center gap-2">
                 <Avatar>
                     <AvatarImage src={otherUser?.profile_picture_url} />
-                    <AvatarFallback className='text-neutral-700 capitalize' >{otherUser?.username?.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className='text-surface-foreground capitalize' >{otherUser?.username?.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex w-fit flex-col ">
                     <h5 className="text-md font-medium truncate ">

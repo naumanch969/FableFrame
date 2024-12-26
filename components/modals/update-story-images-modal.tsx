@@ -82,10 +82,10 @@ const UpdateStoryImagesModal = () => {
 
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent>
-                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-neutral-700 dark:text-surface-foreground sm:text-2xl">
+                    <DialogTitle className="mt-5.5 pb-2 text-xl font-bold text-surface-foreground dark:text-surface-foreground sm:text-2xl">
                         Update images for story
                     </DialogTitle>
-                    <p className="mb-10 text-neutral-800 ">
+                    <p className="mb-10 text-surface-foreground ">
                         Are you sure you want to update imaiges for this story <strong>{story?.title}</strong>?
                     </p>
                     <div className="-mx-3 flex flex-wrap gap-y-4">

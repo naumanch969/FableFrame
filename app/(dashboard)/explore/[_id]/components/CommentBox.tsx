@@ -43,7 +43,7 @@ const CommentBox: React.FC = () => {
           </Avatar>
           <div className="flex w-full flex-col ">
             <div className="w-full flex justify-between items-center">
-              <h5 className="text-xs font-medium truncate text-neutral-700 ">{comment?.profile?.username}</h5>
+              <h5 className="text-xs font-medium truncate text-surface-foreground ">{comment?.profile?.username}</h5>
               <span className="text-[10px]">{commentTimestamp}</span>
             </div>
             <p className="text-sm ">{comment.content}</p>

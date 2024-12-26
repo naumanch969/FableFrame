@@ -19,6 +19,7 @@ import { Story } from '@/types'
 interface Props {
     story: Story
 }
+
 const StoryItem = ({ story }: Props) => {
 
     const { mutate } = useLikeDislikeStory()

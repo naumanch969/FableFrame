@@ -681,13 +681,73 @@ export const remove = mutation({
         const userId = await auth.getUserId(ctx)
         if (!userId) return null;
 
+        const profile = await populateProfileByUserId(ctx, userId)
+
         const story = await ctx.db.get(args.id)
         if (!story) return null;
 
-        const profile = await populateProfileByUserId(ctx, userId)
 
-        if (story.profile_id !== profile?._id) {
+        if (story.profile_id !== profile?._id && profile?.role == 'user')
             return null;
+
+        // remove all likes
+        const likes = await ctx.db
+            .query('likes')
+            .withIndex('by_story_id', q => q.eq("story_id", story._id))
+            .collect()
+
+        for (const like of likes) {
+            await ctx.db.delete(like._id)
+        }
+
+        // remove all comments
+        const comments = await ctx.db
+            .query('comments')
+            .withIndex('by_story_id', q => q.eq("story_id", story._id))
+            .collect()
+
+        for (const comment of comments) {
+            await ctx.db.delete(comment._id)
+        }
+
+        // remove all shares
+        const notifications = await ctx.db
+            .query('notifications')
+            .withIndex('by_related_entity_id', q => q.eq("related_entity_id", story._id))
+            .collect()
+
+        for (const notification of notifications) {
+            await ctx.db.delete(notification._id)
+        }
+
+        // remove all shares
+        const shares = await ctx.db
+            .query('shares')
+            .withIndex('by_story_id', q => q.eq("story_id", story._id))
+            .collect()
+
+        for (const share of shares) {
+            await ctx.db.delete(share._id)
+        }
+
+        // remove all story_reports
+        const reports = await ctx.db
+            .query('story_reports')
+            .withIndex('by_story_id', q => q.eq("story_id", story._id))
+            .collect()
+
+        for (const report of reports) {
+            await ctx.db.delete(report._id)
+        }
+
+        // update message status
+        const messages = await ctx.db
+            .query('messages')
+            .withIndex('by_story_id', q => q.eq("story_id", story._id))
+            .collect()
+
+        for (const message of messages) {
+            await ctx.db.patch(message._id, { status: "story-deleted" })
         }
 
         await ctx.db.delete(args.id)

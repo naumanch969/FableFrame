@@ -9,10 +9,10 @@ const FAQ = () => {
     <div className="w-full relative bg-neutral-100 dark:bg-neutral-950 font-sans md:px-10 py-40 flex flex-col items-center">
 
       <div className="max-w-7xl w-full pb-20 md:px-8">
-        <h2 className="text-2xl md:text-7xl font-bold text-neutral-700 dark:text-surface-foreground">
+        <h2 className="text-2xl md:text-7xl font-bold text-surface-foreground dark:text-surface-foreground">
           Frequently Asked Questions
         </h2>
-        <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-700 dark:text-neutral-200">
+        <p className="max-w-2xl text-base md:text-xl mt-8 text-surface-foreground dark:text-neutral-200">
           Have questions about FableFrame? We’ve got answers! Check out some of the most common questions below.
         </p>
       </div>
@@ -21,7 +21,7 @@ const FAQ = () => {
         <Accordion type="single" collapsible className="w-full" >
           {faqItems.map((item, index) => (
             <AccordionItem key={index} value={`item-${index} w-full`}>
-              <AccordionTrigger className="text-lg md:text-xl font-medium text-neutral-700 dark:text-surface-foreground py-4 px-8 rounded-md">
+              <AccordionTrigger className="text-lg md:text-xl font-medium text-surface-foreground dark:text-surface-foreground py-4 px-8 rounded-md">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="text-base md:text-lg text-neutral-600 dark:text-neutral-300 py-4 px-8">

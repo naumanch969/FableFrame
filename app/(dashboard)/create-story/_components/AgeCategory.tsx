@@ -18,7 +18,7 @@ const AgeGroup = ({ userSelection }: { userSelection: any }) => {
     return (
         <div className='col-span-1' >
 
-            <label htmlFor="" className="font-bold text-xl text-primary">3. Age Group</label>
+            <label htmlFor="" className="font-bold text-xl text-surface-foreground">3. Age Group</label>
             <div className="grid grid-cols-3 gap-5 mt-3">
                 {
                     STORY_AGE_CATEGORIES.map((option, index) => (
@@ -27,10 +27,10 @@ const AgeGroup = ({ userSelection }: { userSelection: any }) => {
                             key={index}
                             className={`${option.key === selectedOption
                                 ? 'border-2 border-transparent bg-clip-border bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-3xl'
-                                : 'grayscale'
+                                : 'grayscale hover:grayscale-0 '
                                 } flex gap-4 p-1 relative cursor-pointer`}
                         >
-                            <h2 className="absolute bottom-5 text-surface-foreground text-center w-full text-lg capitalize ">{option.label}</h2>
+                            <h2 className="absolute bottom-5 text-white text-center w-full text-lg capitalize ">{option.label}</h2>
                             <Image
                                 src={option.image}
                                 alt={option.label}

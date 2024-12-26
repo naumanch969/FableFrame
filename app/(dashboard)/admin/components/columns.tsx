@@ -94,14 +94,12 @@ export const userColumns: ColumnDef<Profile>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(profile.user_id)}
-                        >
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(profile.user_id)} >
                             Copy User ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View profile</DropdownMenuItem>
-                        <DropdownMenuItem>Edit profile</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer'>View profile</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer'>Edit profile</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -123,7 +121,7 @@ export const storyColumns: ColumnDef<Story>[] = [
         header: () => <span className="w-[20rem]">Title</span>,
         cell: ({ row }) => (
             <ActiveStoryModal story={row.original}>
-                <span className="hover:underline cursor-pointer text-start max-w-[20rem] truncate block">
+                <span className="hover:underline cursor-pointer text-start max-w-[20rem] truncate block text-surface-foreground ">
                     {row.getValue("title") || "N/A"}
                 </span>
             </ActiveStoryModal>
@@ -164,6 +162,24 @@ export const storyColumns: ColumnDef<Story>[] = [
         header: "Views",
     },
     {
+        id:'likes',
+        accessorKey: "likes",
+        header: "Likes",
+        cell: ({ row }) => (
+            // @ts-ignore
+            <div>{row.getValue("likes")?.length || "N/A"}</div>
+        ),
+    },
+    {
+        id:'shares',
+        accessorKey: "shares",
+        header: "Shares",
+        cell: ({ row }) => (
+            // @ts-ignore
+            <div>{row.getValue("shares")?.length || "N/A"}</div>
+        ),
+    },
+    {
         accessorKey: "reports_count",
         header: "Reports",
     },
@@ -200,20 +216,20 @@ export const storyColumns: ColumnDef<Story>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(story._id)}>
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(story._id)}>
                             Copy Story ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer'>
                             <ActiveStoryModal story={story}>
-                                View Story
+                                <span className='text-popover-foreground' >View Story</span>
                             </ActiveStoryModal>
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => { setSelectedStory(story); setOpenUpdateModal(true) }} >
-                            Edit Story
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedStory(story); setOpenUpdateModal(true) }} >
+                            Update Story Images
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => { setSelectedStory(story); setOpenAlertModal('delete-story') }} >
-                            Hide Story
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedStory(story); setOpenAlertModal('delete-story') }} >
+                            {story?.status == 'hidden' ? 'Delete' : 'Hide'} Story
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -278,8 +294,8 @@ export const reportsColumns: ColumnDef<StoryReport>[] = [
                             Copy Story ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Story</DropdownMenuItem>
-                        <DropdownMenuItem>View Profile</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer'>View Story</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer'>View Profile</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

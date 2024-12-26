@@ -108,7 +108,9 @@ const schema = defineSchema({
         entity_name: v.union(...ENTITIES_NAMES.map(item => v.literal(item.key))),
         priority: v.union(...NOTIFICATION_PRIORITIES.map(item => v.literal(item.key))),
         is_dismissed: v.boolean(),
-    }),
+    })
+        .index("by_related_entity_id", ["related_entity_id"])
+    ,
 
     shares: defineTable({
         from_id: v.id("profiles"),
@@ -156,10 +158,12 @@ const schema = defineSchema({
         sender_id: v.id("profiles"),
         read_by: v.array(v.id("profiles")),
         text: v.optional(v.string()),
-        story_id: v.optional(v.id("stories"))
+        story_id: v.optional(v.id("stories")),
+        status: v.optional(v.union(v.literal("story-deleted")))
     })
         .index("by_chat_id", ["chat_id"])
         .index("by_sender_id", ["sender_id"])
+        .index("by_story_id", ["story_id"])
         .index("by_receiver_id", ["receiver_id"]),
 
     preferences: defineTable({

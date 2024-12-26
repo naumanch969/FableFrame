@@ -12,7 +12,7 @@ const CTA = () => {
 
             <Boxes />
 
-            <h2 className={cn("md:text-6xl text-2xl font-medium text-neutral-700 relative z-20")}>
+            <h2 className={cn("md:text-6xl text-2xl font-medium text-surface-foreground relative z-20")}>
                 <span className="mb-2" >Ready to Start Your</span>
                 <br />
                 <GradientText className="mt-1" >Magical Adventure?</GradientText>

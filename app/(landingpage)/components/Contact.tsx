@@ -30,7 +30,7 @@ const Contact = () => {
     <div className="w-full relative bg-background dark:bg-neutral-950 font-sans md:px-10 py-40 flex flex-col items-center">
      
       <div className="max-w-2xl mx-auto p-4">
-        <h1 className="relative z-10 text-3xl md:text-5xl bg-clip-text text-neutral-700 text-center font-sans font-bold">
+        <h1 className="relative z-10 text-3xl md:text-5xl bg-clip-text text-surface-foreground text-center font-sans font-bold">
           Get in Touch
         </h1>
         <p className="text-neutral-500 max-w-lg mx-auto my-4 text-base md:text-lg text-center relative z-10">
@@ -40,7 +40,7 @@ const Contact = () => {
         <form onSubmit={handleSubmit} className="space-y-6 mt-6 z-50 ">
           {/* Name Input */}
           <div>
-            <label htmlFor="name" className="block text-neutral-700 dark:text-surface-foreground text-lg font-medium">
+            <label htmlFor="name" className="block text-surface-foreground dark:text-surface-foreground text-lg font-medium">
               Your Name
             </label>
             <Input
@@ -55,7 +55,7 @@ const Contact = () => {
 
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-neutral-700 dark:text-surface-foreground text-lg font-medium">
+            <label htmlFor="email" className="block text-surface-foreground dark:text-surface-foreground text-lg font-medium">
               Your Email
             </label>
             <Input
@@ -71,7 +71,7 @@ const Contact = () => {
 
           {/* Message Textarea */}
           <div>
-            <label htmlFor="message" className="block text-neutral-700 dark:text-surface-foreground text-lg font-medium">
+            <label htmlFor="message" className="block text-surface-foreground dark:text-surface-foreground text-lg font-medium">
               Your Message
             </label>
             <Textarea
