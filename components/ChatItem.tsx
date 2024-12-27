@@ -28,7 +28,7 @@ const ChatItem = ({ chat }: { chat: Chat }) => {
     return (
         <div
             onClick={() => onChatClick(chat)}
-            className={`${currentChat?._id == chat?._id ? 'bg-primary text-primary-foreground' : 'bg-surface'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
+            className={`${currentChat?._id == chat?._id ? 'bg-theme-gradient text-primary-foreground' : 'bg-surface hover:bg-muted hover:text-surface-foreground'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 `}
         >
             <div className="flex justify-between items-center gap-2">
                 <Avatar>

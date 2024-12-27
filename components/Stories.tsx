@@ -17,7 +17,15 @@ import { STORY_AGE_CATEGORIES, STORY_GENRES } from '@/constants'
 import StoryItem from "./StoryItem";
 import { Input } from '@/components/aceternity/input'
 
-const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string, data: Story[], isLoading: boolean, showTitle?: boolean }) => {
+interface Props {
+    title?: string,
+    data: Story[],
+    isLoading: boolean,
+    showTitle?: boolean,
+    showHeader?: boolean
+}
+
+const Stories = ({ title, data, isLoading, showTitle = true, showHeader = true }: Props) => {
 
     ///////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////////
     const id = useId();
@@ -64,53 +72,56 @@ const Stories = ({ title, data, isLoading, showTitle = true }: { title?: string,
         <>
             <div className="flex flex-col gap-4 w-full">
 
-                {/* Search */}
-                <div className="flex justify-between items-end gap-2">
-                    <h2 className="text-xl md:text-3xl font-bold text-surface-foreground font-sans">
-                        {showTitle && (title || `Story pickups for ${searchQuery ? searchQuery : 'you'}`)}
-                    </h2>
-                    <div className="flex justify-end items-center gap-2">
-                        <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
-                            <Input
-                                type="text"
-                                className="w-96 rounded-xl border border-stroke py-2.5 pl-5 pr-10 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2"
-                                placeholder="Search stories by title, genre, age-category"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyUp={(e) => { e.preventDefault(); onSearch(); }}
-                            />
-                            <button type="button" title="Search" className="absolute right-4 top-1/2 -translate-y-1/2">
-                                <Search />
-                            </button>
-                        </form>
-                        <Select value={genre} onValueChange={setGenre} >
-                            <SelectTrigger className='bg-surface py-2.5 '>
-                                <SelectValue placeholder="Filter by genre" />
-                            </SelectTrigger>
-                            <SelectContent className='bg-surface '>
-                                <SelectItem value={"all"}>Filter by genre</SelectItem>
-                                {STORY_GENRES.map((genres) => (
-                                    <SelectItem key={genres.key} value={genres.key}>
-                                        {genres.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Select value={ageCategory} onValueChange={setAgeCategory}   >
-                            <SelectTrigger className='bg-surface py-2.5 ' >
-                                <SelectValue placeholder="Filter by age" />
-                            </SelectTrigger>
-                            <SelectContent className='bg-surface '>
-                                <SelectItem value={"all"}>Filter by age</SelectItem>
-                                {STORY_AGE_CATEGORIES.map((category) => (
-                                    <SelectItem key={category.key} value={category.key}>
-                                        {category.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                {/* Header */}
+                {
+                    showHeader &&
+                    <div className="flex justify-between items-end gap-2">
+                        <h2 className="text-xl md:text-3xl font-bold text-surface-foreground font-sans">
+                            {showTitle && (title || `Story pickups for ${searchQuery ? searchQuery : 'you'}`)}
+                        </h2>
+                        <div className="flex justify-end items-center gap-2">
+                            <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
+                                <Input
+                                    type="text"
+                                    className="w-96"
+                                    placeholder="Search stories by title, genre, age-category"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyUp={(e) => { e.preventDefault(); onSearch(); }}
+                                />
+                                <button type="button" title="Search" className="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <Search />
+                                </button>
+                            </form>
+                            <Select value={genre} onValueChange={setGenre} >
+                                <SelectTrigger className='bg-surface py-2.5 '>
+                                    <SelectValue placeholder="Filter by genre" />
+                                </SelectTrigger>
+                                <SelectContent className='bg-surface '>
+                                    <SelectItem value={"all"}>Filter by genre</SelectItem>
+                                    {STORY_GENRES.map((genres) => (
+                                        <SelectItem key={genres.key} value={genres.key}>
+                                            {genres.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Select value={ageCategory} onValueChange={setAgeCategory}   >
+                                <SelectTrigger className='bg-surface py-2.5 ' >
+                                    <SelectValue placeholder="Filter by age" />
+                                </SelectTrigger>
+                                <SelectContent className='bg-surface '>
+                                    <SelectItem value={"all"}>Filter by age</SelectItem>
+                                    {STORY_AGE_CATEGORIES.map((category) => (
+                                        <SelectItem key={category.key} value={category.key}>
+                                            {category.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
-                </div>
+                }
 
                 {
                     !isLoading && stories?.length == 0 &&

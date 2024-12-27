@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/aceternity/input';
 import UserSidebar from './components/UserSidebar';
 import Users from './components/Users';
 import { useGetProfiles } from '@/features/profile/api/useGetProfiles';

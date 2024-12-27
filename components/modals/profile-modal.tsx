@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
+import { Input } from '@/components/aceternity/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'

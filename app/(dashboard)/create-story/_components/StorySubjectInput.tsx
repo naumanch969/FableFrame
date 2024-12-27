@@ -1,10 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from '@/components/ui/input'
 import { PlaceholdersAndVanishInput } from '@/components/aceternity/placeholders-and-vanish-input'
-import { Slider } from "@/components/ui/slider"
 
 
 const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
@@ -31,14 +28,6 @@ const StorySubjectInput = ({ userSelection }: { userSelection: any }) => {
         <div className='space-y-3 col-span-1' >
             <div className="flex flex-col gap-3">
                 <label htmlFor="" className="font-bold text-xl text-surface-foreground">1. Title of the story</label>
-                {/* <Input
-                placeholder='Enter the subject of your story'
-                className='md:max-w-lg resize-y text-md font-medium p-3 bg-background text-gray-700 h-12 '
-                onChange={(e) => userSelection({
-                    name: 'title',
-                    value: e.target.value
-                })}
-            /> */}
                 <PlaceholdersAndVanishInput
                     placeholders={titlePlaceholders}
                     onChange={(e) => userSelection({

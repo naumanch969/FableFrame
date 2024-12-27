@@ -1,9 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { usePathname, useRouter } from "next/navigation";
+import Link from 'next/link'
 
 const AdminSidebar = () => {
 
-    const router = useRouter()
     const pathname = usePathname()
 
     const menuItems = [
@@ -19,16 +19,16 @@ const AdminSidebar = () => {
         <div className="flex justify-start items-start w-full h-full ">
             <Card className="bg-card shadow-md rounded-lg flex flex-col overflow-hidden w-full h-fit ">
                 {menuItems.map(item => (
-                    <button
+                    <Link
+                        href={`/admin/${item?.label?.toLowerCase()}`}
                         key={item.value}
                         className={`text-start py-2 px-4 ${pathname.includes(item?.label?.toLowerCase())
-                            ? 'bg-theme-gradient text-primary-foreground hover:bg-primary '
+                            ? 'bg-theme-gradient text-primary-foreground hover:bg-muted '
                             : 'text-cool-gray hover:bg-muted hover:text-muted-foreground'
                             } transition-all duration-200 focus:outline-none`}
-                        onClick={() => router.push(`/admin/${item?.label?.toLowerCase()}`)}
                     >
                         {item.value}
-                    </button>
+                    </Link>
                 ))}
             </Card>
         </div>

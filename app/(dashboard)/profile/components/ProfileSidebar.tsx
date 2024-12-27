@@ -47,7 +47,7 @@ const ProfileSidebar: React.FC = () => {
                 <div className="space-y-2" >
                     <Hint label="Location" align="start" >
                         <div className="flex justify-start items-center gap-2">
-                            <MapPin className="w-6 h-6 text-foreground bg-primary/20 border border-primary p-1 rounded-md" />
+                            <MapPin className="w-6 h-6 text-foreground bg-theme-gradient/20 border border-primary p-1 rounded-md" />
                             <p className="text-sm text-gray-600">
                                 {profile?.location || "LHR"}
                             </p>
@@ -55,7 +55,7 @@ const ProfileSidebar: React.FC = () => {
                     </Hint>
                     <Hint label="Age" align="start" >
                         <div className="flex justify-start items-center gap-2">
-                            <UserRound className="w-6 h-6 text-foreground bg-primary/20 border border-primary p-1 rounded-md" />
+                            <UserRound className="w-6 h-6 text-foreground bg-theme-gradient/20 border border-primary p-1 rounded-md" />
                             <p className="text-sm text-gray-600">
                                 {calculateAge(profile?.date_of_birth!) || "19"} years old
                             </p>
@@ -63,7 +63,7 @@ const ProfileSidebar: React.FC = () => {
                     </Hint>
                     <Hint label="Notifications" align="start" >
                         <div className="flex justify-start items-center gap-2">
-                            <Bell className="w-6 h-6 text-foreground bg-primary/20 border border-primary p-1 rounded-md" />
+                            <Bell className="w-6 h-6 text-foreground bg-theme-gradient/20 border border-primary p-1 rounded-md" />
                             <p className="text-sm text-gray-600">
                                 {JSON.stringify(profile?.notification_settings) || "Enabled"}
                             </p>

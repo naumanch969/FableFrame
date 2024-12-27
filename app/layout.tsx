@@ -7,11 +7,18 @@ import { Toaster } from "sonner";
 import Modals from "@/wrappers/Modals";
 import ProfileSetup from "@/wrappers/ProfileSetup";
 import Drawers from "@/wrappers/Drawers";
+import { Montserrat } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: "Fable Frame",
   description: "Frame your imagination",
 };
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800', '900'],
+  display: 'swap',
+});
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -19,7 +26,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className={''}>
+        <body className={montserrat.className}>
           <ConvexClientProvider>
             <ThemeProvider
               attribute="class"

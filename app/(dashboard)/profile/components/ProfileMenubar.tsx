@@ -14,7 +14,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, isActive, onClick }) => {
         <Button
             variant={isActive ? "default" : "secondary"}
             onClick={onClick}
-            className="hover:bg-primary hover:text-surface-foreground"
+            className="hover:bg-theme-gradient hover:text-surface-foreground"
         >
             {label}
         </Button>

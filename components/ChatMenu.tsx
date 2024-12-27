@@ -32,7 +32,7 @@ function ChatMenu() {
             <DropdownMenuItem onClick={() => setOpenChatMenu(false)} className="flex flex-col items-start gap-2 p-2">
                 <Link href={'/chats?id=' + chat?._id} className="cursor-pointer flex flex-col w-full">
                     <div className="flex justify-between items-center w-full">
-                        <span className="text-xs text-primary">{otherUser?.username}</span>
+                        <span className="text-xs text-gray-500">{otherUser?.username}</span>
                         <span className="text-xs text-gray-500">{formattedTime}</span>
                     </div>
                     <span className="text-sm text-surface-foreground">{chat?.last_message}</span>

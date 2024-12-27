@@ -105,7 +105,7 @@ const StoryItem = ({ story }: Props) => {
                             <Button onClick={onShare} variant="ghost" size="icon" className="relative flex items-center justify-center">
                                 {
                                     story?.shares?.length > 0 &&
-                                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">
+                                    <span className="absolute -top-1 -right-1 bg-theme-gradient text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">
                                         {story?.shares?.length}
                                     </span>
                                 }
@@ -126,36 +126,35 @@ StoryItem.Skeleton = () => {
         <div className="block rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
             <Card className="relative w-full flex flex-col justify-between h-full bg-background p-2">
                 {/* Author info placeholder */}
-                <div className="absolute top-2 left-2 flex items-center gap-2 bg-gray-300 text-transparent py-1 px-2 rounded-lg z-10 animate-pulse">
-                    <div className="w-10 h-10 rounded-full bg-gray-400" />
-                    <div className="w-20 h-4 bg-gray-400 rounded"></div>
+                <div className="absolute top-2 left-2 flex items-center gap-2 bg-gray-500 text-transparent py-1 px-2 rounded-lg z-10 animate-pulse">
+                    <div className="w-10 h-10 rounded-full bg-gray-600" />
+                    <div className="w-20 h-4 bg-gray-600 rounded"></div>
                 </div>
 
                 {/* Cover image placeholder */}
-                <div className="w-full h-48 bg-gray-300 rounded-lg animate-pulse">
+                <div className="w-full h-48 bg-gray-500 rounded-lg animate-pulse">
                     {/* Placeholder for Image */}
                 </div>
 
                 {/* Title and info placeholders */}
                 <h2 className="w-full flex flex-col justify-between items-start gap-1 z-10 p-1 animate-pulse">
-                    <div className="w-2/3 h-4 bg-gray-400 rounded"></div>
+                    <div className="w-2/3 h-4 bg-gray-500 rounded"></div>
                     <div className="flex text-xs space-x-1">
-                        <div className="w-1/4 h-3 bg-gray-400 rounded"></div>
-                        <div className="w-1/12 h-3 bg-gray-400 rounded"></div>
-                        <div className="w-1/4 h-3 bg-gray-400 rounded"></div>
+                        <div className="w-1/4 h-3 bg-gray-500 rounded"></div>
+                        <div className="w-1/4 h-3 bg-gray-500 rounded"></div>
                     </div>
                 </h2>
 
                 {/* Buttons placeholder */}
                 <div className="flex justify-end items-center gap-1 bg-background animate-pulse">
                     <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+                        <div className="w-4 h-4 bg-gray-500 rounded-full"></div>
                     </Button>
                     <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+                        <div className="w-4 h-4 bg-gray-500 rounded-full"></div>
                     </Button>
                     <Button variant="ghost" size="icon" className="flex items-center justify-center">
-                        <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+                        <div className="w-4 h-4 bg-gray-500 rounded-full"></div>
                     </Button>
                 </div>
             </Card>

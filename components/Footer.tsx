@@ -58,17 +58,17 @@ const Footer = () => {
             <div className="space-y-2">
               <h4 className="font-bold text-xl text-foreground">Socials</h4>
               <div className="flex justify-start gap-4" >
-                <div className="bg-primary p-3 rounded-lg ">
+                <div className="bg-accent p-3 rounded-lg ">
                   <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent">
                     <FacebookIcon className="w-8 h-8 text-primary-foreground " />
                   </Link>
                 </div>
-                <div className="bg-primary p-3 rounded-lg ">
+                <div className="bg-accent p-3 rounded-lg ">
                   <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent">
                     <TwitterIcon className="w-8 h-8 text-primary-foreground " />
                   </Link>
                 </div>
-                <div className="bg-primary p-3 rounded-lg ">
+                <div className="bg-accent p-3 rounded-lg ">
                   <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent">
                     <InstagramIcon className="w-8 h-8 text-primary-foreground " />
                   </Link>

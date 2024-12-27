@@ -22,6 +22,7 @@ import { useAlertModal } from "@/hooks/use-alert-modal"
 import { useSelectedComment } from "@/hooks/use-selected-comment"
 import { useSelectedProfile } from "@/hooks/use-selected-profile"
 import { useSelectedReport } from "@/hooks/use-selected-report"
+import { useSnackbar } from "@/hooks/use-snackbar"
 
 
 export const userColumns: ColumnDef<Profile>[] = [
@@ -213,6 +214,7 @@ export const storyColumns: ColumnDef<Story>[] = [
             const [_selected, setSelectedStory] = useSelectedStory()
             const [_openUpdateModal, setOpenUpdateModal] = useUpdateStoryModal()
             const [_openAlertModal, setOpenAlertModal] = useAlertModal()
+            const [snackbarText, setSnackbarText] = useSnackbar()
 
             return (
                 <DropdownMenu>
@@ -233,7 +235,7 @@ export const storyColumns: ColumnDef<Story>[] = [
                                 <span className='text-popover-foreground' >View Story</span>
                             </ActiveStoryModal>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedStory(story); setOpenUpdateModal(true) }} >
+                        <DropdownMenuItem disabled={Boolean(snackbarText)} className='cursor-pointer' onClick={() => { setSelectedStory(story); setOpenUpdateModal(true) }} >
                             Update Story Images
                         </DropdownMenuItem>
                         <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedStory(story); setOpenAlertModal('delete-story') }} >

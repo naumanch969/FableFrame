@@ -10,6 +10,7 @@ import { useCreateChat } from '@/features/chat/api/useCreateChat'
 import { Profile } from '@/types'
 import { useCreateChatModal } from '@/hooks/use-create-chat-modal'
 import { Search } from 'lucide-react'
+import { Input } from '../aceternity/input'
 
 const CreateChatModal = () => {
 
@@ -64,7 +65,7 @@ const CreateChatModal = () => {
         return (
             <div
                 onClick={() => setFriendId(profile?._id)}
-                className={`${profile?._id == friendId ? 'bg-primary text-primary-foreground' : 'bg-surface'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
+                className={`${profile?._id == friendId ? 'bg-theme-gradient text-primary-foreground' : 'bg-surface'} rounded-lg flex justify-between cursor-pointer items-start gap-1 p-2 hover:bg-theme-gradient hover:text-surface-foreground `}
             >
                 <div className="flex justify-between items-center gap-2">
                     <Avatar>
@@ -92,13 +93,12 @@ const CreateChatModal = () => {
 
                     <div className="flex flex-col gap-4">
                         <div className='flex flex-col gap-2 relative' >
-                            <input
+                            <Input
                                 disabled={isPending}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder='Search friend...'
                                 type='text'
-                                className="w-full rounded-xl border border-stroke bg-gray-2 py-2.5 pl-5 pr-10 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2"
                                 onKeyUp={onSearch}
                             />
                             <button type="button" title="Search" className="absolute right-4 top-1/2 -translate-y-1/2">

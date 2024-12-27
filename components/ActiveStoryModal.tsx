@@ -46,7 +46,7 @@ export default ActiveStoryModal;
 export const CoverCard = ({ story }: { story: Story }) => {
 
     return (
-        <motion.div layoutId={undefined} className="rounded-3xl bg-surface h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"  >
+        <motion.div layoutId={undefined} className="rounded-3xl bg-popover h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"  >
 
             <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 
@@ -108,7 +108,7 @@ export const CoverCard = ({ story }: { story: Story }) => {
                         exit={{ opacity: 0 }}
                         href={'/explore/' + story?._id}
                         target="_blank"
-                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-surface-foreground"
+                        className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
                     >
                         Explore
                     </motion.a>
@@ -124,7 +124,7 @@ export const EndCard = () => {
 
     return (
         <>
-            <motion.div layoutId={undefined} className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-center justify-center relative z-10"  >
+            <motion.div layoutId={undefined} className="rounded-3xl bg-popover h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 overflow-hidden flex flex-col items-center justify-center relative z-10"  >
                 <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 
                 <div className="relative z-40 p-8 flex justify-center items-center ">
@@ -139,7 +139,7 @@ export const EndCard = () => {
 export const Chapter = ({ chapter }: { chapter: { title: string, text: string, image: { url: string, style: string, prompt: string } }; }) => {
 
     return (
-        <motion.div className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 flex flex-col items-start justify-start relative z-10">
+        <motion.div className="rounded-3xl bg-popover h-80 w-56 md:h-[33rem] overflow-y-auto md:w-96 flex flex-col items-start justify-start relative z-10">
 
             <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 

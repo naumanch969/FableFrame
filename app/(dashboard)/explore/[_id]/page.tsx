@@ -12,6 +12,7 @@ import { Id } from '@/convex/_generated/dataModel';
 import { useGetAgeCategoryStories } from '@/features/story/api/useGetAgeCategoryStories';
 import { useGetPopularStories } from '@/features/story/api/useGetPopularStories';
 import { useGetUserRecommendedStories } from '@/features/story/api/useGetUserRecommendedStories';
+import Stories from '@/components/Stories'
 
 const ViewStory = () => {
 
@@ -28,31 +29,56 @@ const ViewStory = () => {
         <div>
             <StoryView />
             <div className="scroll-container"> {/* Optional: Use a wrapper with controlled scroll */}
-                <RecommendedStories
-                    title='Explore Stories in the Same Genre'
-                    stories={genreStories || []}
-                    isLoading={genreStoriesLoading}
-                />
-                <RecommendedStories
-                    title='Discover Stories for Your Age Group'
-                    stories={ageCategoryStories || []}
-                    isLoading={ageCategoryStoriesLoading}
-                />
-                <RecommendedStories
-                    title='Tailored Recommendations for You'
-                    stories={userRecommendedStories || []}
-                    isLoading={userRecommendedStoriesLoading}
-                />
-                <RecommendedStories
-                    title='Popular Stories You Must Read'
-                    stories={popularStories || []}
-                    isLoading={popularStoriesLoading}
-                />
-                <RecommendedStories
-                    title='More Stories to Enjoy'
-                    stories={publicStories || []}
-                    isLoading={publicStoriesLoading}
-                />
+
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Explore Stories in the Same Genre</h2>
+                    <Stories
+                        data={genreStories}
+                        isLoading={genreStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Discover Stories for Your Age Group</h2>
+                    <Stories
+                        data={ageCategoryStories}
+                        isLoading={ageCategoryStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Tailored Recommendations for You</h2>
+                    <Stories
+                        data={userRecommendedStories}
+                        isLoading={userRecommendedStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Popular Stories You Must Read</h2>
+                    <Stories
+                        data={popularStories}
+                        isLoading={popularStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Explore Stories in the Same Genre</h2>
+                    <Stories
+                        data={genreStories}
+                        isLoading={genreStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+                <div className="py-6">
+                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">More Stories to Enjoy</h2>
+                    <Stories
+                        data={publicStories}
+                        isLoading={publicStoriesLoading}
+                        showHeader={false}
+                    />
+                </div>
+
             </div>
             <Footer />
         </div>

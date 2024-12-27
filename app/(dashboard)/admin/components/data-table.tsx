@@ -78,14 +78,16 @@ export function DataTable<TData, TValue>({
         <div className="">
             {/* Search */}
             <div className="flex items-center">
-                <Input
-                    placeholder={searchPlaceholder || "Filter..."}
-                    value={(table.getColumn(searchField)?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                        table.getColumn(searchField)?.setFilterValue(event.target.value)
-                    }
-                    className='w-96'
-                />
+                <div className="w-96">
+                    <Input
+                        placeholder={searchPlaceholder || "Filter..."}
+                        value={(table.getColumn(searchField)?.getFilterValue() as string) ?? ""}
+                        onChange={(event) =>
+                            table.getColumn(searchField)?.setFilterValue(event.target.value)
+                        }
+                        className='w-full'
+                    />
+                </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

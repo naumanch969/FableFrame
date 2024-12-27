@@ -105,7 +105,7 @@ const StoryView = () => {
                                 {
                                     // @ts-ignore
                                     story?.shares?.length > 0 &&
-                                    <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">
+                                    <span className="absolute -top-1 -right-1 bg-theme-gradient text-primary-foreground rounded-full flex justify-center items-center text-xs w-4 h-4 ">
                                         {/* @ts-ignore */}
                                         {story?.shares?.length}
                                     </span>
@@ -128,7 +128,7 @@ const StoryView = () => {
                         minHeight={400}
                         maxHeight={1200}
                         maxShadowOpacity={0.5}
-                        showCover={false} // Ensures the layout does not leave empty panes
+                        // showCover={false} // Ensures the layout does not leave empty panes
                         mobileScrollSupport={true}
                         onFlip={onFlip}
                         className="shadow-lg w-full bg-card rounded-lg overflow-hidden"
@@ -165,7 +165,7 @@ const StoryView = () => {
                             title='Previous'
                             onClick={handlePrev}
                             disabled={currentPage === 0}
-                            className="absolute -left-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                            className="absolute -left-8 top-1/2 transform -translate-y-1/2 bg-surface rounded-full p-2"
                         >
                             <ArrowLeft className="w-6 h-6" />
                         </button>
@@ -178,7 +178,7 @@ const StoryView = () => {
                             title='Next'
                             onClick={handleNext}
                             disabled={currentPage >= totalPages + 1}
-                            className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                            className="absolute -right-8 top-1/2 transform -translate-y-1/2 bg-surface rounded-full p-2"
                         >
                             <ArrowRight className="w-6 h-6" />
                         </button>

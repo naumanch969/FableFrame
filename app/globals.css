@@ -16,7 +16,7 @@ body {
     --card-foreground: 240 20% 10%;     /*hsl(240 20% 10%)*/
     --popover: 220 100% 97%;      /*hsl(220 100% 97%)*/
     --popover-foreground: 240 20% 10%;      /*hsl(240 20% 10%)*/
-    --primary: 239, 33%, 48%;     /*hsl(239, 33%, 48%)*/
+    --primary: 327, 60%, 59%;     /*hsl(327, 60%, 59%)*/
     --primary-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
     --secondary: 225 30% 95%;     /*hsl(225 30% 95%)*/
     --secondary-foreground: 240 20% 10%;      /*hsl(240 20% 10%)*/
@@ -46,7 +46,7 @@ body {
     --card-foreground: 220 15% 90%;     /*hsl(220 15% 90%)*/
     --popover: 240 10% 15%;     /*hsl(240 10% 15%)*/
     --popover-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
-    --primary: 239, 33%, 48%;     /*hsl(239, 33%, 48%)*/
+    --primary: 327, 60%, 59%;     /*hsl(327, 60%, 59%)*/
     --primary-foreground: 0 0% 98%;     /*hsl(240 10% 15%)*/
     --secondary: 225 10% 25%;     /*hsl(225 10% 25%)*/
     --secondary-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/

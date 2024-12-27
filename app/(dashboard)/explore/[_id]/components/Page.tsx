@@ -7,7 +7,7 @@ export const Page = ({ children, pageNumber, isThumbnail = false }: { children: 
             {
                 pageNumber &&
                 <div className="flex justify-start w-full">
-                    <div className={`${isThumbnail ? "text-[5px] w-3 h-3" : 'text-md w-8 h-8 font-bold'} bg-primary text-primary-foreground rounded-full flex justify-center items-center`}>
+                    <div className={`${isThumbnail ? "text-[5px] w-3 h-3" : 'text-md w-8 h-8 font-bold'} bg-theme-gradient text-primary-foreground rounded-full flex justify-center items-center`}>
                         {pageNumber}
                     </div>
                 </div>
@@ -135,7 +135,7 @@ export const ContentPage = ({ title, content, pageNumber, image }: { title?: str
                 </div>
 
                 {/* Content */}
-                <p className="text-sm text-gray-700 mt-2">{content}</p>
+                <p className="text-sm text-surface-foreground mt-2">{content}</p>
             </div>
         </Page>
     );
@@ -150,7 +150,7 @@ ContentPage.Mini = ({ title, content, pageNumber, image }: { title?: string, con
                     alt={title}
                     className="w-full h-[50px] object-cover rounded-md"
                 />
-                {title && <h3 className="text-[6px] font-semibold mt-[1px] text-center">{title}</h3>}
+                {title && <h6 className="text-[6px] font-semibold mt-[1px] text-center">{title}</h6>}
                 <p className="text-[4px] text-gray-600 text-center mt-[1px] overflow-hidden text-ellipsis">
                     {content.slice(0, 40)}...
                 </p>

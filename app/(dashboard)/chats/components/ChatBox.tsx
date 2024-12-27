@@ -13,6 +13,7 @@ import { useGetMessages } from '@/features/messages/api/useGetMessages';
 import { Card } from '@/components/ui/card';
 import { Profile } from '@/types';
 import Image from 'next/image'
+import { Input } from '@/components/aceternity/input';
 
 export const ChatBox = () => {
     ///////////////////////////////////////////////////// VARIABLES ////////////////////////////////////////////////////
@@ -89,7 +90,7 @@ export const ChatBox = () => {
 
         return (
             <div className={`w-fit ${isMe ? 'ml-auto max-w-[70%]' : 'max-w-[70%]'}`}>
-                <div className={`mb-1 rounded-2xl px-5 py-3 bg-muted ${isMe ? 'rounded-br-none bg-primary text-surface-foreground' : 'rounded-tl-none'} `}>
+                <div className={`mb-1 rounded-2xl px-5 py-3 bg-muted ${isMe ? 'rounded-br-none bg-accent text-surface-foreground' : 'rounded-tl-none'} `}>
                     <p>{msg}</p>
                 </div>
                 <p className={`text-xs ${isMe ? 'text-end' : 'text-start'}`}>{time}</p>
@@ -150,7 +151,7 @@ export const ChatBox = () => {
                             </Card>
                         )
                         : (
-                            <div className="space-y-2 col-span-3 w-full h-[90vh]">
+                            <div className="space-y-2 col-span-3 w-full h-[80vh]">
                                 <Card className="bg-background p-2 flex items-center justify-between">
                                     <div className="flex items-center gap-2 ">
                                         <Avatar className='w-10 h-10 bg-black text-surface-foreground ' >
@@ -162,9 +163,9 @@ export const ChatBox = () => {
                                         </h5>
                                     </div>
                                     <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
-                                        <input
+                                        <Input
                                             type="text"
-                                            className="w-full rounded-lg border border-stroke bg-gray-2 py-2.5 pl-5 pr-10 text-sm outline-none focus:border-primary "
+                                            className="w-60"
                                             placeholder="Search messages..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -194,16 +195,16 @@ export const ChatBox = () => {
                                     </div>
 
                                     <div className="rounded-lg overflow-hidden h-[50px] absolute left-0 bottom-1 w-full p-1">
-                                        <form className="relative flex items-center justify-between gap-2 h-full ">
-                                            <input
+                                        <form className="relative flex items-center justify-between gap-2 h-full w-full ">
+                                            <Input
                                                 type="text"
                                                 placeholder={"Type your message"}
                                                 value={messageInput}
-                                                className="w-full rounded-lg border border-stroke bg-gray-2 py-3.5 pl-5 pr-10 text-sm outline-none focus:border-primary "
+                                                className="w-full "
                                                 onChange={(e) => setMessageInput(e.target.value)}
                                                 onKeyPress={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onSendMessage(); } }}
                                             />
-                                            <Button className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[95%]' onClick={(e) => { e.preventDefault(); onSendMessage(); }}>
+                                            <Button variant='gradient' className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[85%]' onClick={(e) => { e.preventDefault(); onSendMessage(); }}>
                                                 <Send />
                                             </Button>
                                         </form>

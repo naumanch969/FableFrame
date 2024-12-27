@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/aceternity/input';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { useGetCommentsByStory } from '@/features/comments/api/useGetCommentsByStory';
 import { useStoryId } from '@/hooks/use-story-id';
 import React, { useState } from 'react';
@@ -58,15 +57,14 @@ const CommentBox: React.FC = () => {
     <Card className="p-6 space-y-4 w-full bg-background ">
 
       <form className="relative flex items-center justify-between gap-2 h-full ">
-        <input
+        <Input
           type="text"
           placeholder={"How did the story go for you? Share your thoughts..."}
           value={text}
-          className="w-full rounded-lg border border-stroke bg-gray-2 py-3.5 pl-5 pr-10 text-sm outline-none focus:border-primary "
           onChange={(e) => setText(e.target.value)}
           onKeyPress={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onCreateComment(); } }}
         />
-        <Button className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[80%]' onClick={(e) => { e.preventDefault(); onCreateComment(); }}>
+        <Button variant='gradient' className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[80%]' onClick={(e) => { e.preventDefault(); onCreateComment(); }}>
           Post it
         </Button>
       </form>

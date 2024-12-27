@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
+import { Input } from '@/components/aceternity/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
@@ -12,12 +12,14 @@ import { Id } from '@/convex/_generated/dataModel'
 import { useGetProfiles } from '@/features/profile/api/useGetProfiles'
 import { Profile } from '@/types'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { motion } from 'framer-motion'
+import { useGetMyFriends } from '@/features/friend/api/useGetMyFriends'
 
 const CreateShareModal = () => {
 
     ////////////////////////////////////////////////// VARIABLES ///////////////////////////////////////////////
     const { data: profile } = useCurrentProfile()
-    const { data: profiles } = useGetProfiles()
+    const { data: profiles } = useGetMyFriends()
     const { mutate, isPending } = useCreateShare()
 
     const [story, setStory] = useSelectedStory()
@@ -80,79 +82,72 @@ const CreateShareModal = () => {
         return (
             <div
                 onClick={onAdd}
-                className={`${isExist ? 'bg-primary text-primary-foreground' : 'bg-surface'} mb-2 col-span-1 rounded-lg flex flex-col justify-center gap-1 cursor-pointer items-center gap-1 p-2 hover:bg-primary hover:text-surface-foreground `}
+                className={`${isExist ? 'bg-theme-gradient text-white' : 'bg-surface'} hover:bg-theme-gradient mb-2 col-span-1 rounded-lg flex flex-col justify-center cursor-pointer items-center gap-1 p-2 aspect-[1/1]`}
             >
                 <Avatar>
                     <AvatarImage src={profile?.profile_picture_url} />
-                    <AvatarFallback className='text-surface-foreground capitalize' >{profile?.username?.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className='text-surface-foreground capitalize'>
+                        {profile?.username?.charAt(0)}
+                    </AvatarFallback>
                 </Avatar>
-                <h5 className="text-xs font-medium truncate w-full text-center ">
+                <h5 className="text-xs font-medium truncate w-full text-center">
                     {profile?.username}
                 </h5>
             </div>
+
         );
     };
 
     ////////////////////////////////////////////////// RENDER ///////////////////////////////////////////////////
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className='max-h-[90vh] overflow-y-auto ' >
+            <DialogContent className="max-h-[80vh] overflow-y-auto transition-all ">
                 <DialogHeader>
                     <DialogTitle>Share Story</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={onSubmit} className='space-y-4 w-full '>
-
-                    <div className='flex gap-2 overflow-x-auto w-[28rem] ' >
-                        {
-                            profiles?.map((profile, index) => (
-                                <ProfileItem key={index} profile={profile} />
-                            ))
-                        }
+                <form onSubmit={onSubmit} className="space-y-4 w-full transition-all">
+                    <div className="grid grid-cols-5 gap-2 w-full">
+                        {profiles?.map((profile, index) => (
+                            <ProfileItem key={index} profile={profile!} />
+                        ))}
                     </div>
 
-                    {/* Reason Select */}
-                    <div className='flex flex-col gap-2' >
-                        <label htmlFor="reason" className="block text-sm font-medium">Message</label>
-                        <Input
-                            disabled={isPending}
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder='Reason'
-                            type='text'
-                        />
-                    </div>
+                    {toIds?.length > 0 && (
+                        <>
+                            <motion.div
+                                className="flex flex-col gap-2"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <label htmlFor="reason" className="block text-sm font-medium">
+                                    Message
+                                </label>
+                                <Input
+                                    disabled={isPending}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder="Message"
+                                    type="text"
+                                />
+                            </motion.div>
 
-                    {/* Reason Select */}
-                    {/* <div className='flex flex-col gap-2' >
-                        <label htmlFor="reason" className="block text-sm font-medium">Restriction</label>
-                        <Select
-                            value={restriction}
-                            onValueChange={setRestriction}
-                            disabled={isPending}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a type" />
-                            </SelectTrigger>
-                            <SelectContent className='z-50' >
-                                {SHARE_RESTRICTIONS.map((restriction) => (
-                                    <SelectItem key={restriction.key} value={restriction.key}>
-                                        {restriction.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div> */}
-
-
-                    {/* Submit Button */}
-                    <div className="flex justify-end">
-                        <Button disabled={isPending} type="submit">
-                            Submit Report
-                        </Button>
-                    </div>
+                            <motion.div
+                                className="flex justify-end"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Button disabled={isPending} type="submit">
+                                    Submit Report
+                                </Button>
+                            </motion.div>
+                        </>
+                    )}
                 </form>
             </DialogContent>
         </Dialog>
+
     )
 }
 

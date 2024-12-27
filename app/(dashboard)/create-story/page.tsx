@@ -16,6 +16,7 @@ import { CREATE_STORY_PROMPT } from '@/constants'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
 import Hint from '@/components/Hint'
 import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
+import { useSnackbar } from '@/hooks/use-snackbar'
 
 const CreateStory = () => {
 
@@ -36,6 +37,7 @@ const CreateStory = () => {
   //////////////////////////////////// STATES //////////////////////////////////////////
   const [formData, setFormData] = useState(initialState);
   const [loading, setLoading] = useState('')
+  const [snackbarText, setSnackbarText] = useSnackbar()
 
   //////////////////////////////////// FUNCTIONS //////////////////////////////////////////
   const onChange = ({ name, value }: { name: string, value: string }) => {
@@ -57,7 +59,7 @@ const CreateStory = () => {
   const onGenerate = async (status: 'draft' | 'published') => {
     if (!validateForm()) return;
 
-    setLoading('Your story is being generated. Please wait...')
+    setSnackbarText('Your story is being generated. Please wait...')
     try {
 
       console.log('formdata', formData)
@@ -75,12 +77,12 @@ const CreateStory = () => {
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
       const ai_output = JSON.parse(result?.response?.text() || "{}");
-      setLoading('Story generated successfully. Generating cover image...')
+      setSnackbarText('Story generated successfully. Generating cover image...')
 
       console.log('ai_output', Boolean(ai_output))
 
       const coverImageStorageId = await generateImage(generateUploadUrl, ai_output?.coverImage?.prompt || 'Create a story cover image with title as ' + formData?.title);
-      setLoading('Cover image generated. Chapters generating...')
+      setSnackbarText('Cover image generated. Chapters generating...')
 
       let chapters = []
 
@@ -102,7 +104,7 @@ const CreateStory = () => {
         index++;
       }
 
-      setLoading('Chapters generated. Saving story for you...')
+      setSnackbarText('Chapters generated. Saving story for you...')
       console.log('chapters', Boolean(chapters))
 
       await mutate({
@@ -131,7 +133,7 @@ const CreateStory = () => {
     } catch (error) {
       console.log(error)
       toast.error("Failed to generate story", { position: 'top-right' })
-      setLoading('')
+      setSnackbarText('')
     }
   }
 
@@ -147,13 +149,13 @@ const CreateStory = () => {
 
   const resetState = () => {
     setFormData(initialState)
-    setLoading('')
+    setSnackbarText('')
   }
 
   //////////////////////////////////// RENDER //////////////////////////////////////////
   return (
     <>
-      <CustomLoader loading={loading} onClose={() => setLoading('')} />
+      {/* <CustomLoader loading={loading} onClose={() => setLoading('')} /> */}
 
       <div className="py-8">
 
@@ -173,13 +175,13 @@ const CreateStory = () => {
         </div>
         <div className="flex flex-col justify-end items-end w-full my-10">
           <div className='flex gap-2' >
-            <Hint label="Generate a draft of your story.">
-              <Button onClick={() => onGenerate('draft')} variant='secondary' size="cta" disabled={Boolean(loading)}  >
+            <Hint label={Boolean(snackbarText) ? "Another story generation is in progress, please wait." : "Generate a draft of your story."}>
+              <Button onClick={() => onGenerate('draft')} variant='secondary' size="cta" disabled={Boolean(snackbarText)}  >
                 Generate Story and Draft
               </Button>
             </Hint>
-            <Hint label="Generate and save your story.">
-              <Button onClick={() => onGenerate('published')} variant='gradient' size="cta" disabled={Boolean(loading)}  >
+            <Hint label={Boolean(snackbarText) ? "Another story generation is in progress, please wait." : "Generate and save your story."}>
+              <Button onClick={() => onGenerate('published')} variant='gradient' size="cta" disabled={Boolean(snackbarText)}  >
                 Generate Story and Save
               </Button>
             </Hint>

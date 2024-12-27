@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { getRelativeTime } from '@/lib/utils';
 import { useCreateChatModal } from '@/hooks/use-create-chat-modal';
 import ChatItem from '@/components/ChatItem';
+import { Input } from '@/components/aceternity/input';
 
 export const ChatList = () => {
 
@@ -42,15 +43,14 @@ export const ChatList = () => {
 
     //////////////////////////////////////////////// RENDER //////////////////////////////////////////////////////////
     return (
-        <div className="h-[90vh] col-span-1 flex flex-col gap-2 relative ">
+        <div className="h-[80vh] col-span-1 flex flex-col gap-2 relative ">
 
             <Button onClick={() => setOpenChatModal(true)} variant='secondary' size='icon' className='bg-black text-primary-foreground absolute bottom-2 right-2 rounded-lg w-10 h-10 ' ><Plus /></Button>
 
             <Card className="bg-card w-full space-y-2 overflow-hidden p-1 h-[52px] ">
                 <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
-                    <input
+                    <Input
                         type="text"
-                        className="w-full rounded-xl border border-stroke bg-gray-2 py-2.5 pl-5 pr-10 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2"
                         placeholder="Search chats..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
