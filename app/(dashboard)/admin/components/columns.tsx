@@ -19,6 +19,9 @@ import {
 import { Profile, Story, StoryReport, Contact, Comment } from "@/types"
 import ActiveStoryModal from '@/components/ActiveStoryModal'
 import { useAlertModal } from "@/hooks/use-alert-modal"
+import { useSelectedComment } from "@/hooks/use-selected-comment"
+import { useSelectedProfile } from "@/hooks/use-selected-profile"
+import { useSelectedReport } from "@/hooks/use-selected-report"
 
 
 export const userColumns: ColumnDef<Profile>[] = [
@@ -82,7 +85,10 @@ export const userColumns: ColumnDef<Profile>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
+
             const profile = row.original;
+            const [_selected, setSelectedProfile] = useSelectedProfile()
+            const [_openAlertModal, setOpenAlertModal] = useAlertModal()
 
             return (
                 <DropdownMenu>
@@ -94,12 +100,14 @@ export const userColumns: ColumnDef<Profile>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(profile.user_id)} >
-                            Copy User ID
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(profile._id)} >
+                            Copy Profile ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className='cursor-pointer'>View profile</DropdownMenuItem>
-                        <DropdownMenuItem className='cursor-pointer'>Edit profile</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedProfile(profile); setOpenAlertModal('delete-account') }} >
+                            Delete Profile
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -162,7 +170,7 @@ export const storyColumns: ColumnDef<Story>[] = [
         header: "Views",
     },
     {
-        id:'likes',
+        id: 'likes',
         accessorKey: "likes",
         header: "Likes",
         cell: ({ row }) => (
@@ -171,7 +179,7 @@ export const storyColumns: ColumnDef<Story>[] = [
         ),
     },
     {
-        id:'shares',
+        id: 'shares',
         accessorKey: "shares",
         header: "Shares",
         cell: ({ row }) => (
@@ -276,7 +284,10 @@ export const reportsColumns: ColumnDef<StoryReport>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
+
             const report = row.original;
+            const [_selected, setSelectedReport] = useSelectedReport()
+            const [_openAlertModal, setOpenAlertModal] = useAlertModal()
 
             return (
                 <DropdownMenu>
@@ -288,14 +299,13 @@ export const reportsColumns: ColumnDef<StoryReport>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(report.story_id)}
-                        >
-                            Copy Story ID
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(report._id)}>
+                            Copy Report ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className='cursor-pointer'>View Story</DropdownMenuItem>
-                        <DropdownMenuItem className='cursor-pointer'>View Profile</DropdownMenuItem>
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedReport(report); setOpenAlertModal('delete-report') }} >
+                            Delete Report
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
@@ -363,14 +373,15 @@ export const commentColumns: ColumnDef<Comment>[] = [
         ),
     },
     {
-        id: 'story.title',
+        id: "story.title",
         accessorKey: "story.title",
         header: "Story Title",
         cell: ({ row }) => (
-            <span className="text-sm text-blue-500 underline cursor-pointer">
-                {row.getValue("story.title") || "N/A"}
-            </span>
+            <ActiveStoryModal story={row.original.story}>
+                <span className="hover:underline cursor-pointer text-start ">{row.getValue("story.title") || "N/A"}</span>
+            </ActiveStoryModal>
         ),
+        size: 300, // Make the column slightly larger
     },
     {
         accessorKey: "content",
@@ -406,5 +417,35 @@ export const commentColumns: ColumnDef<Comment>[] = [
         cell: ({ row }) => (
             <span className="text-sm">{row.getValue("parent_id") ? "Yes" : "No"}</span>
         ),
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+
+            const comment = row.original;
+            const [_selected, setSelectedComment] = useSelectedComment()
+            const [_openAlertModal, setOpenAlertModal] = useAlertModal()
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => navigator.clipboard.writeText(comment._id)}>
+                            Copy Comment ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className='cursor-pointer' onClick={() => { setSelectedComment(comment); setOpenAlertModal('delete-comment') }} >
+                            Delete Comment
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
     },
 ];

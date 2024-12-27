@@ -15,6 +15,7 @@ import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
 import { Doc } from "@/convex/_generated/dataModel"
 import { useNotificationDrawer } from "@/hooks/use-notification-drawer"
 import { getRelativeTime } from "@/lib/utils"
+import Hint from '@/components/Hint'
 
 function NotificationMenu() {
 
@@ -32,19 +33,21 @@ function NotificationMenu() {
             <DropdownMenuItem onClick={() => setOpenNotificationMenu(false)} className="flex items-start gap-2 p-2">
                 <div className="flex flex-col">
                     <span className="text-xs text-gray-500">{formattedTime}</span>
-                    <span className="text-sm text-gray-700">{notification?.content}</span>
+                    <span className="text-sm text-surface-foreground">{notification?.content}</span>
                 </div>
             </DropdownMenuItem>
         );
     }
     return (
         <DropdownMenu open={openNotificationMenu} onOpenChange={setOpenNotificationMenu} >
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Bell className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <span className="sr-only">Notifications</span>
-                </Button>
-            </DropdownMenuTrigger>
+            <Hint label='Notifications' >
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Bell className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <span className="sr-only">Notifications</span>
+                    </Button>
+                </DropdownMenuTrigger>
+            </Hint>
             <DropdownMenuContent align="end">
                 {
                     // TODO: sort based on priority

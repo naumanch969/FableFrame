@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 import { mutation, query, QueryCtx } from './_generated/server'
 import { auth } from './auth'
-import { NOTIFICATION_TYPES, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
+import { STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_STATUSES, STORY_TYPES } from '@/constants'
 import { Doc, Id } from './_generated/dataModel'
 
 const populateProfile = async (ctx: QueryCtx, profileId: Id<"profiles">) => {
@@ -535,7 +535,8 @@ export const create_ai = mutation({
             is_dismissed: false
         });
 
-        await ctx.db.patch(profile?._id, { credit: profile.credit - 1 });
+        const creditsUsed = chapters.length;
+        await ctx.db.patch(profile?._id, { credit: profile.credit - creditsUsed });
 
         return storyId;
     }

@@ -104,7 +104,8 @@ export const update = mutation({
 
 export const remove = mutation({
     args: {
-        comment_id: v.id('comments'),
+        id: v.id('comments'),
+        is_permanent: v.optional(v.boolean()),
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx);
@@ -112,20 +113,19 @@ export const remove = mutation({
 
         const profile = await populateProfileByUserId(ctx, userId)
 
-        const comment = await ctx.db.get(args.comment_id);
+        const comment = await ctx.db.get(args.id);
         if (!comment) return null;
 
-        if (comment.profile_id !== profile?._id) {
-            const profile = await ctx.db
-                .query('profiles')
-                // .filter((q) => q.id(userId))
-                .unique();
-            if (profile?.role !== 'admin') return null;
+        if (comment.profile_id !== profile?._id && profile?.role == 'user') return null;
+
+        if (args.is_permanent) {
+            await ctx.db.delete(args.id);
+        }
+        else {
+            await ctx.db.patch(args.id, { is_deleted: true });
         }
 
-        await ctx.db.patch(args.comment_id, { is_deleted: true });
-
-        return args.comment_id;
+        return args.id;
     },
 });
 

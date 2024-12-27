@@ -8,7 +8,7 @@ const Chapters = ({ userSelection, value }: { userSelection: any, value: number 
 
     return (
         <div className='space-y-3 col-span-1' >
-            <label htmlFor="" className="font-bold text-xl text-surface-foreground mt-3 ">6. Chapters</label>
+            <label htmlFor="" className="font-bold text-xl text-surface-foreground mt-3 ">6. Chapters <span className='text-xs font-light' >(One credit will be used per chapter)</span> </label>
             <div className='bg-surface h-12 flex items-center rounded-full px-4 py-2 ' >
                 <Slider
                     defaultValue={[6]}

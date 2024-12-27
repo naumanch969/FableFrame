@@ -87,7 +87,7 @@ const schema = defineSchema({
         parent_id: v.optional(v.id("profiles")),
         likes_count: v.number(),
         reports_count: v.number(),
-        is_deleted: v.boolean(),
+        is_deleted: v.optional(v.boolean()),    // TODO: remove this field
     })
         .index("by_story_id", ["story_id"])
         .index("by_profile_id", ["profile_id"])
@@ -110,6 +110,7 @@ const schema = defineSchema({
         is_dismissed: v.boolean(),
     })
         .index("by_related_entity_id", ["related_entity_id"])
+        .index("by_profile_id", ["profile_id"])
     ,
 
     shares: defineTable({
@@ -134,7 +135,8 @@ const schema = defineSchema({
         status: v.union(...STORY_REPORT_STATUSES.map(item => v.literal(item.key))),
         created_at: v.string(),
     })
-        .index("by_story_id", ["story_id"]),
+        .index("by_story_id", ["story_id"])
+        .index("by_profile_id", ["profile_id"]),
 
     contacts: defineTable({
         name: v.string(),

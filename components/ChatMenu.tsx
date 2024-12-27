@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import { MessagesSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,7 +14,7 @@ import { useGetMyChats } from "@/features/chat/api/useGetMyChats"
 import { Chat } from "@/types"
 import { getRelativeTime } from "@/lib/utils"
 import { useCurrentProfile } from "@/features/profile/api/useCurrentProfile"
-import { useRouter } from "next/navigation"
+import Hint from '@/components/Hint'
 
 function ChatMenu() {
 
@@ -35,7 +35,7 @@ function ChatMenu() {
                         <span className="text-xs text-primary">{otherUser?.username}</span>
                         <span className="text-xs text-gray-500">{formattedTime}</span>
                     </div>
-                    <span className="text-sm text-gray-700">{chat?.last_message}</span>
+                    <span className="text-sm text-surface-foreground">{chat?.last_message}</span>
                 </Link>
             </DropdownMenuItem>
         );
@@ -43,12 +43,14 @@ function ChatMenu() {
 
     return (
         <DropdownMenu open={openChatMenu} onOpenChange={setOpenChatMenu} >
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <MessagesSquare className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <span className="sr-only">Messages</span>
-                </Button>
-            </DropdownMenuTrigger>
+            <Hint label="Messages" >
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <MessagesSquare className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <span className="sr-only">Messages</span>
+                    </Button>
+                </DropdownMenuTrigger>
+            </Hint>
             <DropdownMenuContent align="end" className="min-w-[300px]" >
                 {
                     // TODO: sort

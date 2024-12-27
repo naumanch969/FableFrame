@@ -52,8 +52,8 @@ body {
     --secondary-foreground: 220 15% 90%;      /*hsl(220 15% 90%)*/
     --muted: 225 10% 20%;     /*hsl(225 10% 20%)*/
     --muted-foreground: 220 20% 65%;      /*hsl(220 20% 65%)*/
-    --accent: 240 30% 70%;      /*hsl(240 30% 70%)*/
-    --accent-foreground: 240 10% 15%;     /*hsl(240 10% 15%)*/
+    --accent: 225 30% 55%;      /*hsl(225 30% 55%)*/
+    --accent-foreground: 239, 10%, 90%;     /*hsl(239, 10%, 90%)*/
     --destructive: 0 70% 40%;     /*hsl(0 70% 40%)*/
     --destructive-foreground: 0 0% 98%;     /*hsl(0 0% 98%)*/
     --surface: 0 0% 10%;     /*hsl(0 0% 10%) */

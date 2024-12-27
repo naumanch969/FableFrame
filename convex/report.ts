@@ -116,17 +116,15 @@ export const update_status = mutation({
 
 export const remove = mutation({
     args: {
-        report_id: v.id('story_reports'),
+        id: v.id('story_reports'),
     },
     handler: async (ctx, args) => {
 
-        const report = await ctx.db.get(args.report_id);
-        if (!report) {
-            return null;
-        }
+        const report = await ctx.db.get(args.id);
+        if (!report) return null;
 
-        await ctx.db.delete(args.report_id);
+        await ctx.db.delete(args.id);
 
-        return args.report_id;
+        return args.id;
     },
 });

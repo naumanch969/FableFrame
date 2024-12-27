@@ -15,11 +15,13 @@ import { toast } from 'sonner'
 import { CREATE_STORY_PROMPT } from '@/constants'
 import { useGenerateUploadUrl } from '@/features/upload/api/use-generate-upload-url'
 import Hint from '@/components/Hint'
+import { useCurrentProfile } from '@/features/profile/api/useCurrentProfile'
 
 const CreateStory = () => {
 
   //////////////////////////////////// VARIABLES //////////////////////////////////////////
   const { mutate } = useCreateStory()
+  const { data: profile } = useCurrentProfile()
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
   const router = useRouter()
   const initialState = {
@@ -42,6 +44,8 @@ const CreateStory = () => {
   const validateForm = (): boolean => {
     const { title, genre, ageCategory, imageStyle } = formData;
 
+    if (profile?.credit! < formData?.chapters)
+      return alertAndReturnFalse("You don't have enough credits to generate this story. Please purchase more credits to continue.")
     if (!title) return alertAndReturnFalse("Please enter a title.");
     if (!genre) return alertAndReturnFalse("Please select a genre.");
     if (!ageCategory) return alertAndReturnFalse("Please select an age category.");
@@ -180,7 +184,7 @@ const CreateStory = () => {
               </Button>
             </Hint>
           </div>
-          <span className="text-gray-500 text-xs mt-1 " >1 Credit will use</span>
+          <span className="text-gray-500 text-xs mt-1 " >{formData?.chapters} Credits will use</span>
         </div>
 
       </div>
