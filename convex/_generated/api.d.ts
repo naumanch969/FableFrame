@@ -21,6 +21,7 @@ import type * as friend from "../friend.js";
 import type * as friend_request from "../friend_request.js";
 import type * as hashtag from "../hashtag.js";
 import type * as http from "../http.js";
+import type * as image from "../image.js";
 import type * as like from "../like.js";
 import type * as message from "../message.js";
 import type * as notification from "../notification.js";
@@ -50,6 +51,7 @@ declare const fullApi: ApiFromModules<{
   friend_request: typeof friend_request;
   hashtag: typeof hashtag;
   http: typeof http;
+  image: typeof image;
   like: typeof like;
   message: typeof message;
   notification: typeof notification;

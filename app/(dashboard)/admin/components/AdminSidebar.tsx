@@ -12,7 +12,8 @@ const AdminSidebar = () => {
         { label: 'reports', value: 'Reports' },
         { label: 'comments', value: 'Comments' },
         { label: 'contacts', value: 'Contacts' },
-        { label: 'feedback', value: 'Feedback' },
+        { label: 'feedbacks', value: 'Feedback' },
+        { label: 'images', value: 'Images' },
     ];
 
     return (

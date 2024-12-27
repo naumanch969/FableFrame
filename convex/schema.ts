@@ -203,7 +203,16 @@ const schema = defineSchema({
         category_frequency: v.array(v.object({ category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))), frequency: v.number() })),
 
     })
-        .index("by_profile_id", ["profile_id"])
+        .index("by_profile_id", ["profile_id"]),
+
+    images: defineTable({
+        url: v.optional(v.string()),
+        storage_id: v.string(),
+        story_id: v.optional(v.id("stories")),
+        profile_id: v.optional(v.id("profiles")),
+    })
+        .index("by_story_id", ["story_id"])
+        .index("by_profile_id", ["profile_id"]),
 
 
 })
