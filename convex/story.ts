@@ -494,17 +494,17 @@ export const create_ai = mutation({
         let coverImageUrl = await ctx.storage.getUrl(cover_image)
         if (!coverImageUrl) coverImageUrl = '/sample_cover_image.jpeg'
 
-        let updatedChapters = []
+        let updated_chapters = []
         for (const chapter of chapters) {
             let chapterImageUrl = chapter?.image?.url ? await ctx.storage.getUrl(chapter?.image?.url) : '/sample_cover_image.jpeg'
             if (!chapterImageUrl) chapterImageUrl = '/sample_cover_image.jpeg'
-            updatedChapters.push({
+            updated_chapters.push({
                 ...chapter,
                 image: { ...chapter?.image, url: chapterImageUrl }
             })
         }
 
-        const storyId = await ctx.db.insert('stories', {
+        const story_id = await ctx.db.insert('stories', {
             title,
             profile_id: profile?._id,
             genre,
@@ -520,7 +520,7 @@ export const create_ai = mutation({
             ratings_average: 0,
             reports_count: 0,
             ai_output: JSON.stringify(ai_output),
-            chapters: updatedChapters,
+            chapters: updated_chapters,
         });
 
         // Create notification
@@ -529,16 +529,37 @@ export const create_ai = mutation({
             type: 'post',
             content: 'Your story has been successfully created',
             is_read: false,
-            related_entity_id: storyId,
+            related_entity_id: story_id,
             entity_name: 'stories',
             priority: 'low',
             is_dismissed: false
         });
 
-        const creditsUsed = chapters.length;
-        await ctx.db.patch(profile?._id, { credit: profile.credit - creditsUsed });
+        const credits_used = chapters.length;
+        await ctx.db.patch(profile?._id, { credit: profile.credit - credits_used });
 
-        return storyId;
+        // Adding images // TODO: what if there's an error above and control dont get here, images r added in storage but not in table
+        const urls = [{ url: coverImageUrl, storage_id: cover_image, story_id }]
+        let index = 0;
+        for (const chapter of chapters) {
+            urls.push({
+                url: updated_chapters[index]?.image?.url,
+                storage_id: chapter?.image?.url,
+                story_id: story_id,
+            })
+            index++;
+        }
+
+        for (const url of urls) {
+            await ctx.db.insert('images', {
+                url: url.url,
+                storage_id: url.storage_id,
+                story_id: url.story_id
+            })
+        }
+
+
+        return story_id;
     }
 });
 
