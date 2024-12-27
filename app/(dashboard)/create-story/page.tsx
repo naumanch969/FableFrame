@@ -26,7 +26,7 @@ const CreateStory = () => {
     prompt: "",
     title: "",
     genre: "",
-    chapters: 5,
+    chapters: 6,
     ageCategory: "",
     imageStyle: "",
   }
@@ -60,7 +60,7 @@ const CreateStory = () => {
 
       const FINAL_PROMPT = constructPrompt({
         age_category: formData.ageCategory,
-        genre: formData.genre
+        genre: formData.genre,
         image_style: formData?.imageStyle,
         title: formData?.title,
         prompt,

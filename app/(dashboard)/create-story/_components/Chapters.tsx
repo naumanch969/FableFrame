@@ -11,10 +11,10 @@ const Chapters = ({ userSelection, value }: { userSelection: any, value: number 
             <label htmlFor="" className="font-bold text-xl text-surface-foreground mt-3 ">6. Chapters</label>
             <div className='bg-surface h-12 flex items-center rounded-full px-4 py-2 ' >
                 <Slider
-                    defaultValue={[5]}
+                    defaultValue={[6]}
                     value={[value]}
                     onValueChange={(v) => userSelection({ name: 'chapters', value: v })}
-                    min={1}
+                    min={4}
                     max={12}
                     step={1}
                 />
