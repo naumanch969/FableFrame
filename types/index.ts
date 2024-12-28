@@ -12,3 +12,4 @@ export type SharedStory = Doc<"stories"> & { author: Profile, shares: Id<"storie
 export type Message = Doc<"messages">
 export type StoryReport = Doc<"story_reports"> & { story: Story, profile: Profile }
 export type Contact = Doc<"contacts">
+export type Subscription = Doc<"subscriptions"> & { is_active: boolean }

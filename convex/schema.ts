@@ -214,6 +214,16 @@ const schema = defineSchema({
         .index("by_story_id", ["story_id"])
         .index("by_profile_id", ["profile_id"]),
 
+    subscriptions: defineTable({
+        profile_id: v.id("profiles"),
+        stripe_customer_id: v.string(),     // unique
+        stripe_subscription_id: v.string(),     // unique
+        stripe_price_id: v.string(),
+        stripe_current_period_end: v.string(),  // iso date
+    })
+        .index("by_profile_id", ["profile_id"])
+        .index("by_subscription_id", ["stripe_subscription_id"])
+
 
 })
 

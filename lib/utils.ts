@@ -132,3 +132,7 @@ export const generateImage = async (generateUploadUrl: any, prompt: string) => {
     console.error('Error generating or uploading image:', err);
   }
 };
+
+export function absoluteUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_APP_BASE_URL}${path}`
+}

@@ -22,10 +22,18 @@ interface Props {
     data: Story[],
     isLoading: boolean,
     showTitle?: boolean,
-    showHeader?: boolean
+    showHeader?: boolean,
+    gridCols?: { sm: number, md: number, lg: number, xl: number }
 }
 
-const Stories = ({ title, data, isLoading, showTitle = true, showHeader = true }: Props) => {
+const Stories = ({
+    title,
+    data,
+    isLoading,
+    showTitle = true,
+    showHeader = true,
+    gridCols = { sm: 1, md: 2, lg: 3, xl: 4 }
+}: Props) => {
 
     ///////////////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////////
     const id = useId();
@@ -130,7 +138,7 @@ const Stories = ({ title, data, isLoading, showTitle = true, showHeader = true }
                     </div>
                 }
 
-                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 550: 2, 750: 3, 900: 4 }}>
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: gridCols.sm, 550: gridCols.md, 750: gridCols.lg, 900: gridCols.xl }}>
                     <Masonry gutter={'8px'} >
                         {
                             isLoading

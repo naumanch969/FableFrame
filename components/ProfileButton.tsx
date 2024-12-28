@@ -55,6 +55,12 @@ const ProfileButton: React.FC = () => {
                 </DropdownMenuItem>
                 <Separator className='my-1' />
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
+                    <Link href="/billing" className="w-full text-left py-1 px-1 ">
+                        Billing
+                    </Link>
+                </DropdownMenuItem>
+                <Separator className='my-1' />
+                <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
                     <Link href="/profile" className="w-full text-left py-1 px-1 ">
                         View Profile
                     </Link>

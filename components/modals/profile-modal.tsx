@@ -101,7 +101,6 @@ const ProfileModal = () => {
                             placeholder='Date of Birth'
                             type='date'
                             max={new Date().toISOString().split('T')[0]}
-
                         />
                     </div>
 

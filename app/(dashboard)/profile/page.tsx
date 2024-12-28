@@ -57,6 +57,7 @@ const ProfilePage: React.FC = () => {
                             || (activeItem == "shared" && sharedStoriesLoading)
                         }
                         showTitle={false}
+                        gridCols={{ sm: 1, md: 2, lg: 2, xl: 3 }}
                     />
                 </div>
             </div>

@@ -30,6 +30,7 @@ import type * as profile from "../profile.js";
 import type * as report from "../report.js";
 import type * as share from "../share.js";
 import type * as story from "../story.js";
+import type * as subscription from "../subscription.js";
 import type * as upload from "../upload.js";
 import type * as user from "../user.js";
 import type * as utils from "../utils.js";
@@ -60,6 +61,7 @@ declare const fullApi: ApiFromModules<{
   report: typeof report;
   share: typeof share;
   story: typeof story;
+  subscription: typeof subscription;
   upload: typeof upload;
   user: typeof user;
   utils: typeof utils;
