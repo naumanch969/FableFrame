@@ -3,10 +3,14 @@ import React from "react";
 import { ContainerScroll } from "@/components/aceternity/container-scroll-animation";
 import HeroScrollComponent from "./HeroScrollComponent";
 import { motion } from "framer-motion";
-import { HeroHighlight, Highlight } from "@/components/aceternity/hero-highlight";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+
+    const router = useRouter()
+
+
     return (
         <div className="flex flex-col overflow-hidden">
 
@@ -15,11 +19,15 @@ const Hero = () => {
                 cardClassname="max-w-6xl h-[30rem] md:h-[45rem] "
                 titleComponent={
                     <div className="flex flex-col items-center gap-2" >
-                        <Button variant='gradient' size='cta' className="w-fit" >Start Creating</Button>
+                        <Button
+                            variant='gradient'
+                            size='cta'
+                            onClick={() => router.push('/explore')}
+                            className="w-fit"
+                        >
+                            Start Creating
+                        </Button>
                         <Heading />
-                        {/* <p className="text-xl ">
-                            Bring your imagination to life with personalized stories, created just for you. Fun and educational, all in a matter of minutes
-                        </p> */}
                         <br />
                     </div>
                 }

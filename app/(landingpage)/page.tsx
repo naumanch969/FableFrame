@@ -1,16 +1,18 @@
 "use client"
 
-import Footer from "@/components/Footer"
-import Hero from "./components/Hero"
-import Navbar from "@/components/Navbar"
 import { HeroHighlight } from "@/components/aceternity/hero-highlight"
-import Features from "./components/Features"
-import HowItWorks from "./components/HowItWorks"
-import Testimonials from "./components/Testimonials"
-import CTA from "./components/CTA"
-import Pricing from "./components/Pricing"
-import FAQ from "./components/FAQ"
-import Contact from "./components/Contact"
+import dynamic from "next/dynamic"
+
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false })
+const Hero = dynamic(() => import("./components/Hero"), { ssr: false })
+const Features = dynamic(() => import("./components/Features"), { ssr: false })
+const HowItWorks = dynamic(() => import("./components/HowItWorks"), { ssr: false })
+const Testimonials = dynamic(() => import("./components/Testimonials"), { ssr: false })
+const CTA = dynamic(() => import("./components/CTA"), { ssr: false })
+const Pricing = dynamic(() => import("./components/Pricing"), { ssr: false })
+const FAQ = dynamic(() => import("./components/FAQ"), { ssr: false })
+const Contact = dynamic(() => import("./components/Contact"), { ssr: false })
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false })
 
 export default function Home() {
 

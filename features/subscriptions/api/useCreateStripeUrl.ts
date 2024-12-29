@@ -35,7 +35,7 @@ export const useCreateStripeCheckout = () => {
   const isError = useMemo(() => state === "error", [state]);
   const isSettled = useMemo(() => state === "settled", [state]);
 
-  const subscription = useQuery(api.subscription.get_my_subscription)
+  const subscription = useQuery(api.subscription.get_subscription_by_profile_id, {})
 
   const mutate = useCallback(async (values: RequestType, options?: Options) => {
     try {

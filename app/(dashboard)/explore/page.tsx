@@ -2,7 +2,13 @@
 
 import React from 'react'
 import { useGetPublicStories } from '@/features/story/api/useGetPublicStories'
-import Stories from '@/components/Stories'
+import dynamic from 'next/dynamic'
+import LoadingScreen from '@/components/LoadingScreen'
+
+const Stories = dynamic(() => import('@/components/Stories'), {
+  ssr: false,
+  loading: () => <LoadingScreen text="Stories for you" className='w-full' />
+})
 
 const ExplorePage = () => {
 

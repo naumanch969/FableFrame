@@ -29,6 +29,7 @@ const SignInCard = ({ setState }: Props) => {
     e.preventDefault()
 
     setPending(true)
+    setError("")
     signIn("password", { email, password, flow: "signIn" })
       .then(() => {
         router.push('/explore')
@@ -40,6 +41,7 @@ const SignInCard = ({ setState }: Props) => {
 
   const onProviderSignIn = (value: 'github' | 'google') => {
     setPending(true)
+    setError("")
     signIn(value).finally(() => setPending(false))
   }
 

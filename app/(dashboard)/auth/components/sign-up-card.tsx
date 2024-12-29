@@ -34,6 +34,7 @@ const SignUpCard = ({ setState }: Props) => {
     const d = signIn("password", { name, email, password, flow: "signUp" })
       .then((payload) => {
         console.log('payload', payload)
+        // creating profile
         // mutate({
         //   formData: {
         //     email: email,

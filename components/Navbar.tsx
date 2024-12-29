@@ -9,16 +9,18 @@ import NotificationMenu from "@/components/NotificationMenu";
 import { useGetProfile } from "@/features/profile/api/useGetProfile";
 import ChatMenu from "@/components/ChatMenu";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import GradientText from "./GradientText";
 import { useSnackbar } from "@/hooks/use-snackbar";
+import { Button } from "./ui/button";
 
 export default function Navbar() {
 
     const { data: user } = useCurrentUser()
     const { data: profile } = useGetProfile()
     const pathname = usePathname()
-    const [text, _setText] = useSnackbar()
+    const router = useRouter()
+    const [snackbarText, _setText] = useSnackbar()
     const isSignedIn = Boolean(user)
 
     const menus = [
@@ -79,16 +81,24 @@ export default function Navbar() {
                                 }
                             </div>
                             {
-                                isSignedIn && <ProfileButton />
+                                isSignedIn
+                                    ? <ProfileButton />
+                                    : <Button
+                                        variant='gradient'
+                                        onClick={() => router.push('/explore')}
+                                        className="w-fit rounded-full"
+                                    >
+                                        Get Started
+                                    </Button>
                             }
                         </div>
                     </div>
                 </div>
 
                 {
-                    text &&
+                    snackbarText &&
                     <div className="w-full py-2 px-8 bg-alert text-primary text-center rounded-lg ">
-                        {text}
+                        {snackbarText}
                     </div>
                 }
             </nav>
