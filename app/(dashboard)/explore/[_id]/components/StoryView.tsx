@@ -15,6 +15,7 @@ import { useLikeDislikeStory } from "@/features/like/api/useLikeDislikeStory";
 import { useGetProfile } from "@/features/profile/api/useGetProfile"
 import { Card } from "@/components/ui/card";
 import CommentBox from "./CommentBox";
+import { Badge } from "@/components/ui/badge";
 
 const StoryView = () => {
 
@@ -94,6 +95,10 @@ const StoryView = () => {
                     <h2 className="font-bold text-3xl text-center text-foreground rounded-md">
                         {story?.title}
                     </h2>
+                    <div className="absolute left-4 flex justify-end items-center gap-2 bg-background">
+                        <Badge className='capitalize' >{story?.genre}</Badge>
+                        <Badge className='capitalize' >{story?.age_category}</Badge>
+                    </div>
                     <div className="absolute right-4 flex justify-end items-center gap-2 bg-background">
                         <Hint label='Like' >
                             <Button onClick={onLike} variant={isLiked ? "default" : "ghost"} size="icon" className="flex items-center justify-center">

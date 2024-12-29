@@ -206,45 +206,41 @@ export function PlaceholdersAndVanishInput({
       {
         isTextarea
           ?
-          <GradientBorder>
-            <textarea
-              title='Prompt'
-              onChange={(e) => {
-                if (!animating) {
-                  setValue(e.target.value);
-                  onChange && onChange(e);
-                }
-              }}
-              onKeyDown={handleKeyDown}
-              ref={inputRef as LegacyRef<HTMLTextAreaElement>}
-              value={value}
-              rows={rows}
-              className={cn(
-                "py-2.5 w-full text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
-                animating && "text-transparent dark:text-transparent",
-              )}
-            />
-          </GradientBorder>
+          <textarea
+            title='Prompt'
+            onChange={(e) => {
+              if (!animating) {
+                setValue(e.target.value);
+                onChange && onChange(e);
+              }
+            }}
+            onKeyDown={handleKeyDown}
+            ref={inputRef as LegacyRef<HTMLTextAreaElement>}
+            value={value}
+            rows={rows}
+            className={cn(
+              "py-2.5 w-full text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
+              animating && "text-transparent dark:text-transparent",
+            )}
+          />
           :
-          <GradientBorder>
-            <textarea
-              title='Title'
-              onChange={(e) => {
-                if (!animating) {
-                  setValue(e.target.value);
-                  onChange && onChange(e);
-                }
-              }}
-              onKeyDown={handleKeyDown}
-              ref={inputRef as LegacyRef<HTMLTextAreaElement>}
-              value={value}
-              rows={1}
-              className={cn(
-                "py-2.5 w-full text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
-                animating && "text-transparent dark:text-transparent",
-              )}
-            />
-          </GradientBorder>
+          <textarea
+            title='Title'
+            onChange={(e) => {
+              if (!animating) {
+                setValue(e.target.value);
+                onChange && onChange(e);
+              }
+            }}
+            onKeyDown={handleKeyDown}
+            ref={inputRef as LegacyRef<HTMLTextAreaElement>}
+            value={value}
+            rows={1}
+            className={cn(
+              "py-2.5 w-full text-sm sm:text-base z-50 border-none bg-transparent text-surface-foreground h-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 text-start placeholder:text-start",
+              animating && "text-transparent dark:text-transparent",
+            )}
+          />
       }
 
       {

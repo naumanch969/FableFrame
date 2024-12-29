@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { SignInFlow } from '@/types'
 import { useRouter } from 'next/navigation'
 import { Input } from '@/components/aceternity/input'
+import Hint from '@/components/Hint'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -93,24 +94,28 @@ const SignInCard = ({ setState }: Props) => {
         <Separator />
 
         <div className="flex flex-col gap-2">
-          <Button
-            variant='outline'
-            size='lg'
-            className='w-full relative'
-            disabled={pending}
-            onClick={() => onProviderSignIn('google')}
-          >
-            <FcGoogle className='size-5 ' /> Continue with Google
-          </Button>
-          <Button
-            variant='outline'
-            size='lg'
-            className='w-full relative'
-            disabled={pending}
-            onClick={() => onProviderSignIn('github')}
-          >
-            <FaGithub className='size-5 ' /> Continue with Github
-          </Button>
+          <Hint label="Temporarily Unavailable" >
+            <Button
+              variant='outline'
+              size='lg'
+              className='w-full relative'
+              disabled={true || pending}
+              onClick={() => onProviderSignIn('google')}
+            >
+              <FcGoogle className='size-5 ' /> Continue with Google
+            </Button>
+          </Hint>
+          <Hint label="Temporarily Unavailable" >
+            <Button
+              variant='outline'
+              size='lg'
+              className='w-full relative'
+              disabled={true || pending}
+              onClick={() => onProviderSignIn('github')}
+            >
+              <FaGithub className='size-5 ' /> Continue with Github
+            </Button>
+          </Hint>
         </div>
         <p className="text-xs text-muted-foreground">
           Don&apos;t have an account? <span onClick={() => setState('signUp')} className='text-sky-700 hover:underline cursor-pointer' >Sign Up</span>

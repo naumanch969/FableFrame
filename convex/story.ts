@@ -102,8 +102,6 @@ export const get_user_stories = query({
 export const get_genre_stories = query({
     args: { genre: v.union(...STORY_GENRES.map(item => v.literal(item.key))) },
     handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return []
 
         const stories = await ctx.db
             .query('stories')
@@ -130,8 +128,6 @@ export const get_genre_stories = query({
 export const get_age_category_stories = query({
     args: { age_category: v.union(...STORY_AGE_CATEGORIES.map(item => v.literal(item.key))) },
     handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return []
 
         const stories = await ctx.db
             .query('stories')
@@ -158,9 +154,6 @@ export const get_age_category_stories = query({
 export const get_popular_stories = query({
     args: {},
     handler: async (ctx, args) => {
-
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return []
 
         const stories = await ctx.db
             .query('stories')
@@ -235,8 +228,6 @@ export const get_user_recommended_stories = query({
 export const get_story_by_id = query({
     args: { id: v.id("stories") },
     handler: async (ctx, args) => {
-        const userId = await auth.getUserId(ctx)
-        if (!userId) return null;
 
         const story = await ctx.db.get(args.id)
 
@@ -304,6 +295,7 @@ export const get_liked_stories = query({
 export const get_shared_stories = query({
     args: {},
     handler: async (ctx) => {
+
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 
@@ -340,8 +332,6 @@ export const get_shared_stories = query({
 export const get = query({
     args: {},
     handler: async (ctx) => {
-        const userId = await auth.getUserId(ctx);
-        if (!userId) return null; // Unauthenticated
 
         const manualStories = await ctx.db
             .query("stories")
@@ -367,6 +357,7 @@ export const get = query({
 export const get_my_manual_stories = query({
     args: {},
     handler: async (ctx) => {
+
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 
@@ -397,6 +388,7 @@ export const get_my_manual_stories = query({
 export const get_draft_stories = query({
     args: {},
     handler: async (ctx) => {
+
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 
@@ -429,6 +421,7 @@ export const get_ai_stories = query({
         profile_id: v.optional(v.id("profiles"))
     },
     handler: async (ctx, args) => {
+        
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 

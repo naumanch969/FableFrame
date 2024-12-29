@@ -4,8 +4,12 @@ import { cn } from "@/lib/utils";
 import { Boxes } from "@/components/aceternity/background-boxes";
 import GradientText from "@/components/GradientText";
 import { Button } from "@/components/ui/button";
+import { useRouter } from 'next/navigation'
 
 const CTA = () => {
+
+    const router = useRouter()
+
     return (
         <div className="h-[45rem] relative w-full overflow-hidden bg-slate-100 flex flex-col items-center justify-center rounded-lg">
             <div className="absolute inset-0 w-full h-full bg-slate-100 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
@@ -20,7 +24,15 @@ const CTA = () => {
             <p className="text-center my-8 text-neutral-900 relative z-20 max-w-4xl ">
                 Join thousands of others in creating personalized stories in minutes. Sign up now to begin your adventure with FableFrame, and let your creativity soar.
             </p>
-            <Button variant='gradient' size='cta' className="w-fit z-30 " >Let's Start</Button>
+
+            <Button
+                variant='gradient'
+                size='cta'
+                className="w-fit z-30 "
+                onClick={() => router.push('/explore')}
+            >
+                Let's Start
+            </Button>
 
         </div>
     );

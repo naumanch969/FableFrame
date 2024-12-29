@@ -56,6 +56,7 @@ export default {
 				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
+				alert: 'hsl(var(--alert))',
 				ring: 'hsl(var(--ring))',
 				chart: {
 					'1': 'hsl(var(--chart-1))',
@@ -64,7 +65,7 @@ export default {
 					'4': 'hsl(var(--chart-4))',
 					'5': 'hsl(var(--chart-5))'
 				},
-				alert: 'hsl(331.35deg 77.89% 60.98% / 14%)'
+				// alert: 'hsl(331.35deg 77.89% 60.98%)'
 			},
 			boxShadow: {
 				// signup page

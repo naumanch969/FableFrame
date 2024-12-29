@@ -144,7 +144,7 @@ const Plans = () => {
             <span className={`flex items-end gap-2 mt-8 ${action.wrapperClass}`}>
                 {action.additionalAction && (
                     <CardItem
-                        disabled={isPending}
+                        disabled={!profile || isPending}
                         translateZ={40}
                         as="button"
                         className={action.additionalAction.classes}
@@ -154,7 +154,7 @@ const Plans = () => {
                     </CardItem>
                 )}
                 <CardItem
-                    disabled={isPending}
+                    disabled={!profile || isPending}
                     translateZ={40}
                     as="button"
                     className={`px-4 py-2 rounded-xl text-xs font-bold disabled:cursor-not-allowed disabled:bg-opacity-80 ${action.classes}`}

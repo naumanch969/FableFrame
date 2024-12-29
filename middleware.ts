@@ -5,7 +5,7 @@ import {
   nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
 
-const isPublicPage = createRouteMatcher(["/auth", "/", "/api/stripe/webhook"]);
+const isPublicPage = createRouteMatcher(["/auth", "/",  "/contact", "/about", "/billing", "/explore",  "/api/stripe/webhook"]);
 
 export default convexAuthNextjsMiddleware(async (request) => {
   const isPublic = isPublicPage(request);
@@ -17,9 +17,9 @@ export default convexAuthNextjsMiddleware(async (request) => {
   }
 
   // Redirect authenticated users trying to access public pages (login/signup)
-  if (isPublic && isAuthenticated) {
-    return nextjsMiddlewareRedirect(request, "/");
-  }
+  // if (isPublic && isAuthenticated) {
+  //   return nextjsMiddlewareRedirect(request, "/");
+  // }
 
   return;
 });

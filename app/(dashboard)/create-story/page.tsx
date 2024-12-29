@@ -59,7 +59,7 @@ const CreateStory = () => {
   const onGenerate = async (status: 'draft' | 'published') => {
     if (!validateForm()) return;
 
-    setSnackbarText('Your story is being generated. Please wait...')
+    setSnackbarText('Generating story for you. It may take from 30s to 2 min based on your connection speed. Please wait...')
     try {
 
       console.log('formdata', formData)
@@ -88,7 +88,7 @@ const CreateStory = () => {
 
       let index = 1;
       for (const chapter of ai_output?.chapters) {
-        setLoading(`Generating chapter ${index}...`)
+        setLoading(`Chapter ${index} generated: ${chapter?.title}. Please hold on`)
         const chapterImagePrompt = chapter?.image?.prompt || 'Create a chapter cover image with title as ' + chapter?.title
         const chapterImageStorageId = await generateImage(generateUploadUrl, chapterImagePrompt + ` - ImageStyle: ${chapter?.image?.style}`);
 

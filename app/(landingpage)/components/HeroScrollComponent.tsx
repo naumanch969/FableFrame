@@ -27,9 +27,9 @@ const HeroScrollComponent: FC = () => {
     }, [currentWordIndex]);
 
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 items-center h-full px-12 ">
+        <section className="grid grid-cols-1 md:grid-cols-2 items-center h-full px-12 bg-neutral ">
             <div className='' >
-                <h2 className="text-6xl leading-[1.4] text-primary font-extrabold">
+                <h2 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl leading-[1.4] text-primary font-extrabold">
                     <span className="">Craft Magical Stories for</span>
                     <br />
                     <span className="relative inline-block overflow-hidden bg-surface px-8 py-1 rounded-full ">
@@ -45,7 +45,7 @@ const HeroScrollComponent: FC = () => {
                 </h2>
             </div>
             <div>
-                <Image src="/hero.png" alt="Hero" width={700} height={400} />
+                <Image src="/hero.png" alt="Hero" width={700} height={400} className="lg:w-[700px] lg:h-[400px] md:w-[600px] md:h-[350px] sm:w-[500px] sm:h-[300px] " />
             </div>
         </section>
     );

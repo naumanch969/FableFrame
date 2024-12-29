@@ -8,6 +8,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { TriangleAlert } from 'lucide-react'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { SignInFlow } from '@/types'
+import Hint from '@/components/Hint'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -127,24 +128,28 @@ const SignUpCard = ({ setState }: Props) => {
         <Separator />
 
         <div className="flex flex-col gap-2">
-          <Button
-            variant='outline'
-            size='lg'
-            className='w-full relative'
-            disabled={pending}
-            onClick={() => onProviderSignUp('google')}
-          >
-            <FcGoogle className='size-5' /> Continue with Google
-          </Button>
-          <Button
-            variant='outline'
-            size='lg'
-            className='w-full relative'
-            disabled={pending}
-            onClick={() => onProviderSignUp('github')}
-          >
-            <FaGithub className='size-5' /> Continue with Github
-          </Button>
+          <Hint label="Temporarily Unavailable" >
+            <Button
+              variant='outline'
+              size='lg'
+              className='w-full relative'
+              disabled={true || pending}
+              onClick={() => onProviderSignUp('google')}
+            >
+              <FcGoogle className='size-5' /> Continue with Google
+            </Button>
+          </Hint>
+          <Hint label="Temporarily Unavailable" >
+            <Button
+              variant='outline'
+              size='lg'
+              className='w-full relative'
+              disabled={true || pending}
+              onClick={() => onProviderSignUp('github')}
+            >
+              <FaGithub className='size-5' /> Continue with Github
+            </Button>
+          </Hint>
         </div>
         <p className="text-xs text-muted-foreground">
           Already have an account? <span onClick={() => setState('signIn')} className='text-sky-700 hover:underline cursor-pointer' >Sign In</span>

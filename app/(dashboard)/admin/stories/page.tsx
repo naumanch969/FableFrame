@@ -9,10 +9,11 @@ import { useRemoveStory } from "@/features/story/api/useRemoveStory"
 import { useAlertModal } from "@/hooks/use-alert-modal"
 import { useSelectedStory } from "@/hooks/use-selected-story"
 import { toast } from 'sonner'
+import LoadingScreen from "@/components/LoadingScreen"
 
 const Stories = () => {
 
-  const { data } = useGetStories()
+  const { data, isLoading } = useGetStories()
   const [open, setOpen] = useAlertModal()
 
   const [story, _setStory] = useSelectedStory()
@@ -77,12 +78,18 @@ const Stories = () => {
       />
 
       <div className="container mx-auto">
-        <DataTable
-          columns={storyColumns}
-          data={data! || []}
-          searchPlaceholder='Search stories'
-          searchField="title"
-        />
+        {
+          isLoading
+            ?
+            <LoadingScreen className='w-full' />
+            :
+            <DataTable
+              columns={storyColumns}
+              data={data! || []}
+              searchPlaceholder='Search stories'
+              searchField="title"
+            />
+        }
       </div>
 
     </>

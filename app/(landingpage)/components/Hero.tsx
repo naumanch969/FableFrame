@@ -49,7 +49,7 @@ export function Heading() {
             className="text-4xl font-semibold text-surface-foreground dark:text-surface-foreground px-4 md:text-4xl lg:text-5xl max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
         >
             Unleash the power of <br />
-            <span className="text-4xl md:text-[6rem] font-bold mt-2 leading-none">
+            <span className="text-4xl lg:text-[6rem] md:text-[4.5rem] font-bold mt-2 leading-none">
                 Your Imagination
             </span>
             {/* <Highlight className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 text-4xl md:text-[6rem] font-bold mt-2 leading-none">

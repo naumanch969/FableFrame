@@ -29,13 +29,13 @@ const UpdateStoryImagesModal = () => {
             if (!ai_output) return toast.error("Story not found", { position: 'top-right' })
 
             const coverImageStorageId = await generateImage(generateUploadUrl, ai_output?.coverImage?.prompt || 'Create a story cover image with title as ' + story?.title);
-            setSnackbarText('Cover image generated. Chapters generating...')
+            setSnackbarText('Cover image generated. Generating chapter images...')
 
             let chapters = []
 
             let index = 1;
             for (const chapter of ai_output?.chapters) {
-                setSnackbarText(`Generating chapter ${index}...`)
+                setSnackbarText(`Generating chapter ${index} image...`)
                 const chapterImagePrompt = chapter?.image?.prompt || 'Create a chapter cover image with title as ' + chapter?.title
                 const chapterImageStorageId = await generateImage(generateUploadUrl, chapterImagePrompt + ` - ImageStyle: ${chapter?.image?.style}`);
 

@@ -8,11 +8,13 @@ import { Comment } from '@/types';
 import { useCreateComment } from '@/features/comments/api/useCreateComment';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getRelativeTime } from '@/lib/utils';
+import { useGetProfile } from '@/features/profile/api/useGetProfile';
 
 const CommentBox: React.FC = () => {
 
   const storyId = useStoryId();
   const { data: comments, isLoading } = useGetCommentsByStory(storyId);
+  const {data:profile} = useGetProfile()
   const { mutate } = useCreateComment()
   const [text, setText] = useState<string>('');
 
@@ -64,7 +66,7 @@ const CommentBox: React.FC = () => {
           onChange={(e) => setText(e.target.value)}
           onKeyPress={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onCreateComment(); } }}
         />
-        <Button variant='gradient' className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[80%]' onClick={(e) => { e.preventDefault(); onCreateComment(); }}>
+        <Button disabled={!Boolean(profile)} variant='gradient' className='absolute right-1 top-1/2 transform -translate-y-1/2 h-[80%]' onClick={(e) => { e.preventDefault(); onCreateComment(); }}>
           Post it
         </Button>
       </form>

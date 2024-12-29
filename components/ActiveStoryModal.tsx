@@ -50,8 +50,7 @@ export const CoverCard = ({ story }: { story: Story }) => {
 
             <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
 
-            <Image
-                priority
+            <img
                 width={200}
                 height={200}
                 src={story?.cover_image || '/sample_cover_image.jpeg'}

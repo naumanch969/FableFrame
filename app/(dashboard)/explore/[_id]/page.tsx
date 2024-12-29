@@ -2,7 +2,6 @@
 
 import React from 'react';
 import StoryView from './components/StoryView';
-import RecommendedStories from './components/RecommendedStories';
 import { useGetPublicStories } from '@/features/story/api/useGetPublicStories';
 import Footer from '@/components/Footer';
 import { useGetGenreStories } from '@/features/story/api/useGetGenreStories';
@@ -46,27 +45,22 @@ const ViewStory = () => {
                         showHeader={false}
                     />
                 </div>
-                <div className="py-6">
-                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Tailored Recommendations for You</h2>
-                    <Stories
-                        data={userRecommendedStories}
-                        isLoading={userRecommendedStoriesLoading}
-                        showHeader={false}
-                    />
-                </div>
+                {
+                    userRecommendedStories?.length > 0 &&
+                    <div className="py-6">
+                        <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Tailored Recommendations for You</h2>
+                        <Stories
+                            data={userRecommendedStories}
+                            isLoading={userRecommendedStoriesLoading}
+                            showHeader={false}
+                        />
+                    </div>
+                }
                 <div className="py-6">
                     <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Popular Stories You Must Read</h2>
                     <Stories
                         data={popularStories}
                         isLoading={popularStoriesLoading}
-                        showHeader={false}
-                    />
-                </div>
-                <div className="py-6">
-                    <h2 className="text-2xl font-bold text-center mb-4 text-foreground ">Explore Stories in the Same Genre</h2>
-                    <Stories
-                        data={genreStories}
-                        isLoading={genreStoriesLoading}
                         showHeader={false}
                     />
                 </div>

@@ -148,12 +148,12 @@ ContentPage.Mini = ({ title, content, pageNumber, image }: { title?: string, con
                 <img
                     src={image || '/sample_cover_image.jpeg'}
                     alt={title}
-                    className="w-full h-[50px] object-cover rounded-md"
+                    className="w-full object-cover rounded-md"
                 />
-                {title && <h6 className="text-[6px] font-semibold mt-[1px] text-center">{title}</h6>}
-                <p className="text-[4px] text-gray-600 text-center mt-[1px] overflow-hidden text-ellipsis">
+                {/* {title && <h6 className="text-[6px] font-semibold mt-[1px] text-center">{title}</h6>} */}
+                {/* <p className="text-[4px] text-gray-600 text-center mt-[1px] overflow-hidden text-ellipsis">
                     {content.slice(0, 40)}...
-                </p>
+                </p> */}
             </div>
         </Page>
     );
@@ -173,8 +173,8 @@ CoverPage.Mini = ({ title, coverImage }: { title: string, coverImage: string }) 
     return (
         <Page isThumbnail={true}>
             <div className="flex flex-col items-center justify-center gap-4 w-full">
-                <img src={coverImage} alt={title} className="w-24 h-24 object-cover rounded-md" />
-                <h3 className="text-xs font-semibold">{title}</h3>
+                <img src={coverImage} alt={title} className="w-full object-cover rounded-md" />
+                {/* <h3 className="text-xs font-semibold">{title}</h3> */}
             </div>
         </Page>
     );
