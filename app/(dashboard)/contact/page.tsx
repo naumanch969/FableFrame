@@ -132,7 +132,7 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
-                className={`w-full px-4 py-6 rounded-lg border ${errors.message ? "border-red-500" : "border-muted-foreground"
+                className={`w-full px-4 py-6 bg-surface text-surface-foreground rounded-lg border ${errors.message ? "border-red-500" : "border-muted-foreground"
                   } focus:border-primary`}
               />
               {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}

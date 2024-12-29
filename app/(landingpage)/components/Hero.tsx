@@ -25,7 +25,7 @@ const Hero = () => {
                             onClick={() => router.push('/explore')}
                             className="w-fit"
                         >
-                            Start Creating
+                            Start Exploring
                         </Button>
                         <Heading />
                         <br />

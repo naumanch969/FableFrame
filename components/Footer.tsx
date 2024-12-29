@@ -8,15 +8,15 @@ const Footer = () => {
 
   const quickLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Stories', path: '/' },
-    { name: 'About Us', path: '/' },
-    { name: 'Contact', path: '/' },
-    { name: 'Privacy Policy', path: '/' },
+    { name: 'Stories', path: '/explore' },
+    { name: 'Create', path: '/create-story' },
+    { name: 'Pricing', path: '/billing' },
+    { name: 'Contact', path: '/contact' },
   ]
 
   return (
     <HydrationWrapper>
-      <footer className="flex flex-col items-center py-8 mt-8 " >
+      <footer className="flex flex-col items-center py-8 mt-8 max-w-7xl " >
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Section 1: About */}
           <div className="space-y-4" >

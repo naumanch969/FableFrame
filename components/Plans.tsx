@@ -196,7 +196,7 @@ const Plans = () => {
                         const isPro = plan.name == "Pro Plan"
                         const isActive = plan.active
                         return (
-                            <CardContainer key={index} className="inter-var ">
+                            <CardContainer key={index} className="inter-var h-full ">
                                 <CardBody className={cn(
                                     "bg-surface relative group/card  dark:hover:shadow-2xl w-full md:!w-[350px] h-auto rounded-xl p-6 border",
                                     isPro ? "border-primary" : "border-black/[0.1]"
