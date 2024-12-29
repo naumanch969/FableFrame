@@ -21,7 +21,7 @@ export default function Home() {
       <HeroHighlight containerClassName="w-full h-fit" >
         <Navbar />
         <div className="flex justify-center" >
-          {/* <Hero /> */}
+          <Hero />
         </div>
       </HeroHighlight>
 
