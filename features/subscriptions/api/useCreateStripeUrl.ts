@@ -7,10 +7,14 @@ import { useGetMySubscription } from "./useGetMySubscription";
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { PLANS } from "@/constants";
 
 type RequestType = {
   profile_id: Id<"profiles">,
-  email: string
+  email: string,
+  plan: typeof PLANS[number]["key"],
+  plan_description: string,
+  plan_price: number
 };
 
 type ResponseType = {
@@ -45,10 +49,7 @@ export const useCreateStripeCheckout = () => {
 
       const returnUrl = absoluteUrl("/billing")
 
-      console.log('returnUrl', returnUrl)
-
-      if (subscription && subscription.stripe_subscription_id) {
-        // if user session already exist
+      if (subscription && subscription.stripe_subscription_id) { // if user session already exist
         const stripeSession = await stripe.billingPortal.sessions.create({
           customer: subscription.stripe_customer_id,
           return_url: returnUrl
@@ -58,39 +59,41 @@ export const useCreateStripeCheckout = () => {
         setData(result);
         options?.onSuccess?.(result);
       }
-
-      const stripeSession = await stripe.checkout.sessions.create({
-        mode: "subscription",
-        payment_method_types: ["card"],
-        customer_email: values.email,
-        line_items: [
-          {
-            quantity: 1,
-            price_data: {
-              currency: "USD",
-              product_data: {
-                name: "FableFrame Pro",
-                description: "Premium Subscription",
-              },
-              unit_amount: 1000,  // 10.00 USD
-              recurring: {
-                interval: "month"
+      else {
+        const stripeSession = await stripe.checkout.sessions.create({
+          mode: "subscription",
+          payment_method_types: ["card"],
+          customer_email: values.email,
+          line_items: [
+            {
+              quantity: 1,
+              price_data: {
+                currency: "USD",
+                product_data: {
+                  name: `FableFrame ${values.plan} Plan`,
+                  description: values.plan_description,
+                },
+                unit_amount: values.plan_price * 100,  // values.plan_price is in cents, so converting them into dollars
+                recurring: {
+                  interval: values.plan == "pro" ? "month" : "year"
+                }
               }
-            }
+            },
+          ],
+          metadata: {
+            profile_id: values.profile_id,
+            plan: values.plan,
           },
-        ],
-        metadata: {
-          profile_id: values.profile_id
-        },
-        success_url: returnUrl,
-        cancel_url: returnUrl
-      })
+          success_url: returnUrl,
+          cancel_url: returnUrl
+        })
 
-      console.log('stripeSession', stripeSession)
+        console.log('stripeSession', stripeSession)
 
-      const result = { checkoutUrl: stripeSession.url! }
-      setData(result);
-      options?.onSuccess?.(result);
+        const result = { checkoutUrl: stripeSession.url! }
+        setData(result);
+        options?.onSuccess?.(result);
+      }
 
       setState("success");
     } catch (error) {

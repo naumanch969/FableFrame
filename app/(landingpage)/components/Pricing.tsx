@@ -2,9 +2,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { LampContainer } from "@/components/aceternity/lamp";
-import { SparklesCore } from "@/components/aceternity/sparkles";
 import { CardBody, CardContainer, CardItem } from "@/components/aceternity/3D-Card";
 import { CheckIcon } from "lucide-react";
+import GradientText from "@/components/GradientText";
 
 const Pricing = () => {
   return (
@@ -21,8 +21,10 @@ const Pricing = () => {
           }}
           className="mt-20 text-surface-foreground py-4 text-center text-4xl font-medium tracking-tight md:text-7xl"
         >
-          Plans That
-          <br /> Fit You Best
+          <GradientText>
+            Plans That
+            <br /> Fit You Best
+          </GradientText>
         </motion.h1>
       </LampContainer>
 

@@ -2,6 +2,7 @@ import { v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 import { auth } from './auth';
 import { populateProfile, populateProfileByUserId } from './utils';
+import { PLANS } from '@/constants';
 
 
 export const get_subscription_by_profile_id = query({
@@ -47,7 +48,8 @@ export const create_my_subscription = mutation({
         stripe_subscription_id: v.string(),
         stripe_customer_id: v.string(),
         stripe_price_id: v.string(),
-        stripe_current_period_end: v.string()
+        stripe_current_period_end: v.string(),
+        plan: v.union(...PLANS.map(item => v.literal(item.key))),
     },
     handler: async (ctx, args) => {
 
@@ -61,25 +63,16 @@ export const create_my_subscription = mutation({
             .withIndex('by_profile_id', q => q.eq('profile_id', profile?._id!))
             .first()
 
-        if (subscription) {
-            await ctx.db
-                .patch(subscription?._id, {
-                    stripe_subscription_id: args.stripe_subscription_id,
-                    stripe_customer_id: args.stripe_customer_id,
-                    stripe_price_id: args.stripe_price_id,
-                    stripe_current_period_end: args.stripe_current_period_end
-                })
-        }
-        else {
-            await ctx.db.insert('subscriptions', {
-                profile_id: profile?._id,
-                stripe_subscription_id: args.stripe_subscription_id,
-                stripe_customer_id: args.stripe_customer_id,
-                stripe_price_id: args.stripe_price_id,
-                stripe_current_period_end: args.stripe_current_period_end
+        if (subscription) return { success: false, message: 'Subscription already exists' }
 
-            })
-        }
+        await ctx.db.insert('subscriptions', {
+            profile_id: profile?._id,
+            stripe_subscription_id: args.stripe_subscription_id,
+            stripe_customer_id: args.stripe_customer_id,
+            stripe_price_id: args.stripe_price_id,
+            stripe_current_period_end: args.stripe_current_period_end,
+            plan: args.plan
+        })
 
         return { success: true }
     }
@@ -91,6 +84,7 @@ export const update_my_subscription = mutation({
         stripe_customer_id: v.optional(v.string()),
         stripe_price_id: v.optional(v.string()),
         stripe_current_period_end: v.optional(v.string()),
+        plan: v.optional(v.union(...PLANS.map(item => v.literal(item.key)))),
     },
     handler: async (ctx, args) => {
 
@@ -103,13 +97,13 @@ export const update_my_subscription = mutation({
 
         if (!subscription) return null
 
-
         await ctx.db
             .patch(subscription?._id, {
                 stripe_subscription_id: args.stripe_subscription_id,
                 stripe_customer_id: args.stripe_customer_id,
                 stripe_price_id: args.stripe_price_id,
-                stripe_current_period_end: args.stripe_current_period_end
+                stripe_current_period_end: args.stripe_current_period_end,
+                plan: args.plan,
             })
 
 

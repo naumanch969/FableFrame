@@ -1,4 +1,4 @@
-import { ENTITIES_NAMES, FONT_TYPE, FRIEND_REQUESTS, GENDERS, LENGTH, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, PROFILE_VISIBILITY, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, THEMES, USER_ROLES } from "@/constants";
+import { ENTITIES_NAMES, FONT_TYPE, FRIEND_REQUESTS, GENDERS, LENGTH, NOTIFICATION_PRIORITIES, NOTIFICATION_TYPES, PLANS, PROFILE_VISIBILITY, REPORT_REASONS, SHARE_RESTRICTIONS, STORY_AGE_CATEGORIES, STORY_GENRES, STORY_IMAGE_STYLES, STORY_REPORT_STATUSES, STORY_STATUSES, STORY_TYPES, THEMES, USER_ROLES } from "@/constants";
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from 'convex/values'
@@ -220,6 +220,7 @@ const schema = defineSchema({
         stripe_subscription_id: v.string(),     // unique
         stripe_price_id: v.string(),
         stripe_current_period_end: v.string(),  // iso date
+        plan: v.union( ...PLANS.map(item => v.literal(item.key))),
     })
         .index("by_profile_id", ["profile_id"])
         .index("by_subscription_id", ["stripe_subscription_id"])

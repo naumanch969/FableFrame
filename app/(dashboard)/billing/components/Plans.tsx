@@ -4,13 +4,23 @@ import { LampContainer } from "@/components/aceternity/lamp";
 import { CardBody, CardContainer, CardItem } from "@/components/aceternity/3D-Card";
 import { CheckIcon, X } from "lucide-react";
 import { cn } from '@/lib/utils';
+import { useGetProfile } from '@/features/profile/api/useGetProfile'
+import { useCreateStripeCheckout } from '@/features/subscriptions/api/useCreateStripeUrl'
+import { useGetMySubscription } from '@/features/subscriptions/api/useGetMySubscription'
+import { toast } from 'sonner';
+import { PLANS } from '@/constants';
+import GradientText from '@/components/GradientText';
 
 
 const Plans = () => {
 
+    /////////////////////////////////////////////////////////// VARIABLES /////////////////////////////////////////////////////////////////////
+    const { data: profile } = useGetProfile()
+    const { data: subscription } = useGetMySubscription()
+    const { mutate, isPending, error } = useCreateStripeCheckout()
+
     const plans = [
         {
-            name: "Hobby",
             price: 0,
             description: "Experience the magic of AI-powered storytelling for free. Perfect for exploring the basics and creating quick stories.",
             features: [
@@ -21,10 +31,9 @@ const Plans = () => {
                 { text: "Custom Stories", available: false },
                 { text: "Special Dictionary Features", available: false },
             ],
-            active: true
+            active: !subscription
         },
         {
-            name: "Pro Plan",
             price: 3,
             description: "Elevate your creativity with enhanced features, perfect for regular storytellers who want more control and flexibility.",
             features: [
@@ -35,10 +44,9 @@ const Plans = () => {
                 { text: "Custom Stories", available: true },
                 { text: "Special Dictionary Features", available: false },
             ],
-            active: false
+            active: subscription?.plan === "pro"
         },
         {
-            name: "Unlimited",
             price: 15,
             description: "Unlock the full potential of FableFrame with unlimited access to all features. Ideal for avid creators and professionals.",
             features: [
@@ -49,28 +57,42 @@ const Plans = () => {
                 { text: "Custom Stories", available: true },
                 { text: "Special Dictionary Features", available: true },
             ],
-            active: false
+            active: subscription?.plan === "unlimited"
         }
-    ];
+    ].map((plan, index) => {
+        return {
+            ...plan,
+            name: PLANS[index].label,
+            key: PLANS[index].key,
+        }
+    })
 
-    const getPlanAction = (planName: string, isActive: boolean, isPro: boolean) => {
-        if (isActive && planName !== "Hobby") {
+
+    /////////////////////////////////////////////////////////// FUNCTIONS /////////////////////////////////////////////////////////////////////
+    const getPlanAction = (plan: any) => {
+
+        const planName = plan.name
+        const isActive = plan.active
+
+        if (isActive && planName !== "Hobby") { // Pro or Unlimited plan but active
             return {
                 label: "Manage your plan",
                 classes: cn("bg-theme-gradient text-neutral"),
                 wrapperClass: "justify-end",
+                onClick: () => onUpgrade({ plan: plan.key, plan_description: plan.description, plan_price: plan.price })
             };
         }
 
-        if (isActive && planName === "Hobby") {
+        if (isActive && planName === "Hobby") { // Hobby plan and active
             return {
                 label: "Upgrade to pro",
                 classes: cn("bg-theme-gradient text-neutral"),
                 wrapperClass: "justify-end",
+                onClick: () => onUpgrade({ plan: plans[1]?.key as "pro", plan_description: plans[1]?.description, plan_price: plans[1]?.price })
             };
         }
 
-        if (!isActive && planName !== "Hobby") {
+        if (!isActive && planName !== "Hobby") {    // Pro or Unlimited plan but not active
             return {
                 label: "Get Started Now",
                 classes: cn("bg-theme-gradient text-neutral"),
@@ -79,25 +101,65 @@ const Plans = () => {
                     label: "Try now →",
                     classes: "px-4 py-2 rounded-xl text-xs font-normal",
                 },
+                onClick: () => onUpgrade({ plan: plan.name, plan_description: plan.description, plan_price: plan.price })
             };
         }
 
         return null;
     };
 
-    const PlanAction = ({ planName, isActive, isPro }: { planName: string; isActive: boolean; isPro: boolean }) => {
-        const action = getPlanAction(planName, isActive, isPro);
+    const onUpgrade = ({
+        plan,
+        plan_description,
+        plan_price,
+    }: { plan: "pro" | "unlimited", plan_description: string, plan_price: number }) => {
+        console.log("Upgrade to premium")
+        mutate({
+            profile_id: profile?._id!,
+            email: profile?.email!,
+            plan,
+            plan_description,
+            plan_price,
+        }, {
+            onSuccess: (payload: { checkoutUrl: string }) => {
+                if (payload) {
+                    window.location.href = payload.checkoutUrl
+                }
+            },
+            onError: (error: Error) => {
+                toast.error("Error upgrading to premium")
+                console.error("Error upgrading to premium", error)
+            }
+        })
+    }
+
+    /////////////////////////////////////////////////////////// COMPONENTS /////////////////////////////////////////////////////////////////////
+
+    const PlanAction = ({ plan }: { plan: any }) => {
+        const action = getPlanAction(plan);
 
         if (!action) return null;
 
         return (
             <span className={`flex items-end gap-2 mt-8 ${action.wrapperClass}`}>
                 {action.additionalAction && (
-                    <CardItem translateZ={20} as="button" className={action.additionalAction.classes}>
+                    <CardItem
+                        disabled={isPending}
+                        translateZ={40}
+                        as="button"
+                        className={action.additionalAction.classes}
+                        onClick={() => action.onClick()}
+                    >
                         {action.additionalAction.label}
                     </CardItem>
                 )}
-                <CardItem translateZ={20} as="button" className={`px-4 py-2 rounded-xl text-xs font-bold ${action.classes}`}>
+                <CardItem
+                    disabled={isPending}
+                    translateZ={40}
+                    as="button"
+                    className={`px-4 py-2 rounded-xl text-xs font-bold disabled:cursor-not-allowed disabled:bg-opacity-80 ${action.classes}`}
+                    onClick={() => action.onClick()}
+                >
                     {action.label}
                 </CardItem>
             </span>
@@ -120,8 +182,10 @@ const Plans = () => {
                     }}
                     className="mt-20 text-surface-foreground py-4 text-center text-4xl font-medium tracking-tight md:text-7xl"
                 >
-                    Plans That
-                    <br /> Fit You Best
+                    <GradientText>
+                        Plans That
+                        <br /> Fit You Best
+                    </GradientText>
                 </motion.h1>
             </LampContainer>
 
@@ -138,7 +202,7 @@ const Plans = () => {
                                     isPro ? "border-primary" : "border-black/[0.1]"
                                 )}>
                                     <CardItem
-                                        translateZ="50"
+                                        translateZ="70"
                                         className="text-neutral-foreground w-full"
                                     >
                                         <span className='w-full flex justify-between items-center gap-1' >
@@ -151,7 +215,7 @@ const Plans = () => {
                                         <h2 className="text-6xl ">${plan.price}</h2>
                                     </CardItem>
                                     <CardItem
-                                        translateZ="60"
+                                        translateZ="100"
                                         className="text-surface-foreground text-sm max-w-sm mt-2"
                                     >
                                         {plan.description}
@@ -165,7 +229,7 @@ const Plans = () => {
                                             }
                                         </ul>
                                     </CardItem>
-                                    <PlanAction planName={plan.name} isActive={isActive} isPro={isPro} />
+                                    <PlanAction plan={plan} />
                                 </CardBody>
                             </CardContainer>
                         )

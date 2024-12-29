@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     let event: Stripe.Event;
 
     try {
+        // stripe has its own auth check for verification
         event = stripe.webhooks.constructEvent(
             body,
             signature,
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
         const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
 
         if (!session?.metadata?.profile_id) return new NextResponse("Webhook Error: profile_id not found", { status: 400 });
+        if (!session?.metadata?.plan) return new NextResponse("Webhook Error: plan not found", { status: 400 });
 
         const new_subscription = await convex.mutation(api.subscription.create_my_subscription,
             {
@@ -40,7 +42,8 @@ export async function POST(req: Request) {
                 stripe_price_id: subscription.items.data[0].price.id,
                 stripe_current_period_end: new Date(
                     subscription.current_period_end * 1000 // multiplying by 1000 to convert seconds to milliseconds
-                ).toISOString()
+                ).toISOString(),
+                plan: session.metadata?.plan
             });
 
         console.log('new_subscription', new_subscription)
@@ -56,7 +59,8 @@ export async function POST(req: Request) {
             stripe_price_id: subscription.items.data[0].price.id,
             stripe_current_period_end: new Date(
                 subscription.current_period_end * 1000 // multiplying by 1000 to convert seconds to milliseconds
-            ).toISOString()
+            ).toISOString(),
+            plan: session.metadata?.plan
         })
 
         console.log('updated_subscription', updated_subscription)

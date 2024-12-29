@@ -172,8 +172,6 @@ export const LANGUAGES = [
     { key: "en", label: "English" },
 ];
 
-
-
 export const INITIAL_PROFILE_PREFERENCES = {
     profile_id: "",
     theme: "system",
@@ -206,3 +204,9 @@ export const INITIAL_PROFILE_PREFERENCES = {
     genre_frequency: [],
     category_frequency: [],
 };
+
+export const PLANS = [
+    { key: "hobby", label: "Hobby" },
+    { key: "pro", label: "Pro" },
+    { key: "unlimited", label: "Unlimited" },
+];

@@ -95,6 +95,7 @@ export const CardBody = ({
 export const CardItem = ({
   as: Tag = 'div',
   children,
+  disabled,
   className,
   translateX = 0,
   translateY = 0,
@@ -107,12 +108,14 @@ export const CardItem = ({
   as?: React.ElementType
   children: React.ReactNode
   className?: string
+  disabled?: boolean
   translateX?: number | string
   translateY?: number | string
   translateZ?: number | string
   rotateX?: number | string
   rotateY?: number | string
   rotateZ?: number | string
+  onClick?: any
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [isMouseEntered] = useMouseEnter()
@@ -135,6 +138,7 @@ export const CardItem = ({
       ref={ref}
       className={cn('w-fit transition duration-200 ease-linear', className)}
       {...rest}
+      disabled={disabled}
     >
       {children}
     </Tag>
