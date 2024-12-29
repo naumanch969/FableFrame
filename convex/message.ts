@@ -18,7 +18,18 @@ export const get_messages = query({
             .withIndex('by_chat_id', q => q.eq("chat_id", chat_id))
             .collect();
 
-        return messages;
+        let response = []
+        for (const message of messages) {
+            if (message?.story_id) {
+                const story = await ctx.db.get(message.story_id)
+                response.push({ ...message, story })
+            }
+            else {
+                response.push(message)
+            }
+        }
+
+        return response;
     },
 });
 

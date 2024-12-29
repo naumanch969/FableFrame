@@ -7,20 +7,20 @@ import { useGetProfile } from '@/features/profile/api/useGetProfile'
 import { Doc, Id } from '@/convex/_generated/dataModel';
 import { useSendMessage } from '@/features/messages/api/useSendMessage';
 import { getRelativeTime, groupByDate } from '@/lib/utils';
-import { useSearchParams } from 'next/navigation';
 import { useGetMyChats } from '@/features/chat/api/useGetMyChats';
 import { useGetMessages } from '@/features/messages/api/useGetMessages';
 import { Card } from '@/components/ui/card';
 import { Profile } from '@/types';
 import Image from 'next/image'
 import { Input } from '@/components/aceternity/input';
+import { useChatId } from '@/hooks/use-chat-id';
+import ActiveStoryModal from '@/components/ActiveStoryModal';
 
 export const ChatBox = () => {
     ///////////////////////////////////////////////////// VARIABLES ////////////////////////////////////////////////////
     const scrollRef = useRef(null);
     const lastChatId = localStorage.getItem('lastChatId') as Id<"chats">
-    const searchParams = useSearchParams()
-    const chatId = (searchParams.get('id') || lastChatId) as Id<"chats">
+    const chatId = useChatId() || lastChatId
     const { data: fetchedMessages } = useGetMessages(chatId!)
     const { data: chat } = useGetChat(chatId!)
     const { data: chats } = useGetMyChats()
@@ -39,7 +39,23 @@ export const ChatBox = () => {
     }, [chat]);
 
     useEffect(() => {
-        setMessages(groupByDate(fetchedMessages!))
+        const msgs = fetchedMessages?.reduce((acc, message) => {
+
+            const date = new Date(message._creationTime).toISOString().split("T")[0];
+
+            // @ts-ignore
+            if (!acc[date]) {
+                // @ts-ignore
+                acc[date] = [];
+            }
+
+            // @ts-ignore
+            acc[date].push(message);
+
+            return acc;
+        }, {});
+
+        setMessages(msgs!)
     }, [fetchedMessages]);
 
     ///////////////////////////////////////////////////// FUNCTIONS ////////////////////////////////////////////////////
@@ -100,32 +116,33 @@ export const ChatBox = () => {
     const SharedStory = ({ story }: { story: Doc<"stories"> }) => {
 
         return (
-            <Card className=" relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
+            <Card className="max-w-[18rem] relative mx-1 bg-card p-1 flex flex-col justify-between gap-1 w-full h-fit hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl" >
 
-                <div
-                    className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer"
-                >
-                    <Image
-                        width={100}
-                        height={100}
-                        src={story?.cover_image || "/sample_cover_image.jpeg"}
-                        alt={story.title}
-                        className="h-full w-full rounded-lg object-cover object-top"
-                    />
-                    <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
-                        <div className='w-full flex justify-end items-start flex-col h-full relative' >
-                            <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
-                                <p className='text-surface-foreground/90 font-bold text-xl  ' >Open</p>
+                {/* @ts-ignore */}
+                <ActiveStoryModal story={story} >
+                    <div className="group relative w-full flex flex-col gap-4 justify-between cursor-pointer">
+                        <Image
+                            width={100}
+                            height={100}
+                            src={story?.cover_image || "/sample_cover_image.jpeg"}
+                            alt={story.title}
+                            className="h-full w-full rounded-lg object-cover object-top"
+                        />
+                        <div className="p-4 hidden group-hover:flex absolute top-0 left-0 rounded-lg bg-black bg-opacity-40 w-full h-full ">
+                            <div className='w-full flex justify-end items-start flex-col h-full relative' >
+                                <div className='absolute top-1/2 right-1/2 transform -translate-y-1/2 translate-x-1/2' >
+                                    <p className='text-surface-foreground/90 font-bold text-xl  ' >Open</p>
+                                </div>
+                                <p className="text-neutral-300 text-center md:text-left text-base">
+                                    <span className="">{story?.chapters?.length} chapters</span>
+                                    <span className="font-bold px-1">.</span>
+                                    <span className="">{story?.reading_time} mins read</span>
+                                </p>
                             </div>
-                            <p className="text-neutral-300 text-center md:text-left text-base">
-                                <span className="">{story?.chapters?.length} chapters</span>
-                                <span className="font-bold px-1">.</span>
-                                <span className="">{story?.reading_time} mins read</span>
-                            </p>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                </ActiveStoryModal>
 
             </Card>
         );
@@ -154,7 +171,7 @@ export const ChatBox = () => {
                             <div className="space-y-2 col-span-3 w-full h-[80vh]">
                                 <Card className="bg-background p-2 flex items-center justify-between">
                                     <div className="flex items-center gap-2 ">
-                                        <Avatar className='w-10 h-10 bg-black text-surface-foreground ' >
+                                        <Avatar className='w-10 h-10 bg-neutral text-neutral-foreground ' >
                                             <AvatarImage src={otherUser?.profile_picture_url} />
                                             <AvatarFallback className='capitalize bg-inherit' >{otherUser?.username?.charAt(0)}</AvatarFallback>
                                         </Avatar>
@@ -180,13 +197,17 @@ export const ChatBox = () => {
 
                                     <div ref={scrollRef} className="h-full pb-[56px] flex flex-col gap-2 overflow-y-auto px-1 py-4 ">
                                         {
-                                            Object?.entries(messages)?.map(([date, msgs]) => (
-                                                <div key={date} className="flex flex-col gap-2">
+                                            messages && Object?.entries(messages)?.map(([date, msgs], index) => (
+                                                <div key={index} className="flex flex-col gap-2">
                                                     <p className="text-xs text-muted-foreground text-center">{date}</p>
                                                     {
                                                         // @ts-ignore
                                                         msgs?.map((message, index) => (
-                                                            <MessageComponent key={index} message={message} />
+                                                            message?.story_id
+                                                                ?
+                                                                <SharedStory story={message?.story} />
+                                                                :
+                                                                <MessageComponent message={message} />
                                                         ))
                                                     }
                                                 </div>

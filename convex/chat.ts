@@ -39,7 +39,9 @@ export const get = query({
             if (participant_profiles.length > 0) response.push({ ...chat, participant_profiles })
         }
 
-        return response;
+        return response
+            ?.sort((a, b) => new Date(b?.last_message_timestamp!).getTime() - new Date(a?.last_message_timestamp!).getTime())
+
     },
 });
 

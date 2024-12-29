@@ -1,16 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Id } from '@/convex/_generated/dataModel';
 import { useGetMyChats } from '@/features/chat/api/useGetMyChats';
-import { useGetChat } from '@/features/chat/api/useGetChat';
-import { useGetProfile } from '@/features/profile/api/useGetProfile'
-import { Chat } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Plus, Search } from 'lucide-react';
-import { useChatId } from '@/hooks/use-chat-id';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import { getRelativeTime } from '@/lib/utils';
 import { useCreateChatModal } from '@/hooks/use-create-chat-modal';
 import ChatItem from '@/components/ChatItem';
 import { Input } from '@/components/aceternity/input';
@@ -19,7 +11,7 @@ export const ChatList = () => {
 
     //////////////////////////////////////////////// VARIABLES //////////////////////////////////////////////////////////
     const { data: fetchedChats } = useGetMyChats()
-     const [_openChatModal, setOpenChatModal] = useCreateChatModal()
+    const [_openChatModal, setOpenChatModal] = useCreateChatModal()
 
     //////////////////////////////////////////////// STATES //////////////////////////////////////////////////////////
     const [searchQuery, setSearchQuery] = useState('');
@@ -45,7 +37,14 @@ export const ChatList = () => {
     return (
         <div className="h-[80vh] col-span-1 flex flex-col gap-2 relative ">
 
-            <Button onClick={() => setOpenChatModal(true)} variant='secondary' size='icon' className='bg-black text-primary-foreground absolute bottom-2 right-2 rounded-lg w-10 h-10 ' ><Plus /></Button>
+            <Button
+                onClick={() => setOpenChatModal(true)}
+                variant='secondary'
+                size='icon'
+                className='bg-neutral-foreground text-neutral hover:bg-surface-foreground absolute bottom-2 right-2 rounded-lg w-10 h-10 '
+            >
+                <Plus />
+            </Button>
 
             <Card className="bg-card w-full space-y-2 overflow-hidden p-1 h-[52px] ">
                 <form onSubmit={(e) => { e.preventDefault(); onSearch(); }} className="sticky">
@@ -69,10 +68,12 @@ export const ChatList = () => {
                         {searchQuery?.length > 0 ? 'No chat matches your search query.' : 'No conversation found.'}
                     </span>
                 )}
-                {chats?.map((chat, index) => (
-                    // @ts-ignore
-                    <ChatItem key={index} chat={chat} />
-                ))}
+                {chats
+                    ?.sort((a, b) => new Date(b?.last_message_timestamp!).getTime() - new Date(a?.last_message_timestamp!).getTime())
+                    .map((chat, index) => (
+                        // @ts-ignore
+                        <ChatItem key={index} chat={chat} />
+                    ))}
             </Card>
 
         </div>
