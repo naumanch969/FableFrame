@@ -157,7 +157,7 @@ export const Chapter = ({ chapter }: { chapter: { title: string, text: string, i
                     {chapter?.title}
                 </motion.p>
                 <motion.p className="text-surface-foreground text-base font-light text-left mt-2">
-                    {chapter?.text} {chapter?.text} {chapter?.text}
+                    {chapter?.text}
                 </motion.p>
             </div>
 

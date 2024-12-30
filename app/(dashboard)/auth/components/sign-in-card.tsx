@@ -43,7 +43,11 @@ const SignInCard = ({ setState }: Props) => {
   const onProviderSignIn = (value: 'github' | 'google') => {
     setPending(true)
     setError("")
-    signIn(value).finally(() => setPending(false))
+    signIn(value)
+      .then(() => {
+        router.push('/explore')
+      })
+      .finally(() => setPending(false))
   }
 
   return (

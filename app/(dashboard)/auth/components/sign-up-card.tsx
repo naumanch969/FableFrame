@@ -9,6 +9,7 @@ import { TriangleAlert } from 'lucide-react'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { SignInFlow } from '@/types'
 import Hint from '@/components/Hint'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   setState: (state: SignInFlow) => void
@@ -16,6 +17,7 @@ interface Props {
 
 const SignUpCard = ({ setState }: Props) => {
 
+  const router = useRouter()
   const { signIn } = useAuthActions()
 
   const [name, setName] = useState('')
@@ -34,6 +36,7 @@ const SignUpCard = ({ setState }: Props) => {
     setPending(true)
     const d = signIn("password", { name, email, password, flow: "signUp" })
       .then((payload) => {
+        router.push('/explore')
         console.log('payload', payload)
         // creating profile
         // mutate({
