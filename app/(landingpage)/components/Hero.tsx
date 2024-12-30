@@ -5,10 +5,12 @@ import HeroScrollComponent from "./HeroScrollComponent";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useGetProfile } from "@/features/profile/api/useGetProfile";
 
 const Hero = () => {
 
     const router = useRouter()
+    const { data: profile } = useGetProfile()
 
 
     return (
@@ -22,10 +24,10 @@ const Hero = () => {
                         <Button
                             variant='gradient'
                             size='cta'
-                            onClick={() => router.push('/explore')}
+                            onClick={() => router.push(Boolean(profile) ? '/explore' : '/auth')}
                             className="w-fit"
                         >
-                            Start Exploring
+                            Start Creating
                         </Button>
                         <Heading />
                         <br />
