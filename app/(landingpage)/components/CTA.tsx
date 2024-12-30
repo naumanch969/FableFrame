@@ -21,7 +21,7 @@ const CTA = () => {
                 <br />
                 <GradientText className="mt-1" >Magical Adventure?</GradientText>
             </h2>
-            <p className="text-center my-8 text-neutral-900 relative z-20 max-w-4xl ">
+            <p className="text-center my-8 text-surface-foreground relative z-20 max-w-4xl ">
                 Join thousands of others in creating personalized stories in minutes. Sign up now to begin your adventure with FableFrame, and let your creativity soar.
             </p>
 

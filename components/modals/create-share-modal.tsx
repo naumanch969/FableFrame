@@ -139,7 +139,7 @@ const CreateShareModal = () => {
                                 transition={{ duration: 0.3 }}
                             >
                                 <Button disabled={isPending} type="submit">
-                                    Submit Report
+                                    Share
                                 </Button>
                             </motion.div>
                         </>

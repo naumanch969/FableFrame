@@ -190,7 +190,7 @@ const Plans = () => {
             </LampContainer>
 
 
-            <div className="flex flex-wrap items-center justify-center flex-col md:flex-row gap-8 -mt-72">
+            <div className="flex flex-wrap items-center justify-start flex-col md:flex-row gap-8 -mt-72">
                 {
                     plans.map((plan, index) => {
                         const isPro = plan.name == "Pro Plan"

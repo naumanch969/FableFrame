@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 const HowItWorks = () => {
+
     const data = [
         {
             title: "Sign Up",
@@ -16,102 +17,97 @@ const HowItWorks = () => {
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <Image
-                            src="https://assets.aceternity.com/templates/startup-1.webp"
-                            alt="startup template"
+                            src="/how_it_works/signin.png"
+                            alt="Sign In Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-fit w-full shadow-[...]"
                         />
                         <Image
-                            src="https://assets.aceternity.com/templates/startup-2.webp"
-                            alt="startup template"
+                            src="/how_it_works/signup.png"
+                            alt="Sign Up Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-fit w-full shadow-[...]"
                         />
                     </div>
                 </div>
             ),
+            description: "Create an account and set up your profile to get started. This step unlocks all features, letting you save your stories and monitor progress."
         },
         {
-            title: "Preferences",
+            title: "Explore Stories",
             content: (
                 <div>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                        Choose Your Preferences
+                        You can explore some of our unique stories.
                     </p>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-                        Select the genre, characters, and setting to guide the AI in crafting your story.
+                        Browse a diverse range of stories crafted to inspire and entertain. Discover stories tailored to various interests and genres.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <Image
-                            src="https://assets.aceternity.com/pro/hero-sections.png"
-                            alt="hero template"
+                            src="/how_it_works/explore.png"
+                            alt="Hero Section Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                        />
+                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[...]"
+                            />
                         <Image
-                            src="https://assets.aceternity.com/features-section.png"
-                            alt="feature template"
+                            src="/how_it_works/explore2.png"
+                            alt="Feature Section Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[...]"
                         />
                     </div>
                 </div>
             ),
+            description: ""
         },
         {
-            title: "AI",
+            title: "Create",
             content: (
                 <div>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
                         Let the AI Create Your Story
                     </p>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
-                        Our AI uses your preferences to generate a personalized story in minutes!
+                        Customize your story by selecting your preferences, and let our AI bring your ideas to life in minutes.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <Image
-                            src="https://assets.aceternity.com/pro/hero-sections.png"
-                            alt="hero template"
+                            src="/how_it_works/create.png"
+                            alt="Create Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
-                        />
-                        <Image
-                            src="https://assets.aceternity.com/features-section.png"
-                            alt="feature template"
-                            width={500}
-                            height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover w-full shadow-[...]"
                         />
                     </div>
                 </div>
             ),
         },
         {
-            title: "Customize",
+            title: "Read",
             content: (
                 <div>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
-                        Edit your story to add a personal touch. Change characters, scenes, and more!
+                        Read and enjoy your personalized stories or dive into ones shared by the community.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <Image
-                            src="https://assets.aceternity.com/pro/hero-sections.png"
-                            alt="hero template"
+                            src="/how_it_works/read.png"
+                            alt="Read Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[...]"
                         />
                         <Image
-                            src="https://assets.aceternity.com/features-section.png"
-                            alt="feature template"
+                            src="/how_it_works/read2.png"
+                            alt="Read Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[...]"
                         />
                     </div>
                 </div>
@@ -122,28 +118,30 @@ const HowItWorks = () => {
             content: (
                 <div>
                     <p className="text-surface-foreground dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
-                        Once satisfied, you can share your story or keep it saved in your profile for later.
+                        Share your masterpiece with the world or save it privately to revisit whenever you want.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <Image
-                            src="https://assets.aceternity.com/pro/hero-sections.png"
-                            alt="hero template"
+                            src="/how_it_works/share.png"
+                            alt="Share Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-fit w-full shadow-[...]"
                         />
                         <Image
-                            src="https://assets.aceternity.com/features-section.png"
-                            alt="feature template"
+                            src="/how_it_works/share2.png"
+                            alt="Save Template"
                             width={500}
                             height={500}
-                            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                            className="rounded-lg object-cover h-fit w-full shadow-[...]"
                         />
                     </div>
                 </div>
-            ),
+            )
         },
     ];
+
+
     return (
         <div className="w-full py-20 ">
             <Timeline
