@@ -41,7 +41,6 @@ export default function Navbar() {
                         <Logo />
 
                         {
-                            isSignedIn &&
                             <div className="hidden md:flex items-end gap-6 text-primary-foreground">
                                 {
                                     menus.map((menu, index) => (
