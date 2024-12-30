@@ -421,7 +421,7 @@ export const get_ai_stories = query({
         profile_id: v.optional(v.id("profiles"))
     },
     handler: async (ctx, args) => {
-        
+
         const userId = await auth.getUserId(ctx);
         if (!userId) return null; // Unauthenticated
 

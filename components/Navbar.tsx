@@ -85,7 +85,7 @@ export default function Navbar() {
                                     ? <ProfileButton />
                                     : <Button
                                         variant='gradient'
-                                        onClick={() => router.push('/explore')}
+                                        onClick={() => router.push('/auth')}
                                         className="w-fit rounded-full"
                                     >
                                         Get Started
