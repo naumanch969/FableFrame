@@ -7,10 +7,12 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { toast } from 'sonner'
 import { usePreferencesModal } from "@/hooks/use-preferences-modal";
 import { Separator } from '@/components/ui/separator'
+import { useGetMySubscription } from "@/features/subscriptions/api/useGetMySubscription";
 
 const ProfileButton: React.FC = () => {
 
     const { data: profile } = useGetProfile();
+    const { data: subscription } = useGetMySubscription()
     const { signOut } = useAuthActions()
 
     const [_openPreferencesModal, setOpenPreferencesModal] = usePreferencesModal()
@@ -44,7 +46,17 @@ const ProfileButton: React.FC = () => {
             <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => setOpenDropdown(false)} >
                     <span className="w-full text-left py-1 px-1 " >
-                        {profile?.credit} Credit{profile?.credit! > 1 ? 's' : ''} left
+                        {
+                            !subscription
+                                ?
+                                `${profile?.credit} Credit${profile?.credit! > 1 ? 's' : ''} left`
+                                :
+                                subscription?.plan == "pro"
+                                    ?
+                                    `${profile?.credit} Credit${profile?.credit! > 1 ? 's' : ''} left`
+                                    :
+                                    `Unlimited Credits left`
+                        }
                     </span>
                 </DropdownMenuItem>
                 <Separator className='my-1' />

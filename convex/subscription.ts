@@ -74,6 +74,10 @@ export const create_my_subscription = mutation({
             plan: args.plan
         })
 
+        await ctx.db.patch(profile?._id, {
+            credit: args.plan == "pro" ? profile?.credit + 500 : args?.plan == "unlimited" ? 1000000000 : profile?.credit
+        })
+
         return { success: true }
     }
 })
