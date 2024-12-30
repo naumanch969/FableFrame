@@ -84,7 +84,7 @@ const Stories = ({
                 {/* Header */}
                 {
                     showHeader &&
-                    <div className="flex justify-between items-end gap-2">
+                    <div className="flex md:flex-row flex-col justify-between items-end gap-2">
                         <h2 className="text-xl md:text-3xl font-bold text-surface-foreground font-sans">
                             {showTitle && (title || `Story pickups for ${searchQuery ? searchQuery : 'you'}`)}
                         </h2>
